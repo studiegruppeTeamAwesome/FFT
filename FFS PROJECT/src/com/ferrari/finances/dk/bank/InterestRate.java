@@ -12,7 +12,6 @@ import java.util.Random;
  */
 public class InterestRate {
   private static InterestRate instance=null;
-  // test
   private static Random rnd = new Random();
   
   /**
