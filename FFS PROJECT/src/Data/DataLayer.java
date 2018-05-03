@@ -1,6 +1,5 @@
 package Data;
 
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -16,15 +15,11 @@ public class DataLayer {
 						
 			System.exit(0);
 		}
-
-		
-		String databaseName = "FFSDB";
-
-		String connectionString = "jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;" + "databaseName="
-				+ databaseName + ";" + "integratedSecurity=true;";
+	
 		try {
 			
-			DriverManager.getConnection(connectionString);
+			DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;" + "databaseName="
+					+ "FFSDB" + ";" + "integratedSecurity=true;");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
