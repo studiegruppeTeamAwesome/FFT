@@ -5,6 +5,13 @@ private int phone;
 private String name;
 private String adress;
 private String CPR;
+private String creditRating;
+public String getCreditRating() {
+	return creditRating;
+}
+public void setCreditRating(String creditRating) {
+	this.creditRating = creditRating;
+}
 public int getPhone() {
 	return phone;
 }
