@@ -1,8 +1,6 @@
 package Logic;
 
-public class FFSController implements FacadeController{
-
-
+public class FFSController implements FacadeController {
 
 	@Override
 
@@ -12,24 +10,12 @@ public class FFSController implements FacadeController{
 
 	}
 
-
-
 	@Override
 
 	public void setCreditRating(Customer customer) {
 
 		RKI.instance().setCreditRating(customer);
 
-		
-
 	}
-
-	
-
-	
-
-
-
-	
 
 }

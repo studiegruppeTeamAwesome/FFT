@@ -3,23 +3,16 @@ package Logic;
 
 import com.ferrari.finances.dk.bank.InterestRate;
 
-
-
 public class Bank {
-
-	
 
 	private static Bank inst = null;
 
-	
-
-	private Bank() {}
-
-	
+	private Bank() {
+	}
 
 	public static Bank instance() {
 
-		if(inst == null)
+		if (inst == null)
 
 			inst = new Bank();
 
@@ -27,16 +20,10 @@ public class Bank {
 
 	}
 
-	
-
-	
-
 	public Double getCurrentRate() {
 
 		return InterestRate.i().todaysRate();
 
 	}
-
-	
 
 }
