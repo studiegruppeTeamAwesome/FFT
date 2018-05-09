@@ -6,6 +6,8 @@ import Logic.Cars;
 import Logic.Customer;
 import Logic.Salesmen;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,6 +35,7 @@ public class FFSGui extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		
+		// TODO forbindelse med db?
 		customer = new Customer();
 		customer.setAdress("adresse");
 		customer.setCPR("cpr");
@@ -46,13 +49,13 @@ public class FFSGui extends Application {
 		salesman = new Salesmen();
 		salesman.setName("Claus");
 		
-		stage.setScene(initConfirmLoan());
+		stage.setScene(initStartScreen(stage));
 		stage.show();
 		
 	}
 	
 	
-	private Scene initStartScreen() {
+	private Scene initStartScreen(Stage stage) {
 		
 		VBox box = new VBox();
 		box.setPadding(new Insets(10,10,10,10));
@@ -63,6 +66,14 @@ public class FFSGui extends Application {
 		box.getChildren().add(newLoan);
 		box.getChildren().add(approveLoan);
 		
+		newLoan.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				stage.setScene(initLookUpCustomer(stage));
+			}
+		});
+		
+		
 		Scene scene = new Scene(box);
 		
 		// TODO noget med bruger og knappen der 
@@ -70,7 +81,7 @@ public class FFSGui extends Application {
 		return scene;
 	}
 	
-	private Scene initLookUpCustomer() {
+	private Scene initLookUpCustomer(Stage stage) {
 		
 		GridPane grid = new GridPane();
 		grid.setPadding(new Insets(10,10,10,10));
@@ -93,7 +104,7 @@ public class FFSGui extends Application {
 		return scene ;
 	}
 	
-	private Scene initCustomerInfo() {
+	private Scene initCustomerInfo(Stage stage) {
 		
 		GridPane grid = new GridPane();
 		
@@ -129,7 +140,7 @@ public class FFSGui extends Application {
 		return scene ;
 	}
 	
-	private Scene initCreateLoan() {
+	private Scene initCreateLoan(Stage stage) {
 		
 		GridPane grid = new GridPane();
 		grid.setPadding(new Insets(10,10,10,10));
@@ -183,7 +194,7 @@ public class FFSGui extends Application {
 		return scene ;
 	}
 	
-	private Scene initConfirmLoan() {
+	private Scene initConfirmLoan(Stage stage) {
 		
 		GridPane grid = new GridPane();
 		
@@ -262,10 +273,6 @@ public class FFSGui extends Application {
 	
 	
 	public static void main(String[] args) {
-		
-		
-		
-		
 		launch(args);
 	}
 
