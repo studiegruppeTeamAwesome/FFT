@@ -2,8 +2,11 @@ package Data;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-public class DataLayer {
+import Logic.Cars;
+
+public class DataLayer implements DataLayerInterFace{
 	 
 
 	public void openConnection() {
@@ -24,5 +27,11 @@ public class DataLayer {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public ArrayList<Cars> getAllCars() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
