@@ -24,7 +24,7 @@ DataLayerImp dataController = new DataLayerImp();
 
 	@Override
 	public ArrayList<Cars> getAllCars() {
-		return dataController.getAllCarsName();
+		return dataController.getAllCars();
 	}
 
 }

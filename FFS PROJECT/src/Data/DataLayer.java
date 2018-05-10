@@ -6,7 +6,8 @@ import Logic.*;
 
 public interface DataLayer {
 	public void openConnection();
-	public ArrayList<Cars> getAllCarsName();
-	public Customer getCustomerByTlf(int Tlf);
+	public ArrayList<Cars> getAllCars();
+	public Customer getCustomerByPhone(int Tlf);
 	public boolean InsertloanOffers(loanOffers loanOffers);
+	public String getSalemenNameBayLoanOffer(int salesmanId);// men kan finder salesmanid i loanoffer table
 }
