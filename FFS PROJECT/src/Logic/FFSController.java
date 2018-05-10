@@ -2,10 +2,10 @@ package Logic;
 
 import java.util.ArrayList;
 
-import Data.DataLayer;
+import Data.DataLayerImp;
 
 public class FFSController implements FacadeController {
-DataLayer dataController = new DataLayer();
+DataLayerImp dataController = new DataLayerImp();
 	@Override
 
 	public double getCurrentRate() {
@@ -24,7 +24,7 @@ DataLayer dataController = new DataLayer();
 
 	@Override
 	public ArrayList<Cars> getAllCars() {
-		return dataController.getAllCars();
+		return dataController.getAllCarsName();
 	}
 
 }

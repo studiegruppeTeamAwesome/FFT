@@ -9,6 +9,7 @@ private String adress;
 private String CPR;
 private Rating rating;
 
+
 public Rating getRating() {
 	return rating;
 }
@@ -39,5 +40,6 @@ public String getCPR() {
 public void setCPR(String cPR) {
 	CPR = cPR;
 }
+
 
 }
