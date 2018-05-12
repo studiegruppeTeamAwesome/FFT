@@ -106,7 +106,7 @@ public class DataLayerImp implements DataLayer {
 			statement.setInt(5, loanOffers.getCarId());
 			statement.setInt(6, loanOffers.getSalesmanId());
 
-			return statement.executeUpdate() == 1;
+			return statement.executeUpdate() ==1;
 
 		} catch (SQLException e) {
 			return false;
