@@ -1,10 +1,7 @@
-package View;
+package view;
 
 
 
-import Logic.Cars;
-import Logic.Customer;
-import Logic.Salesmen;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,11 +22,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import logic.Car;
+import logic.Customer;
+import logic.Salesmen;
 
 public class FFSGui extends Application {
 
 	Customer customer;
-	Cars car;
+	Car car;
 	Salesmen salesman;
 	
 	@Override
@@ -42,7 +42,7 @@ public class FFSGui extends Application {
 		customer.setName("navn");
 		customer.setPhone(123);
 		
-		car = new Cars();
+		car = new Car();
 		car.setName("model");
 		car.setPrice(10);
 		

@@ -1,4 +1,4 @@
-package Logic;
+package logic;
 
 import com.ferrari.finances.dk.rki.Rating;
 
@@ -6,7 +6,7 @@ public class Customer {
 private int phone;
 private String name;
 private String adress;
-private String CPR;
+private String cpr;
 private Rating rating;
 
 public Rating getRating() {
@@ -34,10 +34,10 @@ public void setAdress(String adress) {
 	this.adress = adress;
 }
 public String getCPR() {
-	return CPR;
+	return cpr;
 }
 public void setCPR(String cPR) {
-	CPR = cPR;
+	cpr = cPR;
 }
 
 }
