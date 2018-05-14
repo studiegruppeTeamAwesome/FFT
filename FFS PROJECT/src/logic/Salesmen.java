@@ -1,9 +1,9 @@
-package Logic;
+package logic;
 
 public class Salesmen {
 private int id;
 private String name;
-private boolean chaf;
+private boolean chef;
 public int getId() {
 	return id;
 }
@@ -16,11 +16,11 @@ public String getName() {
 public void setName(String name) {
 	this.name = name;
 }
-public boolean isChaf() {
-	return chaf;
+public boolean isChef() {
+	return chef;
 }
-public void setChaf(boolean chaf) {
-	this.chaf = chaf;
+public void setChef(boolean chef) {
+	this.chef = chef;
 }
 
 

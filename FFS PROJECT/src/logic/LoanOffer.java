@@ -1,13 +1,13 @@
-package Logic;
+package logic;
 
-public class loanOffers {
+public class LoanOffer {
 private int id;
 private String date;
 private int downPayment;
 private int repayments;
 private int costumerPhone;
 private int carId;
-private int salesmanId;
+private String salesmanName;
 public int getId() {
 	return id;
 }
@@ -44,11 +44,11 @@ public int getCarId() {
 public void setCarId(int carId) {
 	this.carId = carId;
 }
-public int getSalesmanId() {
-	return salesmanId;
+public String getSalesmanName() {
+	return salesmanName;
 }
-public void setSalesmanId(int salesmanId) {
-	this.salesmanId = salesmanId;
+public void setSalesmanName(String salesmanId) {
+	this.salesmanName = salesmanId;
 }
 
 }

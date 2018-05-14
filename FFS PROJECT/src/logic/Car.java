@@ -1,6 +1,6 @@
-package Logic;
+package logic;
 
-public class Cars {
+public class Car {
 private int id;
 private int price;
 private String name;

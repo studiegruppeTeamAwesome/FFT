@@ -1,5 +1,5 @@
 
-package Logic;
+package logic;
 
 import com.ferrari.finances.dk.bank.InterestRate;
 
