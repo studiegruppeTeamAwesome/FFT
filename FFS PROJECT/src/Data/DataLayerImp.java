@@ -114,17 +114,17 @@ public class DataLayerImp implements DataLayer {
 
 	}
 
-	@Override
-	public String getSalemenNameBayLoanOffer(int salesmenId) { // den salemenId skal setes med loanoffer.getsalesmenid
-		try {
-			Statement statement = connection.createStatement();
-			String sql = "SELECT name FROM Salesmen,loanOffers WHERE id=" + salesmenId;
-			ResultSet resultSet = statement.executeQuery(sql);
-			String name = resultSet.getString("name");
-			return name;
-		} catch (SQLException ex) {
-			return null;
-		}
-	}
+//	@Override
+//	public String getSalemenNameBayLoanOffer(int salesmenId) { // den salemenId skal setes med loanoffer.getsalesmenid
+//		try {
+//			Statement statement = connection.createStatement();
+//			String sql = "SELECT name FROM Salesmen,loanOffers WHERE id=" + salesmenId;
+//			ResultSet resultSet = statement.executeQuery(sql);
+//			String name = resultSet.getString("name");
+//			return name;
+//		} catch (SQLException ex) {
+//			return null;
+//		}
+//	}
 
 }
