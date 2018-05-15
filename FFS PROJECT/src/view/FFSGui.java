@@ -48,6 +48,13 @@ public class FFSGui extends Application {
 		
 	}
 	
+	private void gridPaddingSpacing(GridPane grid, int insets) {
+		grid.setPadding(new Insets(insets,insets,insets,insets));
+		grid.setHgap(insets);
+		grid.setVgap(insets);
+	}
+	
+	
 	
 	private Scene initStartScreen(Stage stage) {
 		
@@ -67,6 +74,19 @@ public class FFSGui extends Application {
 			}
 		});
 		
+		approveLoan.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+				GridPane grid2 = new GridPane();
+				grid2.add(new Label("endnu ikke implementeret"), 0, 0);
+				gridPaddingSpacing(grid2, 10);
+				
+				Stage stage2 = new Stage();
+				stage2.setScene(new Scene(grid2));
+				stage2.show();
+			}
+		});
 		
 		Scene scene = new Scene(box);
 		
@@ -177,7 +197,7 @@ public class FFSGui extends Application {
 		
 		Label prompt = new Label("Opret nyt lånetilbud");
 		
-		ComboBox<Car> car = new ComboBox<Car>();
+		ComboBox<Car> cars = new ComboBox<Car>();
 		// TODO forbindelse til database
 		
 		Label priceLabel = new Label("Pris:");
@@ -199,8 +219,8 @@ public class FFSGui extends Application {
 		TextField rateTF = new TextField();
 		// TODO tråd
 		
-		car.getItems().addAll(controller.getAllCars());
-		car.valueProperty().addListener(new ChangeListener<Car>() {
+		cars.getItems().addAll(controller.getAllCars());
+		cars.valueProperty().addListener(new ChangeListener<Car>() {
 			@Override
 			public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
 				chosenCar = chosen;
@@ -223,7 +243,7 @@ public class FFSGui extends Application {
 		
 		
 		grid.add(prompt, 0, 0, 3, 1);
-		grid.add(car, 0, 1, 2, 1);
+		grid.add(cars, 0, 1, 2, 1);
 		grid.add(priceLabel, 0, 2);
 		grid.add(price, 1, 2);
 		grid.add(downPaymentLabel, 0, 3, 2, 1);

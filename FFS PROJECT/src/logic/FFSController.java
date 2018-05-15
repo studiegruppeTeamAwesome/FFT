@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import data.DataLayerImp;
 
 public class FFSController implements FacadeController {
-	data.DataLayerImp dataController = new data.DataLayerImp();
+	DataLayerImp dataController = new DataLayerImp();
 
 	@Override
 
