@@ -2,6 +2,12 @@ package view;
 
 
 
+<<<<<<< HEAD:FFS PROJECT/src/view/FFSGui.java
+=======
+import Logic.Car;
+import Logic.Customer;
+import Logic.Salesmen;
+>>>>>>> data:FFS PROJECT/src/View/FFSGui.java
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -274,6 +280,7 @@ public class FFSGui extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+		
 	}
 
 }

@@ -8,6 +8,7 @@ private String name;
 private String address;
 private String cpr;
 private Rating rating;
+<<<<<<< HEAD:FFS PROJECT/src/logic/Customer.java
 private boolean hasActiveOffer;
 public boolean isHasActiveOffer() {
 	return hasActiveOffer;
@@ -15,6 +16,10 @@ public boolean isHasActiveOffer() {
 public void setHasActiveOffer(boolean hasActiveOffer) {
 	this.hasActiveOffer = hasActiveOffer;
 }
+=======
+
+
+>>>>>>> data:FFS PROJECT/src/Logic/Customer.java
 public Rating getRating() {
 	return rating;
 }
@@ -45,5 +50,6 @@ public String getCPR() {
 public void setCPR(String cPR) {
 	cpr = cPR;
 }
+
 
 }
