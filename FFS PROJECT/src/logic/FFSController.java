@@ -2,10 +2,11 @@ package logic;
 
 import java.util.ArrayList;
 
-import Data.DataLayerImp;
+import data.DataLayerImp;
 
 public class FFSController implements FacadeController {
-DataLayerImp dataController = new DataLayerImp();
+	data.DataLayerImp dataController = new data.DataLayerImp();
+
 	@Override
 
 	public double getCurrentRate() {

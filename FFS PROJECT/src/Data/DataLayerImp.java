@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,9 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import com.ferrari.finances.dk.rki.Rating;
-import Logic.Car;
-import Logic.Customer;
-import Logic.loanOffers;
+
+import logic.*;
 
 public class DataLayerImp implements DataLayer {
 
@@ -93,7 +92,7 @@ public class DataLayerImp implements DataLayer {
 	}
 
 	@Override
-	public boolean InsertloanOffers(loanOffers loanOffers) {
+	public boolean InsertloanOffers(LoanOffer loanOffers) {
 		try {
 			String sql = "INSERT INTO loanOffers VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -104,9 +103,9 @@ public class DataLayerImp implements DataLayer {
 			statement.setInt(3, loanOffers.getRepayments());
 			statement.setInt(4, loanOffers.getCostumerPhone());
 			statement.setInt(5, loanOffers.getCarId());
-			statement.setInt(6, loanOffers.getSalesmanId());
+			statement.setString(6, loanOffers.getSalesmanName());
 
-			return statement.executeUpdate() ==1;
+			return statement.executeUpdate() == 1;
 
 		} catch (SQLException e) {
 			return false;
@@ -114,17 +113,18 @@ public class DataLayerImp implements DataLayer {
 
 	}
 
-//	@Override
-//	public String getSalemenNameBayLoanOffer(int salesmenId) { // den salemenId skal setes med loanoffer.getsalesmenid
-//		try {
-//			Statement statement = connection.createStatement();
-//			String sql = "SELECT name FROM Salesmen,loanOffers WHERE id=" + salesmenId;
-//			ResultSet resultSet = statement.executeQuery(sql);
-//			String name = resultSet.getString("name");
-//			return name;
-//		} catch (SQLException ex) {
-//			return null;
-//		}
-//	}
+	// @Override
+	// public String getSalemenNameBayLoanOffer(int salesmenId) { // den salemenId
+	// skal setes med loanoffer.getsalesmenid
+	// try {
+	// Statement statement = connection.createStatement();
+	// String sql = "SELECT name FROM Salesmen,loanOffers WHERE id=" + salesmenId;
+	// ResultSet resultSet = statement.executeQuery(sql);
+	// String name = resultSet.getString("name");
+	// return name;
+	// } catch (SQLException ex) {
+	// return null;
+	// }
+	// }
 
 }
