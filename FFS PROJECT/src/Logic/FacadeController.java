@@ -8,5 +8,5 @@ public interface FacadeController {
 
 	public void setCreditRating(Customer customer);
 
-	public ArrayList<Cars> getAllCars();
+	public ArrayList<Car> getAllCars();
 }

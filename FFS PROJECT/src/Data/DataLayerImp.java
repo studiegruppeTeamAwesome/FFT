@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import com.ferrari.finances.dk.rki.Rating;
-import Logic.Cars;
+import Logic.Car;
 import Logic.Customer;
 import Logic.loanOffers;
 
@@ -37,9 +37,9 @@ public class DataLayerImp implements DataLayer {
 	}
 
 	@Override
-	public ArrayList<Cars> getAllCars() {
+	public ArrayList<Car> getAllCars() {
 
-		ArrayList<Cars> cars = new ArrayList<Cars>();
+		ArrayList<Car> cars = new ArrayList<Car>();
 		try {
 			Statement statement = connection.createStatement();
 
@@ -51,7 +51,7 @@ public class DataLayerImp implements DataLayer {
 				int id = resultSet.getInt("id");
 				String name = resultSet.getString("name");
 				int price = resultSet.getInt("price");
-				Cars car = new Cars();
+				Car car = new Car();
 				car.setId(id);
 				car.setName(name);
 				car.setPrice(price);

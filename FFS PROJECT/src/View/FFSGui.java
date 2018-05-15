@@ -2,7 +2,7 @@ package View;
 
 
 
-import Logic.Cars;
+import Logic.Car;
 import Logic.Customer;
 import Logic.Salesmen;
 import javafx.application.Application;
@@ -29,7 +29,7 @@ import javafx.stage.Stage;
 public class FFSGui extends Application {
 
 	Customer customer;
-	Cars car;
+	Car car;
 	Salesmen salesman;
 	
 	@Override
@@ -42,7 +42,7 @@ public class FFSGui extends Application {
 		customer.setName("navn");
 		customer.setPhone(123);
 		
-		car = new Cars();
+		car = new Car();
 		car.setName("model");
 		car.setPrice(10);
 		

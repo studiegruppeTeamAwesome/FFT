@@ -23,7 +23,7 @@ DataLayerImp dataController = new DataLayerImp();
 	}
 
 	@Override
-	public ArrayList<Cars> getAllCars() {
+	public ArrayList<Car> getAllCars() {
 		return dataController.getAllCars();
 	}
 
