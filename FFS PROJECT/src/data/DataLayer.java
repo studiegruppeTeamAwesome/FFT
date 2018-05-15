@@ -1,28 +1,12 @@
-package Data;
+package data;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.ArrayList;
 
-public class DataLayer {
-	 
+import logic.*;
 
-	public void openConnection() {
-		try {
-			
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-			} catch (ClassNotFoundException e) {
-						
-			System.exit(0);
-		}
-	
-		try {
-			
-			DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;" + "databaseName="
-					+ "FFSDB" + ";" + "integratedSecurity=true;");
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+public interface DataLayer {
+	public void openConnection();
+	public ArrayList<Car> getAllCars();
+	public Customer getCustomerByPhone(int Tlf);
+	public boolean InsertloanOffers(LoanOffer loanOffers);
 }

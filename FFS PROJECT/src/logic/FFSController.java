@@ -1,6 +1,11 @@
 package logic;
 
+import java.util.ArrayList;
+
+import data.DataLayerImp;
+
 public class FFSController implements FacadeController {
+	data.DataLayerImp dataController = new data.DataLayerImp();
 
 	@Override
 
@@ -16,6 +21,11 @@ public class FFSController implements FacadeController {
 
 		RKI.instance().setCreditRating(customer);
 
+	}
+
+	@Override
+	public ArrayList<Car> getAllCars() {
+		return dataController.getAllCars();
 	}
 
 }
