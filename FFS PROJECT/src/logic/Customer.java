@@ -1,14 +1,20 @@
-package logic;
+package Logic;
 
 import com.ferrari.finances.dk.rki.Rating;
 
 public class Customer {
 private int phone;
 private String name;
-private String adress;
+private String address;
 private String cpr;
 private Rating rating;
-
+private boolean hasActiveOffer;
+public boolean isHasActiveOffer() {
+	return hasActiveOffer;
+}
+public void setHasActiveOffer(boolean hasActiveOffer) {
+	this.hasActiveOffer = hasActiveOffer;
+}
 public Rating getRating() {
 	return rating;
 }
@@ -28,10 +34,10 @@ public void setName(String name) {
 	this.name = name;
 }
 public String getAdress() {
-	return adress;
+	return address;
 }
 public void setAdress(String adress) {
-	this.adress = adress;
+	this.address = adress;
 }
 public String getCPR() {
 	return cpr;
