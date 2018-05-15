@@ -8,6 +8,15 @@ public class LoanOffer {
 	private int costumerPhone;
 	private int carId;
 	private String salesmanName;
+	private boolean approved;
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
 
 	public int getId() {
 		return id;
