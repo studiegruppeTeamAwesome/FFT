@@ -130,8 +130,8 @@ public class DataLayerImp implements DataLayer {
 	}
 
 	@Override
-	public Salesmen getSalemenNameBayName(String name) {
-		Salesmen s = new Salesmen();
+	public Salesman getSalemanNameBayName(String name) {
+		Salesman s = new Salesman();
 		try {
 			String sql = "select * from Salesmen where name=" + name;
 			System.out.println(sql);
