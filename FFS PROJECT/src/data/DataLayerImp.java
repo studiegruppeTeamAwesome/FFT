@@ -17,19 +17,35 @@ public class DataLayerImp implements DataLayer {
 
 	public void openConnection() {
 		try {
+			System.out.println("Loading JDBC Driver...");
 
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
+			System.out.println("JDBC Driver loaded");
 		} catch (ClassNotFoundException e) {
+			System.out.println("Failed to load JDBC Driver!");
 
 			System.exit(0);
 		}
 
+		
+		String databaseName = "FFSDB";
+
+		String connectionString = "jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;" + "databaseName="
+				+ databaseName + ";" + "integratedSecurity=true;";
+
 		try {
+			System.out.println("Connecting to database...");
+			System.out.println(connectionString);
 
-			DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
-					+ "databaseName=" + "FFSDB" + ";" + "integratedSecurity=true;");
+			connection = DriverManager.getConnection(connectionString);
 
+			if (connection != null)
+				System.out.println("Connected to database");
+			else
+				System.out.println("Could not connect to database");
+
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -43,6 +59,7 @@ public class DataLayerImp implements DataLayer {
 			Statement statement = connection.createStatement();
 
 			String sql = "SELECT * FROM car ";
+			System.out.println(sql);
 
 			ResultSet resultSet = statement.executeQuery(sql);
 
@@ -56,6 +73,7 @@ public class DataLayerImp implements DataLayer {
 				car.setPrice(price);
 				cars.add(car);
 			}
+			return cars;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
