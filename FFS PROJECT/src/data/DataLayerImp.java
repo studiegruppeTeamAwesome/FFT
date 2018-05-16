@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import com.ferrari.finances.dk.rki.Rating;
 
-
 import logic.*;
 
 public class DataLayerImp implements DataLayer {
@@ -97,11 +96,11 @@ public class DataLayerImp implements DataLayer {
 				c.setName(resultSet.getString("name"));
 				c.setCPR(resultSet.getString("CPR"));
 				c.setHasActiveOffer(resultSet.getBoolean("hasActivLoan"));
-				c.setRating(Rating.valueOf( resultSet.getString("creditRating")) );
+				c.setRating(Rating.valueOf(resultSet.getString("creditRating")));
 
 				return c;
 			} else
-				
+
 				return null;
 		} catch (SQLException e) {
 			return null;
@@ -130,18 +129,26 @@ public class DataLayerImp implements DataLayer {
 
 	}
 
-	// @Override
-	// public String getSalemenNameBayLoanOffer(int salesmenId) { // den salemenId
-	// skal setes med loanoffer.getsalesmenid
-	// try {
-	// Statement statement = connection.createStatement();
-	// String sql = "SELECT name FROM Salesmen,loanOffers WHERE id=" + salesmenId;
-	// ResultSet resultSet = statement.executeQuery(sql);
-	// String name = resultSet.getString("name");
-	// return name;
-	// } catch (SQLException ex) {
-	// return null;
-	// }
-	// }
+	@Override
+	public Salesmen getSalemenNameBayName(String name) {
+		Salesmen s = new Salesmen();
+		try {
+			String sql = "select * from Salesmen where name=" + name;
+			System.out.println(sql);
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			if (resultSet.next()) {
+				s.setId(resultSet.getInt("id"));
+				s.setChef(resultSet.getBoolean("chef"));
+				s.setName(resultSet.getString("name"));
+				return s;
+			} else
+				return null;
+		} catch (SQLException e) {
+			return null;
+		}
+	}
 
 }
