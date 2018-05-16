@@ -8,7 +8,7 @@ import logic.Customer;
 import logic.FFSController;
 import logic.FacadeController;
 import logic.LoanOffer;
-import logic.Salesmen;
+import logic.Salesman;
 
 import com.ferrari.finances.dk.rki.Rating;
 
@@ -31,7 +31,7 @@ public class FFSGui extends Application {
 	Car chosenCar;
 	FacadeController controller = new FFSController();
 	LoanOffer loanOffer;
-	Salesmen salesman = controller.getSalesmenByName(System.getProperty("user.name"));
+	Salesman salesman = controller.getSalesmenByName(System.getProperty("user.name"));
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -48,7 +48,7 @@ public class FFSGui extends Application {
 		chosenCar.setName("model");
 		chosenCar.setPrice(10);
 		
-		salesman = new Salesmen();
+		salesman = new Salesman();
 		salesman.setName("Claus");
 		
 		loanOffer = new LoanOffer();
@@ -232,13 +232,24 @@ public class FFSGui extends Application {
 		// TODO tråd
 
 		// TODO forbindelse til database
-//		cars.getItems().addAll(controller.getAllCars());
-//		cars.valueProperty().addListener(new ChangeListener<Car>() {
+<<<<<<< HEAD
+		
+		cars.getItems().addAll(controller.getAllCars());
+		//cars.valueProperty().addListener(new ChangeListener<Car>() {
 //			@Override
 //			public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
 //				chosenCar = chosen;
 //			}
 //		});
+=======
+		cars.getItems().addAll(controller.getAllCars());
+		cars.valueProperty().addListener(new ChangeListener<Car>() {
+			@Override
+			public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
+				chosenCar = chosen;
+			}
+		});
+>>>>>>> TangosTests
 		
 		calc.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
