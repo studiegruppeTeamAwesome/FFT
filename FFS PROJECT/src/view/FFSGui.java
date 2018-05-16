@@ -232,13 +232,13 @@ public class FFSGui extends Application {
 		// TODO tråd
 
 		// TODO forbindelse til database
-//		cars.getItems().addAll(controller.getAllCars());
-//		cars.valueProperty().addListener(new ChangeListener<Car>() {
-//			@Override
-//			public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
-//				chosenCar = chosen;
-//			}
-//		});
+		cars.getItems().addAll(controller.getAllCars());
+		cars.valueProperty().addListener(new ChangeListener<Car>() {
+			@Override
+			public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
+				chosenCar = chosen;
+			}
+		});
 		
 		calc.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
