@@ -153,33 +153,6 @@ public class DataLayerImp implements DataLayer {
 		}
 	}
 
-	@Override
-	public ArrayList<String> getAlleCarsName() {
-		ArrayList<String> cars = new ArrayList<String>();
-		try {
-			openConnection();
-			Statement statement = connection.createStatement();
-
-			String sql = "SELECT name FROM car ";
-			System.out.println(sql);
-
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			while (resultSet.next()) {
-				
-				String name = resultSet.getString("name");
-				
-				String carname = new String();
-				
-				cars.add(carname);
-			}
-			return cars;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return cars;
-	}
+	
 
 }

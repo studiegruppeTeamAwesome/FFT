@@ -10,6 +10,6 @@ public interface DataLayer {
 	public Customer getCustomerByPhone(int Tlf);
 	public boolean InsertloanOffers(LoanOffer loanOffers);
 	 public Salesmen getSalemenNameBayName(String name);
-	 public ArrayList<String> getAlleCarsName();
+	
 }
 //
