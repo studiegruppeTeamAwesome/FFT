@@ -12,10 +12,7 @@ public class LoanOffer {
 	private int costumerPhone;
 	private int carId;
 	private String salesmanName;
-<<<<<<< HEAD
-	
-	
-=======
+
 	private boolean approved;
 
 	public boolean isApproved() {
@@ -26,7 +23,7 @@ public class LoanOffer {
 		this.approved = approved;
 	}
 
->>>>>>> Data
+
 	public int getId() {
 		return id;
 	}
