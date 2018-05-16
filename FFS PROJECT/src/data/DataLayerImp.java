@@ -54,6 +54,7 @@ public class DataLayerImp implements DataLayer {
 
 		ArrayList<Car> cars = new ArrayList<Car>();
 		try {
+			openConnection();
 			Statement statement = connection.createStatement();
 
 			String sql = "SELECT * FROM car ";
@@ -84,6 +85,7 @@ public class DataLayerImp implements DataLayer {
 	public Customer getCustomerByPhone(int phone) {
 		Customer c = new Customer();
 		try {
+			openConnection();
 			String sql = "select * from customer where phone=" + phone;
 			System.out.println(sql);
 
@@ -109,12 +111,12 @@ public class DataLayerImp implements DataLayer {
 
 	@Override
 	public boolean InsertloanOffers(LoanOffer loanOffers) {
-		try {
+		try {openConnection();
 			String sql = "INSERT INTO loanOffers VALUES (?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement.setString(1, "" + loanOffers.getDate());
+			statement.setString(1, ""+loanOffers.getDate());
 			statement.setInt(2, loanOffers.getDownPayment());
 			statement.setInt(3, loanOffers.getRepayments());
 			statement.setInt(4, loanOffers.getCostumerPhone());
@@ -132,7 +134,7 @@ public class DataLayerImp implements DataLayer {
 	@Override
 	public Salesmen getSalemenNameBayName(String name) {
 		Salesmen s = new Salesmen();
-		try {
+		try {openConnection();
 			String sql = "select * from Salesmen where name=" + name;
 			System.out.println(sql);
 
