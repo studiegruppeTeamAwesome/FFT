@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import com.ferrari.finances.dk.rki.Rating;
 
+
 import logic.*;
 
 public class DataLayerImp implements DataLayer {
@@ -28,7 +29,6 @@ public class DataLayerImp implements DataLayer {
 			System.exit(0);
 		}
 
-		
 		String databaseName = "FFSDB";
 
 		String connectionString = "jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;" + "databaseName="
@@ -45,7 +45,6 @@ public class DataLayerImp implements DataLayer {
 			else
 				System.out.println("Could not connect to database");
 
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -84,29 +83,29 @@ public class DataLayerImp implements DataLayer {
 
 	@Override
 	public Customer getCustomerByPhone(int phone) {
-		Customer customer;
+		Customer c = new Customer();
 		try {
+			String sql = "select * from customer where phone=" + phone;
+			System.out.println(sql);
+
 			Statement statement = connection.createStatement();
-			String sql = "SELECT * FROM costumer WHERE phone=" + phone;
 			ResultSet resultSet = statement.executeQuery(sql);
-			String name = resultSet.getString("name");
-			String adress = resultSet.getString("address");
-			Rating creditRating = (Rating) resultSet.getObject("creditRating");
-			String CPR = resultSet.getString("CPR");
-			customer = new Customer();
-			customer.setAdress(adress);
-			customer.setCPR(CPR);
-			customer.setName(name);
-			customer.setRating(creditRating);
-			statement.close();
 
-			return customer;
+			if (resultSet.next()) {
+				c.setAdress(resultSet.getString("adress"));
+				c.setPhone(resultSet.getInt("phone"));
+				c.setName(resultSet.getString("name"));
+				c.setCPR(resultSet.getString("CPR"));
+				c.setHasActiveOffer(resultSet.getBoolean("hasActivLoan"));
+				c.setRating(Rating.valueOf( resultSet.getString("creditRating")) );
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+				return c;
+			} else
+				
+				return null;
+		} catch (SQLException e) {
+			return null;
 		}
-
-		return null;
 	}
 
 	@Override
