@@ -6,13 +6,18 @@ import logic.Car;
 import logic.Customer;
 import logic.FFSController;
 import logic.FacadeController;
+import logic.LoanOffer;
 import logic.Salesmen;
+
+import com.ferrari.finances.dk.rki.Rating;
+
 import javafx.application.Application;
 import javafx.beans.value.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -23,8 +28,9 @@ public class FFSGui extends Application {
 
 	Customer customer;
 	Car chosenCar;
-	Salesmen salesman;
-	FFSController controller = new FFSController();
+	FacadeController controller = new FFSController();
+	LoanOffer loanOffer;
+	Salesmen salesman = controller.getSalesmenByName(System.getProperty("user.name"));
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -35,6 +41,7 @@ public class FFSGui extends Application {
 		customer.setCPR("cpr");
 		customer.setName("navn");
 		customer.setPhone(123);
+		customer.setRating(Rating.D);
 		
 		chosenCar = new Car();
 		chosenCar.setName("model");
@@ -42,6 +49,8 @@ public class FFSGui extends Application {
 		
 		salesman = new Salesmen();
 		salesman.setName("Claus");
+		
+		loanOffer = new LoanOffer();
 		
 		stage.setScene(initStartScreen(stage));
 		stage.show();
@@ -88,9 +97,7 @@ public class FFSGui extends Application {
 			}
 		});
 		
-		Scene scene = new Scene(box);
-		
-		// TODO noget med bruger og knappen der 
+		Scene scene = new Scene(box); 
 		
 		return scene;
 	}
@@ -198,13 +205,12 @@ public class FFSGui extends Application {
 		Label prompt = new Label("Opret nyt lånetilbud");
 		
 		ComboBox<Car> cars = new ComboBox<Car>();
-		// TODO forbindelse til database
 		
 		Label priceLabel = new Label("Pris:");
 		Label price = new Label();
-		Label downPaymentLabel = new Label("Udbetaling");
+		Label downPaymentLabel = new Label("Udbetaling:");
 		TextField downPayment = new TextField();
-		Label noOfMonthsLabel = new Label("Antal måneder");
+		Label noOfMonthsLabel = new Label("Antal måneder:");
 		TextField noOfMonths = new TextField();
 		
 		Button calc = new Button("Beregn");
@@ -218,19 +224,42 @@ public class FFSGui extends Application {
 		Label rate = new Label("Nuværende rente");
 		TextField rateTF = new TextField();
 		// TODO tråd
-		
-		cars.getItems().addAll(controller.getAllCars());
-		cars.valueProperty().addListener(new ChangeListener<Car>() {
-			@Override
-			public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
-				chosenCar = chosen;
-			}
-		});
+
+		// TODO forbindelse til database
+//		cars.getItems().addAll(controller.getAllCars());
+//		cars.valueProperty().addListener(new ChangeListener<Car>() {
+//			@Override
+//			public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
+//				chosenCar = chosen;
+//			}
+//		});
 		
 		calc.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				stage.setScene(initConfirmLoan(stage));
+				
+				try {
+					controller.calculateInterestRate(customer.getRating(), Double.parseDouble(rateTF.getText()), 
+							Integer.parseInt(downPayment.getText()), Integer.parseInt(noOfMonths.getText()), chosenCar.getPrice());
+					// TODO tjek if the calculation went successfully?
+					stage.setScene(initConfirmLoan(stage));
+					
+				} catch (Exception e) {
+					GridPane grid2 = new GridPane();
+					
+					// TODO getMessage metoden
+					Label label = new Label(e.getMessage());
+					label.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
+					grid2.add(label, 0, 0);
+					gridPaddingSpacing(grid2, 10);
+					grid2.setAlignment(Pos.CENTER);
+					
+					Stage stage2 = new Stage();
+					stage2.setScene(new Scene(grid2, 200, 150));
+					stage2.show();
+				}
+						
+				
 			}
 		});
 		
@@ -288,13 +317,13 @@ public class FFSGui extends Application {
 		Label salesmanName = new Label(salesman.getName());
 		Label details = new Label("Detaljer");
 		Label downpaymentLabel = new Label("Udbetaling:");
-		Label downpayments = new Label();//TODO
+		Label downpayments = new Label("" + loanOffer.getDownPayment());
 		Label noOfPaymentsLabel = new Label("Antal ydelser:");
 		Label noOfPayments = new Label();//TODO
-		Label dateLabel = new Label("Startdato");
-		Label date = new Label();//TODO
-		Label repaymentLabel = new Label("Afdrag");
-		Label repayment = new Label();//TODO
+		Label dateLabel = new Label("Startdato:");
+		Label date = new Label(loanOffer.getDate());
+		Label repaymentLabel = new Label("Afdrag:");
+		Label repayment = new Label("" + loanOffer.getRepayments());
 		Label annualCostLabel = new Label("ÅOP:");
 		Label annualCost = new Label();//TODO
 		Button back = new Button("Tilbage");
