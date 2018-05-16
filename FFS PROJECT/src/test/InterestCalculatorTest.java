@@ -12,7 +12,7 @@ import logic.InterestCalculator;
 public class InterestCalculatorTest {
 
 	@Test
-	public void calcInterestRateTest() throws BadCreditRatingException {
+	public void calcInterestRateingATest() throws BadCreditRatingException {
 		InterestCalculator intcalc = new InterestCalculator();
 		double currentRate = 5.0;
 		Rating rate = Rating.A;
@@ -24,7 +24,7 @@ public class InterestCalculatorTest {
 	}
 	
 	@Test
-	public void calcInterestRateTest2() throws BadCreditRatingException {
+	public void calcInterestRatingBTest() throws BadCreditRatingException {
 		InterestCalculator intcalc = new InterestCalculator();
 		double currentRate = 5.0;
 		Rating rate = Rating.B;
@@ -36,7 +36,7 @@ public class InterestCalculatorTest {
 	}
 	
 	@Test
-	public void calcInterestRateTest3() throws BadCreditRatingException {
+	public void calcInterestRatingCTest() throws BadCreditRatingException {
 		InterestCalculator intcalc = new InterestCalculator();
 		double currentRate = 5.0;
 		Rating rate = Rating.C;
@@ -47,4 +47,15 @@ public class InterestCalculatorTest {
 		assertEquals(10.0,intcalc.calcInterestRate(rate, currentRate, downPayment, numberOfMonts, carPrice),0);
 	}
 
+	@Test (expected = BadCreditRatingException.class)
+	public void calcInterestRatingDTest() throws BadCreditRatingException {
+		InterestCalculator intcalc = new InterestCalculator();
+		double currentRate = 5.0;
+		Rating rate = Rating.D;
+		int downPayment = 250000;
+		int numberOfMonts = 60;
+		int carPrice = 1000000;
+		
+		assertEquals(10.0,intcalc.calcInterestRate(rate, currentRate, downPayment, numberOfMonts, carPrice),0);
+	}
 }
