@@ -9,5 +9,5 @@ public interface DataLayer {
 	public ArrayList<Car> getAllCars();
 	public Customer getCustomerByPhone(int Tlf);
 	public boolean InsertloanOffers(LoanOffer loanOffers);
-	public Salesmen getSalemenNameBayName(String name);
+	public Salesman getSalemenNameBayName(String name);
 }

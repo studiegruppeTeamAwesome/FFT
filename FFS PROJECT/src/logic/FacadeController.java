@@ -12,7 +12,7 @@ public interface FacadeController {
 
 	public ArrayList<Car> getAllCars();
 	
-	public Salesmen getSalesmenByName(String name);
+	public Salesman getSalesmenByName(String name);
 	
 	public double calculateInterestRate(Rating rating, double currentRate, int downPayment, 
 			int numberOfMonths, int carPrice) throws BadCreditRatingException;

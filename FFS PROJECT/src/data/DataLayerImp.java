@@ -67,7 +67,7 @@ public class DataLayerImp implements DataLayer {
 				int price = resultSet.getInt("price");
 				Car car = new Car();
 				car.setId(id);
-				car.setName(name);
+				car.setModel(name);
 				car.setPrice(price);
 				cars.add(car);
 			}
@@ -117,9 +117,9 @@ public class DataLayerImp implements DataLayer {
 			statement.setString(1, "" + loanOffers.getDate());
 			statement.setInt(2, loanOffers.getDownPayment());
 			statement.setInt(3, loanOffers.getRepayments());
-			statement.setInt(4, loanOffers.getCostumerPhone());
-			statement.setInt(5, loanOffers.getCarId());
-			statement.setString(6, loanOffers.getSalesmanName());
+			statement.setInt(4, loanOffers.getCostumer().getPhone());
+			statement.setInt(5, loanOffers.getCar().getId());
+			statement.setString(6, loanOffers.getSalesman().getName());
 
 			return statement.executeUpdate() == 1;
 
@@ -130,8 +130,8 @@ public class DataLayerImp implements DataLayer {
 	}
 
 	@Override
-	public Salesmen getSalemenNameBayName(String name) {
-		Salesmen s = new Salesmen();
+	public Salesman getSalemenNameBayName(String name) {
+		Salesman s = new Salesman();
 		try {openConnection() ;
 			String sql = "select * from Salesmen where name=" + name;
 			System.out.println(sql);
@@ -141,7 +141,7 @@ public class DataLayerImp implements DataLayer {
 
 			if (resultSet.next()) {
 				s.setId(resultSet.getInt("id"));
-				s.setChef(resultSet.getBoolean("chef"));
+				s.setBoss(resultSet.getBoolean("chef"));
 				s.setName(resultSet.getString("name"));
 				return s;
 			} else

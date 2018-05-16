@@ -9,10 +9,9 @@ public class LoanOffer {
 	private int downPayment;
 	private int repayments;
 	private int numberOfMonths;
-	private int costumerPhone;
-	private int carId;
-	private String salesmanName;
-
+	private Customer costumer;
+	private Car car;
+	private Salesman salesman;
 	private boolean approved;
 
 	public boolean isApproved() {
@@ -56,28 +55,28 @@ public class LoanOffer {
 		this.repayments = repayments;
 	}
 
-	public int getCostumerPhone() {
-		return costumerPhone;
+	public Customer getCostumer() {
+		return costumer;
 	}
 
-	public void setCostumerPhone(int costumerPhone) {
-		this.costumerPhone = costumerPhone;
+	public void setCostumerPhone(Customer costumer) {
+		this.costumer = costumer;
 	}
 
-	public int getCarId() {
-		return carId;
+	public Car getCar() {
+		return car;
 	}
 
-	public void setCarId(int carId) {
-		this.carId = carId;
+	public void setCar(Car car) {
+		this.car = car;
 	}
 
-	public String getSalesmanName() {
-		return salesmanName;
+	public Salesman getSalesman() {
+		return salesman;
 	}
 
-	public void setSalesmanName(String salesmanId) {
-		this.salesmanName = salesmanId;
+	public void setSalesman(Salesman salesman) {
+		this.salesman = salesman;
 	}
 
 	public int getNumberOfMonths() {

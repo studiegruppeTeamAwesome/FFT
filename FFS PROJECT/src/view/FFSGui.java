@@ -8,7 +8,7 @@ import logic.Customer;
 import logic.FFSController;
 import logic.FacadeController;
 import logic.LoanOffer;
-import logic.Salesmen;
+import logic.Salesman;
 
 import com.ferrari.finances.dk.rki.Rating;
 
@@ -31,7 +31,7 @@ public class FFSGui extends Application {
 	Car chosenCar;
 	FacadeController controller = new FFSController();
 	LoanOffer loanOffer;
-	Salesmen salesman = controller.getSalesmenByName(System.getProperty("user.name"));
+	Salesman salesman = controller.getSalesmenByName(System.getProperty("user.name"));
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -45,10 +45,10 @@ public class FFSGui extends Application {
 		customer.setRating(Rating.D);
 		
 		chosenCar = new Car();
-		chosenCar.setName("model");
+		chosenCar.setModel("model");
 		chosenCar.setPrice(10);
 		
-		salesman = new Salesmen();
+		salesman = new Salesman();
 		salesman.setName("Claus");
 		
 		loanOffer = new LoanOffer();
@@ -315,7 +315,7 @@ public class FFSGui extends Application {
 		Label phone = new Label("" + customer.getPhone());
 		Label carLabel = new Label("Bil");
 		Label modelLabel = new Label("Model:");
-		Label model = new Label(chosenCar.getName());
+		Label model = new Label(chosenCar.getModel());
 		Label priceLabel = new Label("Pris:");
 		Label price = new Label("" + chosenCar.getPrice());
 		Label salesmanLabel = new Label("Sælger");

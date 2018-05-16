@@ -31,7 +31,7 @@ public class FFSController implements FacadeController {
 	}
 
 	@Override
-	public Salesmen getSalesmenByName(String name) {
+	public Salesman getSalesmenByName(String name) {
 		// TODO getSalesmenByName
 		return null;
 	}
