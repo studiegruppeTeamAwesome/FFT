@@ -17,18 +17,32 @@ public class DataLayerImp implements DataLayer {
 
 	public void openConnection() {
 		try {
+			System.out.println("Loading JDBC Driver...");
 
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
+			System.out.println("JDBC Driver loaded");
 		} catch (ClassNotFoundException e) {
+			System.out.println("Failed to load JDBC Driver!");
 
 			System.exit(0);
 		}
 
-		try {
+		String databaseName = "FFSDB";
 
-			DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
-					+ "databaseName=" + "FFSDB" + ";" + "integratedSecurity=true;");
+		String connectionString = "jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;" + "databaseName="
+				+ databaseName + ";" + "integratedSecurity=true;";
+
+		try {
+			System.out.println("Connecting to database...");
+			System.out.println(connectionString);
+
+			connection = DriverManager.getConnection(connectionString);
+
+			if (connection != null)
+				System.out.println("Connected to database");
+			else
+				System.out.println("Could not connect to database");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -43,6 +57,7 @@ public class DataLayerImp implements DataLayer {
 			Statement statement = connection.createStatement();
 
 			String sql = "SELECT * FROM car ";
+			System.out.println(sql);
 
 			ResultSet resultSet = statement.executeQuery(sql);
 
@@ -56,6 +71,7 @@ public class DataLayerImp implements DataLayer {
 				car.setPrice(price);
 				cars.add(car);
 			}
+			return cars;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,29 +82,29 @@ public class DataLayerImp implements DataLayer {
 
 	@Override
 	public Customer getCustomerByPhone(int phone) {
-		Customer customer;
+		Customer c = new Customer();
 		try {
+			String sql = "select * from customer where phone=" + phone;
+			System.out.println(sql);
+
 			Statement statement = connection.createStatement();
-			String sql = "SELECT * FROM costumer WHERE phone=" + phone;
 			ResultSet resultSet = statement.executeQuery(sql);
-			String name = resultSet.getString("name");
-			String adress = resultSet.getString("address");
-			Rating creditRating = (Rating) resultSet.getObject("creditRating");
-			String CPR = resultSet.getString("CPR");
-			customer = new Customer();
-			customer.setAdress(adress);
-			customer.setCPR(CPR);
-			customer.setName(name);
-			customer.setRating(creditRating);
-			statement.close();
 
-			return customer;
+			if (resultSet.next()) {
+				c.setAdress(resultSet.getString("adress"));
+				c.setPhone(resultSet.getInt("phone"));
+				c.setName(resultSet.getString("name"));
+				c.setCPR(resultSet.getString("CPR"));
+				c.setHasActiveOffer(resultSet.getBoolean("hasActivLoan"));
+				c.setRating(Rating.valueOf(resultSet.getString("creditRating")));
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+				return c;
+			} else
+
+				return null;
+		} catch (SQLException e) {
+			return null;
 		}
-
-		return null;
 	}
 
 	@Override
@@ -113,18 +129,26 @@ public class DataLayerImp implements DataLayer {
 
 	}
 
-	// @Override
-	// public String getSalemenNameBayLoanOffer(int salesmenId) { // den salemenId
-	// skal setes med loanoffer.getsalesmenid
-	// try {
-	// Statement statement = connection.createStatement();
-	// String sql = "SELECT name FROM Salesmen,loanOffers WHERE id=" + salesmenId;
-	// ResultSet resultSet = statement.executeQuery(sql);
-	// String name = resultSet.getString("name");
-	// return name;
-	// } catch (SQLException ex) {
-	// return null;
-	// }
-	// }
+	@Override
+	public Salesmen getSalemenNameBayName(String name) {
+		Salesmen s = new Salesmen();
+		try {
+			String sql = "select * from Salesmen where name=" + name;
+			System.out.println(sql);
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			if (resultSet.next()) {
+				s.setId(resultSet.getInt("id"));
+				s.setChef(resultSet.getBoolean("chef"));
+				s.setName(resultSet.getString("name"));
+				return s;
+			} else
+				return null;
+		} catch (SQLException e) {
+			return null;
+		}
+	}
 
 }
