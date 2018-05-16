@@ -37,10 +37,17 @@ public class FFSController implements FacadeController {
 	}
 
 	@Override
-	public double calculateInterestRate(Rating rating, double currentRate, int downPayment, int numberOfMonths, int carPrice) throws Exception {
-		// TODO calculateInterestRate + exception navn
-		throw new Exception("nope");
-//		return 0;
+	public double calculateInterestRate(Rating rating, double currentRate, int downPayment, int numberOfMonths, 
+			int carPrice) throws BadCreditRatingException {
+		
+		InterestCalculator calculator = new InterestCalculator();
+		return calculator.calcInterestRate(rating, currentRate, downPayment, numberOfMonths, carPrice);
+	}
+
+	@Override
+	public Customer getCustomerByPhone(int phone) {
+		dataController.getCustomerByPhone(phone);
+		return null;
 	}
 
 }

@@ -2,6 +2,7 @@ package view;
 
 
 
+import logic.BadCreditRatingException;
 import logic.Car;
 import logic.Customer;
 import logic.FFSController;
@@ -111,11 +112,18 @@ public class FFSGui extends Application {
 		grid.add(lookUpCustomerGrid, 0, 0);
 		
 		Button lookUp = new Button("Slå op");
+		TextField phone = new TextField();
 		lookUpCustomerGrid.add(lookUp, 0, 3);
+		lookUpCustomerGrid.add(phone, 0, 2);
+		
+		
 		lookUp.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				
+				// TODO this is when the customer is supposed to be initialized - 
+				// delete the tests from start method
+//				customer = controller.getCustomerByPhone(Integer.parseInt(phone.getText()));
 				grid.add(initCustomerInfo(stage), 0, 1);
 				
 				stage.sizeToScene();
@@ -130,14 +138,12 @@ public class FFSGui extends Application {
 	private GridPane initLookUpCustomer(Stage stage) {
 		
 		GridPane grid = new GridPane();
-		grid.setPadding(new Insets(10,10,10,10));
-		grid.setHgap(10);
-		grid.setVgap(10);
+		gridPaddingSpacing(grid, 10);
 		
 		Label prompt1 = new Label("Angiv kundeoplysninger");
 		Button back = new Button("Tilbage");
 		Label prompt2 = new Label("Kundens tlf.");
-		TextField phone = new TextField();
+		
 		
 		back.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -149,7 +155,7 @@ public class FFSGui extends Application {
 		grid.add(prompt1, 0, 0);
 		grid.add(back, 1, 0);
 		grid.add(prompt2, 0, 1);
-		grid.add(phone, 0, 2);
+		
 		return grid ;
 	}
 	
@@ -244,7 +250,7 @@ public class FFSGui extends Application {
 					// TODO tjek if the calculation went successfully?
 					stage.setScene(initConfirmLoan(stage));
 					
-				} catch (Exception e) {
+				} catch (BadCreditRatingException e) {
 					GridPane grid2 = new GridPane();
 					
 					// TODO getMessage metoden
@@ -321,7 +327,7 @@ public class FFSGui extends Application {
 		Label noOfPaymentsLabel = new Label("Antal ydelser:");
 		Label noOfPayments = new Label();//TODO
 		Label dateLabel = new Label("Startdato:");
-		Label date = new Label(loanOffer.getDate());
+		Label date = new Label("" + loanOffer.getDate());
 		Label repaymentLabel = new Label("Afdrag:");
 		Label repayment = new Label("" + loanOffer.getRepayments());
 		Label annualCostLabel = new Label("ÅOP:");

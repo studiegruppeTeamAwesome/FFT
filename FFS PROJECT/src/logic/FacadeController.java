@@ -14,6 +14,9 @@ public interface FacadeController {
 	
 	public Salesmen getSalesmenByName(String name);
 	
-	//TODO exception name
-	public double calculateInterestRate(Rating rating, double currentRate, int downPayment, int numberOfMonths, int carPrice) throws Exception;
+	public double calculateInterestRate(Rating rating, double currentRate, int downPayment, 
+			int numberOfMonths, int carPrice) throws BadCreditRatingException;
+	
+	public Customer getCustomerByPhone(int phone);
+	
 }
