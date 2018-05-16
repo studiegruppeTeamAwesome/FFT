@@ -132,9 +132,15 @@ public class DataLayerImp implements DataLayer {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public Salesmen getSalemenNameBayName(String name) {
 		Salesmen s = new Salesmen();
 		try {openConnection();
+=======
+	public Salesman getSalemanNameBayName(String name) {
+		Salesman s = new Salesman();
+		try {
+>>>>>>> TangosTests
 			String sql = "select * from Salesmen where name=" + name;
 			System.out.println(sql);
 
