@@ -54,7 +54,6 @@ public class DataLayerImp implements DataLayer {
 
 		ArrayList<Car> cars = new ArrayList<Car>();
 		try {
-			openConnection();
 			Statement statement = connection.createStatement();
 
 			String sql = "SELECT * FROM car ";
@@ -85,7 +84,6 @@ public class DataLayerImp implements DataLayer {
 	public Customer getCustomerByPhone(int phone) {
 		Customer c = new Customer();
 		try {
-			openConnection();
 			String sql = "select * from customer where phone=" + phone;
 			System.out.println(sql);
 
@@ -111,12 +109,12 @@ public class DataLayerImp implements DataLayer {
 
 	@Override
 	public boolean InsertloanOffers(LoanOffer loanOffers) {
-		try {openConnection();
+		try {
 			String sql = "INSERT INTO loanOffers VALUES (?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement.setString(1, ""+loanOffers.getDate());
+			statement.setString(1, "" + loanOffers.getDate());
 			statement.setInt(2, loanOffers.getDownPayment());
 			statement.setInt(3, loanOffers.getRepayments());
 			statement.setInt(4, loanOffers.getCostumerPhone());
@@ -132,15 +130,9 @@ public class DataLayerImp implements DataLayer {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public Salesmen getSalemenNameBayName(String name) {
 		Salesmen s = new Salesmen();
-		try {openConnection();
-=======
-	public Salesman getSalemanNameBayName(String name) {
-		Salesman s = new Salesman();
 		try {
->>>>>>> TangosTests
 			String sql = "select * from Salesmen where name=" + name;
 			System.out.println(sql);
 
@@ -157,35 +149,6 @@ public class DataLayerImp implements DataLayer {
 		} catch (SQLException e) {
 			return null;
 		}
-	}
-
-	@Override
-	public ArrayList<String> getAlleCarsName() {
-		ArrayList<String> cars = new ArrayList<String>();
-		try {
-			openConnection();
-			Statement statement = connection.createStatement();
-
-			String sql = "SELECT name FROM car ";
-			System.out.println(sql);
-
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			while (resultSet.next()) {
-				
-				String name = resultSet.getString("name");
-				
-				String carname = new String();
-				
-				cars.add(carname);
-			}
-			return cars;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return cars;
 	}
 
 }

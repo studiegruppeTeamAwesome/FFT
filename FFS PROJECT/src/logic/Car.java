@@ -3,7 +3,7 @@ package logic;
 public class Car {
 	private int id;
 	private int price;
-	private String model;
+	private String name;
 
 	public int getId() {
 		return id;
@@ -22,15 +22,11 @@ public class Car {
 	}
 
 	public String getName() {
-		return model;
+		return name;
 	}
 
 	public void setName(String name) {
-		this.model = name;
-	}
-	
-	public String toString() {
-		return name;
+		this.name = name;
 	}
 
 }

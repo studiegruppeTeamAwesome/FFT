@@ -8,6 +8,7 @@ public class Customer {
 	private String address;
 	private String cpr;
 	private Rating rating;
+
 	private boolean hasActiveOffer;
 
 	public boolean isHasActiveOffer() {

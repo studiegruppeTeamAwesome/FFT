@@ -9,9 +9,10 @@ public class LoanOffer {
 	private int downPayment;
 	private int repayments;
 	private int numberOfMonths;
-	private Customer costumer;
-	private Car car;
-	private Salesman salesman;
+	private int costumerPhone;
+	private int carId;
+	private String salesmanName;
+
 	private boolean approved;
 
 	public boolean isApproved() {
@@ -55,6 +56,30 @@ public class LoanOffer {
 		this.repayments = repayments;
 	}
 
+	public int getCostumerPhone() {
+		return costumerPhone;
+	}
+
+	public void setCostumerPhone(int costumerPhone) {
+		this.costumerPhone = costumerPhone;
+	}
+
+	public int getCarId() {
+		return carId;
+	}
+
+	public void setCarId(int carId) {
+		this.carId = carId;
+	}
+
+	public String getSalesmanName() {
+		return salesmanName;
+	}
+
+	public void setSalesmanName(String salesmanId) {
+		this.salesmanName = salesmanId;
+	}
+
 	public int getNumberOfMonths() {
 		return numberOfMonths;
 	}
@@ -69,30 +94,6 @@ public class LoanOffer {
 
 	public void setAnnualCost(double annualCost) {
 		this.annualCost = annualCost;
-	}
-
-	public Customer getCostumer() {
-		return costumer;
-	}
-
-	public void setCostumer(Customer costumer) {
-		this.costumer = costumer;
-	}
-
-	public Car getCar() {
-		return car;
-	}
-
-	public void setCar(Car car) {
-		this.car = car;
-	}
-
-	public Salesman getSalesman() {
-		return salesman;
-	}
-
-	public void setSalesman(Salesman salesman) {
-		this.salesman = salesman;
 	}
 
 }

@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 import com.ferrari.finances.dk.rki.Rating;
 
-import data.DataLayer;
 import data.DataLayerImp;
 
 public class FFSController implements FacadeController {
-	DataLayer dataController = new DataLayerImp();
+	DataLayerImp dataController = new DataLayerImp();
 
 	@Override
 
@@ -32,7 +31,7 @@ public class FFSController implements FacadeController {
 	}
 
 	@Override
-	public Salesman getSalesmenByName(String name) {
+	public Salesmen getSalesmenByName(String name) {
 		// TODO getSalesmenByName
 		return null;
 	}

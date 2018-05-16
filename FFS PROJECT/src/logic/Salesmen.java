@@ -1,6 +1,6 @@
 package logic;
 
-public class Salesman {
+public class Salesmen {
 private int id;
 private String name;
 private boolean chef;
