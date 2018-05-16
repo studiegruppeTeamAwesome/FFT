@@ -1,14 +1,19 @@
 package logic;
 
+import java.time.LocalDateTime;
+
 public class LoanOffer {
 	private int id;
-	private String date;
+	private LocalDateTime date;
+	private double annualCost;
 	private int downPayment;
 	private int repayments;
+	private int numberOfMonths;
 	private int costumerPhone;
 	private int carId;
 	private String salesmanName;
-
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -17,11 +22,11 @@ public class LoanOffer {
 		this.id = id;
 	}
 
-	public String getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 
@@ -63,6 +68,22 @@ public class LoanOffer {
 
 	public void setSalesmanName(String salesmanId) {
 		this.salesmanName = salesmanId;
+	}
+
+	public int getNumberOfMonths() {
+		return numberOfMonths;
+	}
+
+	public void setNumberOfMonths(int numberOfMonths) {
+		this.numberOfMonths = numberOfMonths;
+	}
+
+	public double getAnnualCost() {
+		return annualCost;
+	}
+
+	public void setAnnualCost(double annualCost) {
+		this.annualCost = annualCost;
 	}
 
 }
