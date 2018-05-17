@@ -38,12 +38,12 @@ public class FFSGui extends Application {
 	public void start(Stage stage) throws Exception {
 		
 		// TODO forbindelse med db
-		customer = new Customer();
-		customer.setAdress("adresse");
-		customer.setCPR("cpr");
-		customer.setName("navn");
-		customer.setPhone(123);
-		customer.setRating(Rating.D);
+//		customer = new Customer();
+//		customer.setAdress("adresse");
+//		customer.setCPR("cpr");
+//		customer.setName("navn");
+//		customer.setPhone(123);
+//		customer.setRating(Rating.D);
 		
 		chosenCar = new Car();
 		chosenCar.setModel("model");
@@ -135,7 +135,7 @@ public class FFSGui extends Application {
 				
 				// TODO this is when the customer is supposed to be initialized - 
 				// delete the tests from start method
-//				customer = controller.getCustomerByPhone(Integer.parseInt(phone.getText()));
+				customer = controller.getCustomerByPhone(Integer.parseInt(phone.getText()));
 				grid.add(initCustomerInfo(stage), 0, 1);
 				
 				stage.sizeToScene();
