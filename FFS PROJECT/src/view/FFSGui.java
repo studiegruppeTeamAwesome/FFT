@@ -21,6 +21,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -36,7 +37,7 @@ public class FFSGui extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		
-		// TODO forbindelse med db?
+		// TODO forbindelse med db
 		customer = new Customer();
 		customer.setAdress("adresse");
 		customer.setCPR("cpr");
@@ -58,10 +59,21 @@ public class FFSGui extends Application {
 		
 	}
 	
-	private void gridPaddingSpacing(GridPane grid, int insets) {
+	private void gridPaddingSpacingBackground(GridPane grid, int insets, Stage stage) {
 		grid.setPadding(new Insets(insets,insets,insets,insets));
 		grid.setHgap(insets);
 		grid.setVgap(insets);
+//		stage.getIcons().add(new Image("resource/ferrari-wallpaper.jpg"));
+
+		Image img = new Image("resource/ferrari-wallpaper.jpg");
+		BackgroundSize size = new BackgroundSize(1024, 640, true, true, false, true);
+		BackgroundImage backgroundImage = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+				BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+		Background background = new Background(backgroundImage);
+		grid.setBackground(background);
+		
+		
+		
 	}
 	
 	
@@ -90,7 +102,7 @@ public class FFSGui extends Application {
 				
 				GridPane grid2 = new GridPane();
 				grid2.add(new Label("endnu ikke implementeret"), 0, 0);
-				gridPaddingSpacing(grid2, 10);
+				gridPaddingSpacingBackground(grid2, 10, stage);
 				
 				Stage stage2 = new Stage();
 				stage2.setScene(new Scene(grid2));
@@ -138,7 +150,7 @@ public class FFSGui extends Application {
 	private GridPane initLookUpCustomer(Stage stage) {
 		
 		GridPane grid = new GridPane();
-		gridPaddingSpacing(grid, 10);
+		gridPaddingSpacingBackground(grid, 10, stage);
 		
 		Label prompt1 = new Label("Angiv kundeoplysninger");
 		Button back = new Button("Tilbage");
@@ -257,7 +269,7 @@ public class FFSGui extends Application {
 					Label label = new Label(e.getMessage());
 					label.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
 					grid2.add(label, 0, 0);
-					gridPaddingSpacing(grid2, 10);
+					gridPaddingSpacingBackground(grid2, 10, stage);
 					grid2.setAlignment(Pos.CENTER);
 					
 					Stage stage2 = new Stage();
