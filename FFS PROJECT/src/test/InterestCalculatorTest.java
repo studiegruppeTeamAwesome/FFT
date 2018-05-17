@@ -6,13 +6,13 @@ import org.junit.Test;
 
 import com.ferrari.finances.dk.rki.Rating;
 
-import logic.BadCreditRatingException;
+import logic.PoorCreditRatingException;
 import logic.InterestCalculator;
 
 public class InterestCalculatorTest {
 
 	@Test
-	public void calcInterestRateingATest() throws BadCreditRatingException {
+	public void calcInterestRateingATest() throws PoorCreditRatingException {
 		InterestCalculator intcalc = new InterestCalculator();
 		double currentRate = 5.0;
 		Rating rate = Rating.A;
@@ -24,7 +24,7 @@ public class InterestCalculatorTest {
 	}
 	
 	@Test
-	public void calcInterestRatingBTest() throws BadCreditRatingException {
+	public void calcInterestRatingBTest() throws PoorCreditRatingException {
 		InterestCalculator intcalc = new InterestCalculator();
 		double currentRate = 5.0;
 		Rating rate = Rating.B;
@@ -36,7 +36,7 @@ public class InterestCalculatorTest {
 	}
 	
 	@Test
-	public void calcInterestRatingCTest() throws BadCreditRatingException {
+	public void calcInterestRatingCTest() throws PoorCreditRatingException {
 		InterestCalculator intcalc = new InterestCalculator();
 		double currentRate = 5.0;
 		Rating rate = Rating.C;
@@ -47,8 +47,8 @@ public class InterestCalculatorTest {
 		assertEquals(10.0,intcalc.calcInterestRate(rate, currentRate, downPayment, numberOfMonts, carPrice),0);
 	}
 
-	@Test (expected = BadCreditRatingException.class)
-	public void calcInterestRatingDTest() throws BadCreditRatingException {
+	@Test (expected = PoorCreditRatingException.class)
+	public void calcInterestRatingDTest() throws PoorCreditRatingException {
 		InterestCalculator intcalc = new InterestCalculator();
 		double currentRate = 5.0;
 		Rating rate = Rating.D;

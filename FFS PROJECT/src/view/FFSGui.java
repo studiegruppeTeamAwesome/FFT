@@ -2,7 +2,7 @@ package view;
 
 
 
-import logic.BadCreditRatingException;
+import logic.PoorCreditRatingException;
 import logic.Car;
 import logic.Customer;
 import logic.FFSController;
@@ -262,7 +262,7 @@ public class FFSGui extends Application {
 					// TODO tjek if the calculation went successfully?
 					stage.setScene(initConfirmLoan(stage));
 					
-				} catch (BadCreditRatingException e) {
+				} catch (PoorCreditRatingException e) {
 					GridPane grid2 = new GridPane();
 					
 					// TODO getMessage metoden

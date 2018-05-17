@@ -38,7 +38,7 @@ public class FFSController implements FacadeController {
 
 	@Override
 	public double calculateInterestRate(Rating rating, double currentRate, int downPayment, int numberOfMonths, 
-			int carPrice) throws BadCreditRatingException {
+			int carPrice) throws PoorCreditRatingException {
 		
 		InterestCalculator calculator = new InterestCalculator();
 		return calculator.calcInterestRate(rating, currentRate, downPayment, numberOfMonths, carPrice);

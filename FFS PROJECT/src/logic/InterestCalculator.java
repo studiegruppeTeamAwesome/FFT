@@ -5,12 +5,12 @@ import com.ferrari.finances.dk.rki.Rating;
 public class InterestCalculator {
 
 	public double calcInterestRate(Rating rating, double currentRate, int downPayment, int numberOfMonths, int carPrice)
-			throws BadCreditRatingException {
+			throws PoorCreditRatingException {
 		return currentRate + intRateFromRating(rating) + intRateFromDP(downPayment, carPrice)
 				+ intRateFromMonths(numberOfMonths);
 	}
 
-	private double intRateFromRating(Rating rating) throws BadCreditRatingException {
+	private double intRateFromRating(Rating rating) throws PoorCreditRatingException {
 		if (rating == Rating.A)
 			return 1.0;
 		if (rating == Rating.B)
@@ -18,7 +18,7 @@ public class InterestCalculator {
 		if (rating == Rating.C)
 			return 3.0;
 		else
-			throw new BadCreditRatingException("BAD CREDIT RATING!");
+			throw new PoorCreditRatingException("BAD CREDIT RATING!");
 	}
 
 	private double intRateFromDP(int downPayment, int carPrice) {

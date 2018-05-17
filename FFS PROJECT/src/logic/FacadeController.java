@@ -15,7 +15,7 @@ public interface FacadeController {
 	public Salesman getSalesmenByName(String name);
 	
 	public double calculateInterestRate(Rating rating, double currentRate, int downPayment, 
-			int numberOfMonths, int carPrice) throws BadCreditRatingException;
+			int numberOfMonths, int carPrice) throws PoorCreditRatingException;
 	
 	public Customer getCustomerByPhone(int phone);
 	
