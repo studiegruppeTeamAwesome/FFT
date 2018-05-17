@@ -4,6 +4,15 @@ public class Salesman {
 	private int id;
 	private String name;
 	private boolean boss;
+	private int loanLimit;
+
+	public int getLoanLimit() {
+		return loanLimit;
+	}
+
+	public void setLoanLimit(int loanLimit) {
+		this.loanLimit = loanLimit;
+	}
 
 	public int getId() {
 		return id;
