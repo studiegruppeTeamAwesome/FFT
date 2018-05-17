@@ -28,5 +28,10 @@ public class Car {
 	public void setModel(String name) {
 		this.model = name;
 	}
+	
+	@Override
+	public String toString() {
+		return model;
+	}
 
 }
