@@ -10,6 +10,9 @@ import logic.FacadeController;
 import logic.LoanOffer;
 import logic.Salesman;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import com.ferrari.finances.dk.rki.Rating;
 
 import javafx.application.Application;
@@ -26,13 +29,15 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class FFSGui extends Application {
+public class FFSGui extends Application implements Observer{
 
 	Customer customer;
 	Car chosenCar;
 	FacadeController controller = new FFSController();
 	LoanOffer loanOffer;
 	Salesman salesman = controller.getSalesmenByName(System.getProperty("user.name"));
+	TextField rateTF;
+	TextField creditTF;
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -75,8 +80,6 @@ public class FFSGui extends Application {
 		
 		
 	}
-	
-	
 	
 	private Scene initStartScreen(Stage stage) {
 		
@@ -135,7 +138,9 @@ public class FFSGui extends Application {
 				
 				// TODO this is when the customer is supposed to be initialized - 
 				// delete the tests from start method
+				
 				customer = controller.getCustomerByPhone(Integer.parseInt(phone.getText()));
+				System.out.println(customer.getPhone());
 				grid.add(initCustomerInfo(stage), 0, 1);
 				
 				stage.sizeToScene();
@@ -196,6 +201,16 @@ public class FFSGui extends Application {
 		createLoan.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				
+				BankThread bankThread = new BankThread();
+				RKIThread rkiThread = new RKIThread();
+				rkiThread.setCustomer(customer);
+				Thread runnableBankThread = new Thread(bankThread);
+				Thread runnableRkiThread = new Thread(rkiThread);
+				
+				runnableBankThread.start();
+				runnableRkiThread.start();
+				
 				stage.setScene(initCreateLoan(stage));
 			}
 		});
@@ -236,11 +251,11 @@ public class FFSGui extends Application {
 		Button back = new Button("Tilbage");
 		GridPane.setHalignment(back, HPos.RIGHT);
 		Label creditLabel = new Label("Kreditværdighed");
-		TextField creditTF = new TextField();
+		creditTF = new TextField();
 		// TODO tråd
 		
 		Label rate = new Label("Nuværende rente");
-		TextField rateTF = new TextField();
+		rateTF = new TextField();
 		// TODO tråd
 
 		// TODO forbindelse til database
@@ -305,7 +320,6 @@ public class FFSGui extends Application {
 		grid.add(creditTF, 3, 4);
 		grid.add(rate, 3, 5);
 		grid.add(rateTF, 3, 6);
-		
 		
 		Scene scene = new Scene(grid);
 		return scene ;
@@ -387,10 +401,18 @@ public class FFSGui extends Application {
 		return scene ;
 	}
 	
-	
-	
-	public static void main(String[] args) {
+	@Override
+	public void update(Observable sub, Object obj) {
+		if (sub instanceof BankThread) {
+			double rate = (double) obj;
+			rateTF.setText("" + rate);
+			System.out.println("rateTF set to " + rate);
+		} else {
+			creditTF.setText("" + customer.getRating());
+			System.out.println("Rating set to " + customer.getRating());
+		}
+	}
+public static void main(String[] args) {
 		launch(args);
 	}
-
 }

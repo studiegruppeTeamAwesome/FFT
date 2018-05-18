@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.ferrari.finances.dk.rki.Rating;
 
 public interface FacadeController {
-
+	
 	public double getCurrentRate();
 
 	public void setCreditRating(Customer customer);

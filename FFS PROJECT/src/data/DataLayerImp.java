@@ -84,7 +84,7 @@ public class DataLayerImp implements DataLayer {
 	public Customer getCustomerByPhone(int phone) {
 		Customer c = new Customer();
 		try {openConnection() ;
-			String sql = "select * from customer where phone=" + phone;
+			String sql = "select * from customer where phone = " + phone;
 			System.out.println(sql);
 
 			Statement statement = connection.createStatement();
@@ -95,9 +95,9 @@ public class DataLayerImp implements DataLayer {
 				c.setPhone(resultSet.getInt("phone"));
 				c.setName(resultSet.getString("name"));
 				c.setCPR(resultSet.getString("CPR"));
-				c.setHasActiveOffer(resultSet.getBoolean("hasActivLoan"));
-				c.setRating(Rating.valueOf(resultSet.getString("creditRating")));
-
+//				c.setHasActiveOffer(resultSet.getBoolean("hasActivLoan"));
+//				c.setRating(Rating.valueOf(resultSet.getString("creditRating")));
+				System.out.println(c.getName());
 				return c;
 			} else
 

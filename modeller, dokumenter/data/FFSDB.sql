@@ -6,7 +6,7 @@ CREATE DATABASE  FFSDB;
 GO
 USE FFSDB;
 
-CREATE TABLE costumer(
+CREATE TABLE customer(
 phone int  NOT NULL,
 name nvarchar(30),
 adress nvarchar(30),
@@ -14,8 +14,8 @@ CPR nvarchar(30) not null,
 
 PRIMARY KEY(phone)
 );
-insert into costumer VALUES(544567543,'sara rig','kongevej 22 6000 skjrn','0101992331');
-insert into costumer VALUES(34565432,'neda megetrig','gammelvej2','20034535');
+insert into customer VALUES(54456754,'sara rig','kongevej 22 6000 skjrn','0101992331');
+insert into customer VALUES(34565432,'neda megetrig','gammelvej2','2003453510');
 
 
 CREATE TABLE car(
