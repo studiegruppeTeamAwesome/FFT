@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class LoanOffer {
 	private int id;
-	private LocalDateTime date;
 	private double annualCost;
 	private int downPayment;
 	private int repayments;
@@ -12,6 +11,19 @@ public class LoanOffer {
 	private Customer costumer;
 	private Car car;
 	private Salesman salesman;
+	
+	public LoanOffer(double annualCost, int downPayment, int repayments, int numberOfMonths,
+			Customer costumer, Car car, Salesman salesman) {
+
+		this.annualCost = annualCost;
+		this.downPayment = downPayment;
+		this.repayments = repayments;
+		this.numberOfMonths = numberOfMonths;
+		this.costumer = costumer;
+		this.car = car;
+		this.salesman = salesman;
+	}
+
 	private boolean approved;
 
 	public boolean isApproved() {
@@ -29,14 +41,6 @@ public class LoanOffer {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public LocalDateTime getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDateTime date) {
-		this.date = date;
 	}
 
 	public int getDownPayment() {
