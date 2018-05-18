@@ -14,7 +14,7 @@ public class BankThread extends Observable implements Runnable {
 	public void run() {
 		currentRate = controller.getCurrentRate();
 		setChanged();
-		notifyObservers(currentRate);
+		notifyObservers(currentRate); // vi har brugt push til vorse obsarver og sender obj med
 		System.out.println("Bank Thread died");
 	}
 }
