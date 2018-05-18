@@ -114,7 +114,6 @@ public class DataLayerImp implements DataLayer {
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement.setString(1, "" + loanOffers.getDate());
 			statement.setInt(2, loanOffers.getDownPayment());
 			statement.setInt(3, loanOffers.getRepayments());
 			statement.setInt(4, loanOffers.getCostumer().getPhone());

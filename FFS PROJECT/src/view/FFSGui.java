@@ -10,6 +10,9 @@ import logic.FacadeController;
 import logic.LoanOffer;
 import logic.Salesman;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -46,6 +49,7 @@ public class FFSGui extends Application implements Observer{
 	public void start(Stage stage) throws Exception {
 		bankThread.addObserver(this);
 		rkiThread.addObserver(this);
+		System.out.println(System.getProperty("user.name"));
 		// TODO forbindelse med db
 //		customer = new Customer();
 //		customer.setAdress("adresse");
@@ -54,14 +58,12 @@ public class FFSGui extends Application implements Observer{
 //		customer.setPhone(123);
 //		customer.setRating(Rating.D);
 		
-		chosenCar = new Car();
-		chosenCar.setModel("model");
-		chosenCar.setPrice(10);
+//		chosenCar = new Car();
+//		chosenCar.setModel("model");
+//		chosenCar.setPrice(10);
 		
-		salesman = new Salesman();
-		salesman.setName("Claus");
-		
-		loanOffer = new LoanOffer();
+//		salesman = new Salesman();
+//		salesman.setName("Claus");
 		
 		stage.setScene(initStartScreen(stage));
 		stage.show();
@@ -200,9 +202,6 @@ public class FFSGui extends Application implements Observer{
 		Label cpr = new Label(customer.getCPR());
 		
 		Button createLoan = new Button("Opret Loan");
-		Label error = new Label("((Fejl))");
-		
-		
 		
 		createLoan.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -227,7 +226,6 @@ public class FFSGui extends Application implements Observer{
 		grid.add(name, 1, 1);
 		grid.add(address, 1, 2);
 		grid.add(cpr, 1, 3);
-		grid.add(error, 1, 4);
 		
 		return grid;
 	}
@@ -279,6 +277,7 @@ public class FFSGui extends Application implements Observer{
 				try {
 					controller.calculateInterestRate(customer.getRating(), Double.parseDouble(rateTF.getText()), 
 							Integer.parseInt(downPayment.getText()), Integer.parseInt(noOfMonths.getText()), chosenCar.getPrice());
+					loanOffer = new LoanOffer(0, Integer.parseInt(downPayment.getText()), 0, Integer.parseInt(noOfMonths.getText()), customer, chosenCar, salesman);
 					// TODO tjek if the calculation went successfully?
 					stage.setScene(initConfirmLoan(stage));
 					
@@ -358,7 +357,6 @@ public class FFSGui extends Application implements Observer{
 		Label noOfPaymentsLabel = new Label("Antal ydelser:");
 		Label noOfPayments = new Label();//TODO
 		Label dateLabel = new Label("Startdato:");
-		Label date = new Label("" + loanOffer.getDate());
 		Label repaymentLabel = new Label("Afdrag:");
 		Label repayment = new Label("" + loanOffer.getRepayments());
 		Label annualCostLabel = new Label("ÅOP:");
@@ -388,7 +386,6 @@ public class FFSGui extends Application implements Observer{
 		grid.add(salesmanName, 1, 6);
 		grid.add(downpayments, 1, 8);
 		grid.add(noOfPayments, 1, 9);
-		grid.add(date, 1, 10);
 		grid.add(repayment, 1, 11);
 		grid.add(annualCost, 1, 12);
 		
@@ -411,11 +408,20 @@ public class FFSGui extends Application implements Observer{
 		
 		if (sub instanceof BankThread) {
 			double rate = (double) obj;
-			rateTF.setText("" + rate);
+			// formaterer renten til 2 decimaler
+			DecimalFormat formatter = new DecimalFormat("##.##");
+			formatter.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+			rateTF.setText(formatter.format(rate));
 			System.out.println("rateTF set to " + rate);
+			
 		} else {
 			creditTF.setText("" + customer.getRating());
 			System.out.println("Rating set to " + customer.getRating());
+			// hvis kreditvurderingen er for lav, giv en advarsel til bruger
+			if (customer.getRating() == Rating.D) {
+				creditTF.setText(customer.getRating() + " - for lav!");
+				creditTF.setStyle("-fx-text-fill: red;");
+			}
 		}
 	}
 
