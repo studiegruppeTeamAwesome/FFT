@@ -14,7 +14,6 @@ public class FFSController implements FacadeController {
 	public double getCurrentRate() {
 
 		return Bank.instance().getCurrentRate();
-
 	}
 
 	@Override
@@ -32,7 +31,7 @@ public class FFSController implements FacadeController {
 
 	@Override
 	public Salesman getSalesmenByName(String name) {
-		return dataController.getSalemenNameBayName(name);
+		return dataController.getSalesmanByName(name);
 	}
 
 	@Override
