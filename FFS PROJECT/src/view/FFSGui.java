@@ -38,10 +38,14 @@ public class FFSGui extends Application implements Observer{
 	Salesman salesman = controller.getSalesmenByName(System.getProperty("user.name"));
 	TextField rateTF;
 	TextField creditTF;
+	BankThread bankThread = new BankThread();
+	RKIThread rkiThread = new RKIThread();
+	
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		
+		bankThread.addObserver(this);
+		rkiThread.addObserver(this);
 		// TODO forbindelse med db
 //		customer = new Customer();
 //		customer.setAdress("adresse");
@@ -198,16 +202,16 @@ public class FFSGui extends Application implements Observer{
 		Button createLoan = new Button("Opret Loan");
 		Label error = new Label("((Fejl))");
 		
+		
+		
 		createLoan.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				BankThread bankThread = new BankThread();
-				RKIThread rkiThread = new RKIThread();
+				
 				rkiThread.setCustomer(customer);
 				Thread runnableBankThread = new Thread(bankThread);
 				Thread runnableRkiThread = new Thread(rkiThread);
-				
 				runnableBankThread.start();
 				runnableRkiThread.start();
 				
@@ -264,6 +268,7 @@ public class FFSGui extends Application implements Observer{
 		@Override
 		public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
 			chosenCar = chosen;
+			price.setText(chosenCar.getPrice() + "");
 		}
 		});
 		
@@ -403,6 +408,7 @@ public class FFSGui extends Application implements Observer{
 	
 	@Override
 	public void update(Observable sub, Object obj) {
+		
 		if (sub instanceof BankThread) {
 			double rate = (double) obj;
 			rateTF.setText("" + rate);
@@ -412,7 +418,9 @@ public class FFSGui extends Application implements Observer{
 			System.out.println("Rating set to " + customer.getRating());
 		}
 	}
-public static void main(String[] args) {
+
+	
+	public static void main(String[] args) {
 		launch(args);
 	}
 }

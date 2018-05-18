@@ -13,9 +13,8 @@ public class BankThread extends Observable implements Runnable {
 	@Override
 	public void run() {
 		currentRate = controller.getCurrentRate();
-		if(hasChanged()) {
-			notifyObservers(currentRate);
-		}
+		setChanged();
+		notifyObservers(currentRate);
 		System.out.println("Bank Thread died");
 	}
 }

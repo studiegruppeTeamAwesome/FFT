@@ -20,9 +20,8 @@ public class RKIThread extends Observable implements Runnable {
 	@Override
 	public void run() {
 		controller.setCreditRating(customer);
-		if(hasChanged()) {
-			notifyObservers();
-		}
+		setChanged();
+		notifyObservers();
 		System.out.println("RKI Thread died");
 	}
 }
