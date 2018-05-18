@@ -56,14 +56,14 @@ public class DataLayerImp implements DataLayer {
 		try { openConnection();
 			Statement statement = connection.createStatement();
 
-			String sql = "SELECT * FROM car ";
+			String sql = "SELECT * FROM cars ";
 			System.out.println(sql);
 
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				String name = resultSet.getString("name");
+				String name = resultSet.getString("model");
 				int price = resultSet.getInt("price");
 				Car car = new Car();
 				car.setId(id);
@@ -84,19 +84,19 @@ public class DataLayerImp implements DataLayer {
 	public Customer getCustomerByPhone(int phone) {
 		Customer c = new Customer();
 		try {openConnection() ;
-			String sql = "select * from customer where phone = " + phone;
+			String sql = "select * from customers where phone = " + phone;
 			System.out.println(sql);
 
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
-				c.setAdress(resultSet.getString("adress"));
+				c.setAddress(resultSet.getString("customerAddress"));
 				c.setPhone(resultSet.getInt("phone"));
-				c.setName(resultSet.getString("name"));
+				c.setName(resultSet.getString("customerName"));
+				c.setPostalCode(resultSet.getInt("postalCode"));
 				c.setCPR(resultSet.getString("CPR"));
-//				c.setHasActiveOffer(resultSet.getBoolean("hasActivLoan"));
-//				c.setRating(Rating.valueOf(resultSet.getString("creditRating")));
+				c.setHasActiveOffer(resultSet.getBoolean("hasActiveLoan"));
 				System.out.println(c.getName());
 				return c;
 			} else
@@ -129,23 +129,29 @@ public class DataLayerImp implements DataLayer {
 	}
 
 	@Override
-	public Salesman getSalemenNameBayName(String name) {
+	public Salesman getSalesmanByName(String name) {
 		Salesman s = new Salesman();
 		try {openConnection() ;
-			String sql = "select * from Salesmen where name=" + name;
-			System.out.println(sql);
+		String sql = "select * from salesmen where salesmanName = '" + name + "'"
+				+ ""
+				+ "";
+		System.out.println(sql);
 
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
 				s.setId(resultSet.getInt("id"));
-				s.setBoss(resultSet.getBoolean("chef"));
-				s.setName(resultSet.getString("name"));
+				s.setName(resultSet.getString("salesmanName"));
+				s.setBoss(resultSet.getBoolean("boss"));
+				s.setLoanLimit(resultSet.getInt("loanLimit"));
+				System.out.println(s.getName());
 				return s;
+				
 			} else
 				return null;
 		} catch (SQLException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

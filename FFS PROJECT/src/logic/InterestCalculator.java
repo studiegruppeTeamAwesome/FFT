@@ -9,6 +9,11 @@ public class InterestCalculator {
 		return currentRate + intRateFromRating(rating) + intRateFromDP(downPayment, carPrice)
 				+ intRateFromMonths(numberOfMonths);
 	}
+	
+	public double calcMontlyInterestRate(int interestRate) {
+		
+		return 0.0;
+	}
 
 	private double intRateFromRating(Rating rating) throws PoorCreditRatingException {
 		if (rating == Rating.A)
@@ -34,5 +39,4 @@ public class InterestCalculator {
 		else
 			return 0;
 	}
-
 }

@@ -1,7 +1,6 @@
 package view;
 
 
-
 import logic.PoorCreditRatingException;
 import logic.Car;
 import logic.Customer;
@@ -198,7 +197,7 @@ public class FFSGui extends Application implements Observer{
 		Label cprLabel = new Label("cpr:");
 		
 		Label name = new Label(customer.getName());
-		Label address = new Label(customer.getAdress());
+		Label address = new Label(customer.getAddress());
 		Label cpr = new Label(customer.getCPR());
 		
 		Button createLoan = new Button("Opret Loan");
@@ -275,8 +274,15 @@ public class FFSGui extends Application implements Observer{
 			public void handle(ActionEvent event) {
 				
 				try {
-					controller.calculateInterestRate(customer.getRating(), Double.parseDouble(rateTF.getText()), 
+					double interestRate = controller.calculateInterestRate(customer.getRating(), Double.parseDouble(rateTF.getText()), 
 							Integer.parseInt(downPayment.getText()), Integer.parseInt(noOfMonths.getText()), chosenCar.getPrice());
+					System.out.println(interestRate/100);
+					double annualCost = Math.pow((1+(interestRate/100)), 1/12);
+					
+					
+					
+					System.out.println("åop" + annualCost);
+					
 					loanOffer = new LoanOffer(0, Integer.parseInt(downPayment.getText()), 0, Integer.parseInt(noOfMonths.getText()), customer, chosenCar, salesman);
 					// TODO tjek if the calculation went successfully?
 					stage.setScene(initConfirmLoan(stage));

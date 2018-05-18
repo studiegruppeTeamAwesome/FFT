@@ -6,6 +6,8 @@ public class Customer {
 	private int phone;
 	private String name;
 	private String address;
+	private int postalCode;
+	private String city;	
 	private String cpr;
 	private Rating rating;
 	private boolean hasActiveOffer;
@@ -42,11 +44,11 @@ public class Customer {
 		this.name = name;
 	}
 
-	public String getAdress() {
+	public String getAddress() {
 		return address;
 	}
 
-	public void setAdress(String adress) {
+	public void setAddress(String adress) {
 		this.address = adress;
 	}
 
@@ -56,6 +58,22 @@ public class Customer {
 
 	public void setCPR(String cPR) {
 		cpr = cPR;
+	}
+
+	public int getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(int postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 }
