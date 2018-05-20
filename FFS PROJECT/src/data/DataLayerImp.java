@@ -113,15 +113,18 @@ public class DataLayerImp implements DataLayer {
 	public boolean InsertloanOffers(LoanOffer loanOffers) {
 		try {
 			openConnection();
-			String sql = "INSERT INTO loanOffers VALUES (?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO loanOffers VALUES (?,?,?,?,?,?,?,?)";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
-
+			
+			statement.setDouble(1, loanOffers.getAnnualCost());
 			statement.setInt(2, loanOffers.getDownPayment());
 			statement.setInt(3, loanOffers.getRepayments());
-			statement.setInt(4, loanOffers.getCostumer().getPhone());
-			statement.setInt(5, loanOffers.getCar().getId());
-			statement.setString(6, loanOffers.getSalesman().getName());
+			statement.setInt(4, loanOffers.getNumberOfMonths());
+			statement.setInt(5, loanOffers.getCostumer().getPhone());
+			statement.setInt(6, loanOffers.getCar().getId());
+			statement.setInt(7,loanOffers.getSalesman().getId());
+			statement.setBoolean(8, loanOffers.isApproved());
 
 			return statement.executeUpdate() == 1;
 
@@ -240,5 +243,31 @@ public class DataLayerImp implements DataLayer {
 			return 1;
 		else
 			return 0;
+	}
+
+	@Override
+	public Salesman getSalesmanByBoss(boolean boss) {
+		Salesman s = new Salesman();
+		try {
+			openConnection();
+			String sql = "select * from salesmen where boss = " + convertBooleanToByte(boss);
+			System.out.println(sql);
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			if (resultSet.next()) {
+				s.setId(resultSet.getInt("id"));
+				s.setName(resultSet.getString("salesmanName"));
+				s.setBoss(resultSet.getBoolean("boss"));
+				s.setLoanLimit(resultSet.getInt("loanLimit"));
+				System.out.println(s.getName());
+				return s;
+			} else
+				return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
