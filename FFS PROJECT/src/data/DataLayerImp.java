@@ -163,13 +163,8 @@ public class DataLayerImp implements DataLayer {
 
 		try {
 			openConnection();
-			byte a;
-			if(approved)
-				a=1;
-			else 
-				a=0;
-				
-			String sql = "select * from loanOffers where approved="+ a;
+
+			String sql = "select * from loanOffers where approved=" + convertBooleanToByte(approved);
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 			if (resultSet.next()) {
@@ -220,7 +215,7 @@ public class DataLayerImp implements DataLayer {
 		Car car = new Car();
 		try {
 			openConnection();
-			String sql = "select * from cars where id = "+id;
+			String sql = "select * from cars where id = " + id;
 			System.out.println(sql);
 
 			Statement statement = connection.createStatement();
@@ -229,7 +224,7 @@ public class DataLayerImp implements DataLayer {
 			if (resultSet.next()) {
 				car.setId(resultSet.getInt("id"));
 				car.setModel(resultSet.getString("model"));
-				car.setPrice(resultSet.getInt("price")); 
+				car.setPrice(resultSet.getInt("price"));
 				return car;
 
 			} else
@@ -240,4 +235,10 @@ public class DataLayerImp implements DataLayer {
 		}
 	}
 
+	private byte convertBooleanToByte(boolean b) {
+		if (b)
+			return 1;
+		else
+			return 0;
+	}
 }

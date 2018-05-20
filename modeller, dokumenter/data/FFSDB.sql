@@ -60,8 +60,9 @@ SalesmanId int not null,
 approved bit not null,
 PRIMARY KEY(id));
 
-insert into loanOffers VALUES (100000,2000,10,11111111,2,2,0);
+insert into loanOffers VALUES (1000.0,100000,2000,10,11111111,2,2,0);
 
 select * from Salesmen where salesmanName = 'Martin';
 select * from customers where phone = 54456754;
-select * from loanOffers where approved= 0;
+select * from loanOffers where approved=0;
+
