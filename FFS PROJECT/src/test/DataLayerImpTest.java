@@ -29,7 +29,7 @@ public class DataLayerImpTest {
 	public void getSalesmanByNameTest() {
 		DataLayer data = new DataLayerImp();
 		Salesman sm;
-		String salesmanName = "sara";
+		String salesmanName = "martin";
 		sm = data.getSalesmanByName(salesmanName);
 
 		assertEquals(salesmanName, sm.getName());
@@ -57,7 +57,7 @@ public class DataLayerImpTest {
 	public void getSalsmanByIDTest() {
 		DataLayer data = new DataLayerImp();
 		Salesman sm;
-		String salesmanName = "sara";
+		String salesmanName = "martin";
 		sm = data.getSalesmanByName(salesmanName);
 
 		assertEquals(salesmanName, sm.getName());
@@ -83,9 +83,11 @@ public class DataLayerImpTest {
 	@Test
 	public void InsertloanOffersTest() {
 		DataLayer data = new DataLayerImp();
-		 LoanOffer l = new LoanOffer(1000.0, 10000, 2000, 10,data.getCustomerByPhone(11111112),data.getCarById(1),data.getSalsmanById(1));
+		Customer c= data.getCustomerByPhone(11111111);
+		Salesman s = data.getSalesmanByName("martin");
+		 LoanOffer l = new LoanOffer(1000.0, 10000, 2000, 10,c,data.getCarById(1),s);
 		
-		assertEquals(false, data.InsertloanOffers(l));
+		assertEquals(true, data.InsertloanOffers(l));
 
 	}
 	

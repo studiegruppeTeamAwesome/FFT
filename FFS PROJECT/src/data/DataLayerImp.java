@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import com.ferrari.finances.dk.rki.Rating;
+
 
 import logic.*;
 
@@ -121,7 +121,7 @@ public class DataLayerImp implements DataLayer {
 			statement.setInt(2, loanOffers.getDownPayment());
 			statement.setInt(3, loanOffers.getRepayments());
 			statement.setInt(4, loanOffers.getNumberOfMonths());
-			statement.setInt(5, loanOffers.getCostumer().getPhone());
+		statement.setInt(5, loanOffers.getCostumer().getPhone());
 			statement.setInt(6, loanOffers.getCar().getId());
 			statement.setInt(7,loanOffers.getSalesman().getId());
 			statement.setBoolean(8, loanOffers.isApproved());
@@ -270,4 +270,6 @@ public class DataLayerImp implements DataLayer {
 			return null;
 		}
 	}
+	
+
 }
