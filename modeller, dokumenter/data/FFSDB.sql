@@ -46,6 +46,7 @@ PRIMARY KEY(id));
 insert into Salesmen VALUES ('sara',0, 12000000);
 insert into Salesmen VALUES ('martin',1, 1000000000);
 insert into Salesmen VALUES ('bloms',0, 18000000 );
+insert into Salesmen VALUES ('Shahnaz Yahyavi',0, 18000000 );
 
 
 CREATE TABLE loanOffers(
@@ -54,13 +55,11 @@ annualCost float not null,
 downPayment int not null,
 repayments float not null,
 noOfMonths int not null,
-costumerPhone int not null,
+customerPhone int not null,
 CarId int not null,
 SalesmanId int not null,
 isApproved bit not null,
 PRIMARY KEY(id));
-
-
-
+insert into loanOffers VALUES(1,1000000,10000,12,11111111,1,2,0);
 select * from Salesmen where salesmanName = 'Martin';
 select * from customers where phone = 54456754;

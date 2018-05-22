@@ -167,13 +167,13 @@ public class DataLayerImp implements DataLayer {
 		try {
 			openConnection();
 
-			String sql = "select * from loanOffers where approved=" + convertBooleanToByte(approved);
+			String sql = "select * from loanOffers where isApproved=" + convertBooleanToByte(approved);
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 			if (resultSet.next()) {
 				LoanOffer l = new LoanOffer(resultSet.getDouble("annualCost"), resultSet.getInt("downPayment"),
-						resultSet.getInt("repayments"), resultSet.getInt("noOfMonths"),
-						getCustomerByPhone(resultSet.getInt("customerPhone")), getCarById(resultSet.getInt("CarId")),
+						resultSet.getDouble("repayments"), resultSet.getInt("noOfMonths"),
+						getCustomerByPhone(resultSet.getInt("costumerPhone")), getCarById(resultSet.getInt("CarId")),
 						getSalsmanById(resultSet.getInt("SalesmanId")));
 				return l;
 
