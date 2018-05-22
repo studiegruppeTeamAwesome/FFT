@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+import com.ferrari.finances.dk.rki.Rating;
 
 import logic.*;
 
@@ -53,8 +53,7 @@ public class DataLayerImp implements DataLayer {
 	public ArrayList<Car> getAllCars() {
 
 		ArrayList<Car> cars = new ArrayList<Car>();
-		try {
-			openConnection();
+		try { openConnection();
 			Statement statement = connection.createStatement();
 
 			String sql = "SELECT * FROM cars ";
@@ -84,8 +83,7 @@ public class DataLayerImp implements DataLayer {
 	@Override
 	public Customer getCustomerByPhone(int phone) {
 		Customer c = new Customer();
-		try {
-			openConnection();
+		try {openConnection() ;
 			String sql = "select * from customers where phone = " + phone;
 			System.out.println(sql);
 
@@ -111,27 +109,16 @@ public class DataLayerImp implements DataLayer {
 
 	@Override
 	public boolean InsertloanOffers(LoanOffer loanOffers) {
-		try {
-			openConnection();
-			String sql = "INSERT INTO loanOffers VALUES (?,?,?,?,?,?,?,?)";
+		try {openConnection() ;
+			String sql = "INSERT INTO loanOffers VALUES (?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
-			
-			statement.setDouble(1, loanOffers.getAnnualCost());
+
 			statement.setInt(2, loanOffers.getDownPayment());
-<<<<<<< HEAD
 			statement.setDouble(3, loanOffers.getRepayments());
 			statement.setInt(4, loanOffers.getCostumer().getPhone());
 			statement.setInt(5, loanOffers.getCar().getId());
 			statement.setString(6, loanOffers.getSalesman().getName());
-=======
-			statement.setInt(3, loanOffers.getRepayments());
-			statement.setInt(4, loanOffers.getNumberOfMonths());
-		statement.setInt(5, loanOffers.getCostumer().getPhone());
-			statement.setInt(6, loanOffers.getCar().getId());
-			statement.setInt(7,loanOffers.getSalesman().getId());
-			statement.setBoolean(8, loanOffers.isApproved());
->>>>>>> Data
 
 			return statement.executeUpdate() == 1;
 
@@ -144,65 +131,14 @@ public class DataLayerImp implements DataLayer {
 	@Override
 	public Salesman getSalesmanByName(String name) {
 		Salesman s = new Salesman();
-		try {
-			openConnection();
-			String sql = "select * from salesmen where salesmanName = '" + name + "'" + "" + "";
-			System.out.println(sql);
+		try {openConnection() ;
+		String sql = "select * from salesmen where salesmanName = '" + name + "'"
+				+ ""
+				+ "";
+		System.out.println(sql);
 
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			if (resultSet.next()) {
-				s.setId(resultSet.getInt("id"));
-				s.setName(resultSet.getString("salesmanName"));
-				s.setBoss(resultSet.getBoolean("boss"));
-				s.setLoanLimit(resultSet.getInt("loanLimit"));
-				System.out.println(s.getName());
-				return s;
-
-			} else
-				return null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
-	public LoanOffer getloanOfferByApproved(boolean approved) {
-
-		try {
-			openConnection();
-
-			String sql = "select * from loanOffers where approved=" + convertBooleanToByte(approved);
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
-			if (resultSet.next()) {
-				LoanOffer l = new LoanOffer(resultSet.getDouble("annualCost"), resultSet.getInt("downPayment"),
-						resultSet.getInt("repayments"), resultSet.getInt("noOfMonths"),
-						getCustomerByPhone(resultSet.getInt("customerPhone")), getCarById(resultSet.getInt("CarId")),
-						getSalsmanById(resultSet.getInt("SalesmanId")));
-				return l;
-
-			} else
-				return null;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
-	public Salesman getSalsmanById(int id) {
-		Salesman s = new Salesman();
-		try {
-			openConnection();
-			String sql = "select * from salesmen where salesmanName = " + id;
-			System.out.println(sql);
-
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
 				s.setId(resultSet.getInt("id"));
@@ -211,7 +147,7 @@ public class DataLayerImp implements DataLayer {
 				s.setLoanLimit(resultSet.getInt("loanLimit"));
 				System.out.println(s.getName());
 				return s;
-
+				
 			} else
 				return null;
 		} catch (SQLException e) {
@@ -219,64 +155,5 @@ public class DataLayerImp implements DataLayer {
 			return null;
 		}
 	}
-
-	@Override
-	public Car getCarById(int id) {
-		Car car = new Car();
-		try {
-			openConnection();
-			String sql = "select * from cars where id = " + id;
-			System.out.println(sql);
-
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			if (resultSet.next()) {
-				car.setId(resultSet.getInt("id"));
-				car.setModel(resultSet.getString("model"));
-				car.setPrice(resultSet.getInt("price"));
-				return car;
-
-			} else
-				return null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	private byte convertBooleanToByte(boolean b) {
-		if (b)
-			return 1;
-		else
-			return 0;
-	}
-
-	@Override
-	public Salesman getSalesmanByBoss(boolean boss) {
-		Salesman s = new Salesman();
-		try {
-			openConnection();
-			String sql = "select * from salesmen where boss = " + convertBooleanToByte(boss);
-			System.out.println(sql);
-
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			if (resultSet.next()) {
-				s.setId(resultSet.getInt("id"));
-				s.setName(resultSet.getString("salesmanName"));
-				s.setBoss(resultSet.getBoolean("boss"));
-				s.setLoanLimit(resultSet.getInt("loanLimit"));
-				System.out.println(s.getName());
-				return s;
-			} else
-				return null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
 
 }
