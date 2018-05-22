@@ -8,6 +8,7 @@ import data.DataLayerImp;
 
 public class FFSController implements FacadeController {
 	DataLayerImp dataController = new DataLayerImp();
+	Calculator calculator = new Calculator();
 
 	@Override
 
@@ -37,14 +38,28 @@ public class FFSController implements FacadeController {
 	@Override
 	public double calculateInterestRate(Rating rating, double currentRate, int downPayment, int numberOfMonths,
 			int carPrice) throws PoorCreditRatingException {
-
-		InterestCalculator calculator = new InterestCalculator();
 		return calculator.calcInterestRate(rating, currentRate, downPayment, numberOfMonths, carPrice);
 	}
 
 	@Override
 	public Customer getCustomerByPhone(int phone) {
 		return dataController.getCustomerByPhone(phone);
+	}
+
+	@Override
+	public double calculateMonthlyRate(double interestRate) {
+		return calculator.calcMontlyInterestRate(interestRate);
+	}
+
+	@Override
+	public double calculateRepayments(Car car, int downPayment, double monthlyRate, int noOfMonths) {
+		return calculator.calcRepayments((car.getPrice() - downPayment), monthlyRate, noOfMonths);
+	}
+
+	@Override
+	public void saveLoanOffer(LoanOffer loan) {
+		dataController.InsertloanOffers(loan);
+		
 	}
 
 }

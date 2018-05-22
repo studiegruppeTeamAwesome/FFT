@@ -19,4 +19,10 @@ public interface FacadeController {
 	
 	public Customer getCustomerByPhone(int phone);
 	
+	public double calculateMonthlyRate(double interestRate);
+	
+	public double calculateRepayments(Car car, int downPayment, double monthlyRate, int noOfMonths);
+	
+	public void saveLoanOffer(LoanOffer loan);
+	
 }

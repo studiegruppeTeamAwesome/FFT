@@ -6,13 +6,13 @@ public class LoanOffer {
 	private int id;
 	private double annualCost;
 	private int downPayment;
-	private int repayments;
+	private double repayments;
 	private int numberOfMonths;
 	private Customer costumer;
 	private Car car;
 	private Salesman salesman;
 	
-	public LoanOffer(double annualCost, int downPayment, int repayments, int numberOfMonths,
+	public LoanOffer(double annualCost, int downPayment, double repayments, int numberOfMonths,
 			Customer costumer, Car car, Salesman salesman) {
 
 		this.annualCost = annualCost;
@@ -51,11 +51,11 @@ public class LoanOffer {
 		this.downPayment = downPayment;
 	}
 
-	public int getRepayments() {
+	public double getRepayments() {
 		return repayments;
 	}
 
-	public void setRepayments(int repayments) {
+	public void setRepayments(double repayments) {
 		this.repayments = repayments;
 	}
 

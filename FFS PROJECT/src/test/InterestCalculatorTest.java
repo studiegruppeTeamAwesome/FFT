@@ -7,13 +7,13 @@ import org.junit.Test;
 import com.ferrari.finances.dk.rki.Rating;
 
 import logic.PoorCreditRatingException;
-import logic.InterestCalculator;
+import logic.Calculator;
 
 public class InterestCalculatorTest {
 
 	@Test
 	public void calcInterestRateingATest() throws PoorCreditRatingException {
-		InterestCalculator intcalc = new InterestCalculator();
+		Calculator intcalc = new Calculator();
 		double currentRate = 5.0;
 		Rating rate = Rating.A;
 		int downPayment = 250000;
@@ -25,7 +25,7 @@ public class InterestCalculatorTest {
 	
 	@Test
 	public void calcInterestRatingBTest() throws PoorCreditRatingException {
-		InterestCalculator intcalc = new InterestCalculator();
+		Calculator intcalc = new Calculator();
 		double currentRate = 5.0;
 		Rating rate = Rating.B;
 		int downPayment = 250000;
@@ -37,7 +37,7 @@ public class InterestCalculatorTest {
 	
 	@Test
 	public void calcInterestRatingCTest() throws PoorCreditRatingException {
-		InterestCalculator intcalc = new InterestCalculator();
+		Calculator intcalc = new Calculator();
 		double currentRate = 5.0;
 		Rating rate = Rating.C;
 		int downPayment = 250000;
@@ -49,7 +49,7 @@ public class InterestCalculatorTest {
 
 	@Test (expected = PoorCreditRatingException.class)
 	public void calcInterestRatingDTest() throws PoorCreditRatingException {
-		InterestCalculator intcalc = new InterestCalculator();
+		Calculator intcalc = new Calculator();
 		double currentRate = 5.0;
 		Rating rate = Rating.D;
 		int downPayment = 250000;

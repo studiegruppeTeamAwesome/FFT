@@ -51,7 +51,7 @@ insert into Salesmen VALUES ('bloms',0, 18000000 );
 CREATE TABLE loanOffers(
 id int IDENTITY NOT NULL,
 downPayment int not null,
-repayments int not null,
+repayments double not null,
 noOfMonths int not null,
 costumerPhone int not null,
 CarId int not null,

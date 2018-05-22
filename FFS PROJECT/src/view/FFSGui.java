@@ -276,15 +276,20 @@ public class FFSGui extends Application implements Observer{
 				try {
 					double interestRate = controller.calculateInterestRate(customer.getRating(), Double.parseDouble(rateTF.getText()), 
 							Integer.parseInt(downPayment.getText()), Integer.parseInt(noOfMonths.getText()), chosenCar.getPrice());
-					System.out.println(interestRate/100);
-					double annualCost = Math.pow((1+(interestRate/100)), 1/12);
+					System.out.println(interestRate);
+					
+					double monthlyRate = controller.calculateMonthlyRate(interestRate);
+					
+					double repayments = controller.calculateRepayments(chosenCar, Integer.parseInt(downPayment.getText()), monthlyRate, 
+							Integer.parseInt(noOfMonths.getText()));
+					
+					System.out.println(monthlyRate);
+					
+					loanOffer = new LoanOffer(interestRate, Integer.parseInt(downPayment.getText()), repayments, Integer.parseInt(noOfMonths.getText()), 
+							customer, chosenCar, salesman);
 					
 					
 					
-					System.out.println("åop" + annualCost);
-					
-					loanOffer = new LoanOffer(0, Integer.parseInt(downPayment.getText()), 0, Integer.parseInt(noOfMonths.getText()), customer, chosenCar, salesman);
-					// TODO tjek if the calculation went successfully?
 					stage.setScene(initConfirmLoan(stage));
 					
 				} catch (PoorCreditRatingException e) {
@@ -359,14 +364,14 @@ public class FFSGui extends Application implements Observer{
 		Label salesmanName = new Label(salesman.getName());
 		Label details = new Label("Detaljer");
 		Label downpaymentLabel = new Label("Udbetaling:");
-		Label downpayments = new Label("" + loanOffer.getDownPayment());
+		Label downpayments = new Label("" + loanOffer.getDownPayment() + " kr.");
 		Label noOfPaymentsLabel = new Label("Antal ydelser:");
-		Label noOfPayments = new Label();//TODO
+		Label noOfPayments = new Label("" + loanOffer.getNumberOfMonths());
 		Label dateLabel = new Label("Startdato:");
 		Label repaymentLabel = new Label("Afdrag:");
-		Label repayment = new Label("" + loanOffer.getRepayments());
+		Label repayment = new Label("" + loanOffer.getRepayments() + " kr.");
 		Label annualCostLabel = new Label("ÅOP:");
-		Label annualCost = new Label();//TODO
+		Label annualCost = new Label("" + loanOffer.getAnnualCost());
 		Button back = new Button("Tilbage");
 		Button confirm = new Button("Bekræft");
 		
