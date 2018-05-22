@@ -290,6 +290,7 @@ public class FFSGui extends Application implements Observer{
 					
 					
 					
+					
 					stage.setScene(initConfirmLoan(stage));
 					
 				} catch (PoorCreditRatingException e) {
@@ -367,7 +368,6 @@ public class FFSGui extends Application implements Observer{
 		Label downpayments = new Label("" + loanOffer.getDownPayment() + " kr.");
 		Label noOfPaymentsLabel = new Label("Antal ydelser:");
 		Label noOfPayments = new Label("" + loanOffer.getNumberOfMonths());
-		Label dateLabel = new Label("Startdato:");
 		Label repaymentLabel = new Label("Afdrag:");
 		Label repayment = new Label("" + loanOffer.getRepayments() + " kr.");
 		Label annualCostLabel = new Label("ÅOP:");
@@ -375,8 +375,34 @@ public class FFSGui extends Application implements Observer{
 		Button back = new Button("Tilbage");
 		Button confirm = new Button("Bekræft");
 		
-		// TODO fix this thing
-		dateLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(1))));
+		
+		confirm.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (controller.saveLoanOffer(loanOffer)) {
+					GridPane grid2 = new GridPane();
+					grid2.add(new Label("lån gemt"), 0, 0);
+					//gridPaddingSpacingBackground(grid2, 10, stage);
+					
+					Stage stage2 = new Stage();
+					stage2.setScene(new Scene(grid2));
+					stage.setScene(initStartScreen(stage));
+					stage2.show();
+					
+				} else {
+					GridPane grid2 = new GridPane();
+					grid2.add(new Label("lån ikke gemt!"), 0, 0);
+					//gridPaddingSpacingBackground(grid2, 10, stage);
+					
+					Stage stage2 = new Stage();
+					stage2.setScene(new Scene(grid2));
+					stage2.show();
+				}
+			
+				
+				
+			}
+		});
 		
 		grid.add(prompt, 0, 0, 4, 1);
 		grid.add(customerLabel, 0, 1);
@@ -388,17 +414,16 @@ public class FFSGui extends Application implements Observer{
 		grid.add(details, 0, 7);
 		grid.add(downpaymentLabel, 0, 8);
 		grid.add(noOfPaymentsLabel, 0, 9);
-		grid.add(dateLabel, 0, 10);
-		grid.add(repaymentLabel, 0, 11);
-		grid.add(annualCostLabel, 0, 12);
+		grid.add(repaymentLabel, 0, 10);
+		grid.add(annualCostLabel, 0, 11);
 		
 		grid.add(name, 1, 2);
 		grid.add(model, 1, 4);
 		grid.add(salesmanName, 1, 6);
 		grid.add(downpayments, 1, 8);
 		grid.add(noOfPayments, 1, 9);
-		grid.add(repayment, 1, 11);
-		grid.add(annualCost, 1, 12);
+		grid.add(repayment, 1, 10);
+		grid.add(annualCost, 1, 11);
 		
 		grid.add(phoneLabel, 2, 2);
 		grid.add(priceLabel, 2, 4);
@@ -407,7 +432,7 @@ public class FFSGui extends Application implements Observer{
 		grid.add(price, 3, 4);
 		
 		grid.add(back, 4, 0);
-		grid.add(confirm, 4, 12);
+		grid.add(confirm, 4, 11);
 		
 		
 		Scene scene = new Scene(grid);

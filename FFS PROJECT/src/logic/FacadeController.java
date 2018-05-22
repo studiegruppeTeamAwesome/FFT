@@ -23,6 +23,6 @@ public interface FacadeController {
 	
 	public double calculateRepayments(Car car, int downPayment, double monthlyRate, int noOfMonths);
 	
-	public void saveLoanOffer(LoanOffer loan);
+	public boolean saveLoanOffer(LoanOffer loan);
 	
 }

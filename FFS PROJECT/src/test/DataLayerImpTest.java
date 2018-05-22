@@ -84,10 +84,10 @@ public class DataLayerImpTest {
 	public void InsertloanOffersTest() {
 		DataLayer data = new DataLayerImp();
 		Customer c= data.getCustomerByPhone(11111111);
-		Salesman s = data.getSalesmanByName("martin");
+		Salesman s = data.getSalesmanByName("bloms");
 		 LoanOffer l = new LoanOffer(1000.0, 10000, 2000, 10,c,data.getCarById(1),s);
 		
-		assertEquals(true, data.InsertloanOffers(l));
+		assertEquals(true, data.InsertloanOffers(l));  
 
 	}
 	

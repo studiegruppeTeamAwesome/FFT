@@ -57,8 +57,9 @@ public class FFSController implements FacadeController {
 	}
 
 	@Override
-	public void saveLoanOffer(LoanOffer loan) {
-		dataController.InsertloanOffers(loan);
+	public boolean saveLoanOffer(LoanOffer loan) {
+		
+		return dataController.InsertloanOffers(loan);
 		
 	}
 

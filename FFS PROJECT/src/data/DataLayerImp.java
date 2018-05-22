@@ -121,12 +121,12 @@ public class DataLayerImp implements DataLayer {
 			statement.setInt(2, loanOffers.getDownPayment());
 			statement.setDouble(3, loanOffers.getRepayments());
 			statement.setInt(4, loanOffers.getNumberOfMonths());
-		statement.setInt(5, loanOffers.getCostumer().getPhone());
+			statement.setInt(5, loanOffers.getCostumer().getPhone());
 			statement.setInt(6, loanOffers.getCar().getId());
 			statement.setInt(7,loanOffers.getSalesman().getId());
 			statement.setBoolean(8, loanOffers.isApproved());
-
-			return statement.executeUpdate() == 1;
+			System.out.println("saved");
+			return statement.executeUpdate() == 1; 
 
 		} catch (SQLException e) {
 			return false;
