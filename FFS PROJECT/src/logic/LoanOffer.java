@@ -13,7 +13,7 @@ public class LoanOffer {
 	private Salesman salesman;
 	private boolean approved;
 	
-	public LoanOffer(double annualCost, int downPayment, double repayments, int numberOfMonths,
+	public LoanOffer(int id,double annualCost, int downPayment, double repayments, int numberOfMonths,
 			Customer costumer, Car car, Salesman salesman) {
 
 		this.annualCost = annualCost;

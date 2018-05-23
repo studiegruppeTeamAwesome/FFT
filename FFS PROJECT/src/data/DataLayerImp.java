@@ -162,7 +162,7 @@ public class DataLayerImp implements DataLayer {
 	}
 
 	@Override
-	public  List<LoanOffer> getAllloanOffersByApproved(boolean approved) {
+	public List<LoanOffer> getAllloanOffersByApproved(boolean approved) {
 		ArrayList<LoanOffer> loanOffers = new ArrayList<LoanOffer>();
 		try {
 			openConnection();
@@ -171,10 +171,10 @@ public class DataLayerImp implements DataLayer {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				LoanOffer l = new LoanOffer(resultSet.getDouble("annualCost"), resultSet.getInt("downPayment"),
-						resultSet.getDouble("repayments"), resultSet.getInt("noOfMonths"),
-						getCustomerByPhone(resultSet.getInt("customerPhone")), getCarById(resultSet.getInt("CarId")),
-						getSalsmanById(resultSet.getInt("SalesmanId")));
+				LoanOffer l = new LoanOffer(resultSet.getInt("id"), resultSet.getDouble("annualCost"),
+						resultSet.getInt("downPayment"), resultSet.getDouble("repayments"),
+						resultSet.getInt("noOfMonths"), getCustomerByPhone(resultSet.getInt("customerPhone")),
+						getCarById(resultSet.getInt("CarId")), getSalsmanById(resultSet.getInt("SalesmanId")));
 				loanOffers.add(l);
 			}
 			return loanOffers;
@@ -273,47 +273,22 @@ public class DataLayerImp implements DataLayer {
 
 	@Override
 	public boolean updateLoanOfferById(LoanOffer loanOffer) {
-		String sql = "UPDATE loanOffers SET isApproved='" + convertBooleanToByte(loanOffer.isApproved()) + "WHERE id="
-				+ loanOffer.getId();
-		// String sql = "UPDATE loanOffers " + "SET annualCost='"
-		// +loanOffer.getAnnualCost() + "', downPayment='"
-		// + loanOffer.getDownPayment() + "', repayments=" + loanOffer.getRepayments()
-		// +"', noOfMonths= "+ loanOffer.getNumberOfMonths()
-		// +"',customerPhoneWHERE =" +
-		// loanOffer.getCostumer().getPhone()+"',CarId="+loanOffer.getCar().getId()+"',SalesmanId="+
-		// loanOffer.getSalesman().getId()+"where id ="+loanOffer.getId();
-		return changeOneRowInTable(sql).isSucces();
-	}
-
-	private SqlResult changeOneRowInTable(String sql) {
-
-		SqlResult result = new SqlResult();
+		openConnection();
 
 		try {
-			/*
-			 * execute sql statement
-			 */
-			System.out.println(sql);
-
 			Statement statement = connection.createStatement();
+			String sql = "UPDATE loanOffers SET isApproved =" + convertBooleanToByte(loanOffer.isApproved())
+					+ " where id=" + loanOffer.getId();
+			System.out.println(sql);
+ 
+			return statement.executeUpdate(sql) ==1;
 
-			result.setSucces(statement.executeUpdate(sql) == 1);
-
-			/*
-			 * get (possible) auto-generated key
-			 */
-			ResultSet resultSet = statement.executeQuery("SELECT SCOPE_IDENTITY()");
-
-			if (resultSet.next())
-				result.setAutoKey(resultSet.getInt(1));
 		} catch (SQLException e) {
-			result.setSucces(false);
+			e.printStackTrace();
+			return false;
 		}
-
-		return result;
 	}
 
 	
 
-	
 }
