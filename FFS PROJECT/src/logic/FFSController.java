@@ -62,7 +62,7 @@ public class FFSController implements FacadeController {
 	}
 
 	public List<LoanOffer> getUnapprovedLoans(){
-		return dataController.getAllloanOffersByApproved(false);;
+		return dataController.getAllloanOffersByApproved(false);
 	}
 
 	@Override
