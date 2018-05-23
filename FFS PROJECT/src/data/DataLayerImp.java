@@ -173,7 +173,7 @@ public class DataLayerImp implements DataLayer {
 		while (resultSet.next()) {
 				LoanOffer l = new LoanOffer(resultSet.getDouble("annualCost"), resultSet.getInt("downPayment"),
 						resultSet.getDouble("repayments"), resultSet.getInt("noOfMonths"),
-						getCustomerByPhone(resultSet.getInt("costumerPhone")), getCarById(resultSet.getInt("CarId")),
+						getCustomerByPhone(resultSet.getInt("customerPhone")), getCarById(resultSet.getInt("CarId")), 
 						getSalsmanById(resultSet.getInt("SalesmanId")));
 				loanOffers.add(l);
 				}
