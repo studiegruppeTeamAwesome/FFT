@@ -73,3 +73,4 @@ insert into loanOffers VALUES(8, 2000000, 350000, 60, 12345678, 1, 4, 0);
 
 
 select * from loanOffers;
+

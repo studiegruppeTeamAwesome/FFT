@@ -244,6 +244,7 @@ public class DataLayerImp implements DataLayer {
 		else
 			return 0;
 	}
+	
 
 	@Override
 	public Salesman getSalesmanByBoss(boolean boss) {
@@ -273,10 +274,11 @@ public class DataLayerImp implements DataLayer {
 
 	@Override
 	public boolean updateLoanOfferById(LoanOffer loanOffer) {
-		String sql = "UPDATE loanOffers " + "SET annualCost='" +loanOffer.getAnnualCost()  + "', downPayment='"
-				+ loanOffer.getDownPayment() + "', repayments=" + loanOffer.getRepayments() +"', noOfMonths= "+ loanOffer.getNumberOfMonths()
-				+"',customerPhoneWHERE =" + loanOffer.getCostumer().getPhone()+"',CarId="+loanOffer.getCar().getId()+"',SalesmanId="+
-				loanOffer.getSalesman().getId()+"where id ="+loanOffer.getId();
+		String sql= "UPDATE loanOffers SET isApproved='"+convertBooleanToByte(loanOffer.isApproved())+"WHERE id="+loanOffer.getId();
+//		String sql = "UPDATE loanOffers " + "SET annualCost='" +loanOffer.getAnnualCost()  + "', downPayment='"
+//				+ loanOffer.getDownPayment() + "', repayments=" + loanOffer.getRepayments() +"', noOfMonths= "+ loanOffer.getNumberOfMonths()
+//				+"',customerPhoneWHERE =" + loanOffer.getCostumer().getPhone()+"',CarId="+loanOffer.getCar().getId()+"',SalesmanId="+
+//				loanOffer.getSalesman().getId()+"where id ="+loanOffer.getId();
 		return changeOneRowInTable(sql).isSucces();
 	}
 	private SqlResult changeOneRowInTable(String sql) {
