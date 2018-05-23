@@ -92,6 +92,15 @@ public class DataLayerImpTest {
 
 	}
 	
+	@Test
+	public void  updateLoanOfferByIdTest() {
+		DataLayer data = new DataLayerImp();
+		Customer c= data.getCustomerByPhone(11111111);
+		Salesman s = data.getSalesmanByName("bloms");
+		 LoanOffer l = new LoanOffer(5, 1000000, 50000, 120, c, data.getCarById(1), s);
+		 l.setApproved(true);
+		 assertEquals(true, data.updateLoanOfferById(l));  
+	}
 	
 	
 	
