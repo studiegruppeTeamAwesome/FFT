@@ -11,6 +11,7 @@ public class LoanOffer {
 	private Customer costumer;
 	private Car car;
 	private Salesman salesman;
+	private boolean approved;
 	
 	public LoanOffer(double annualCost, int downPayment, double repayments, int numberOfMonths,
 			Customer costumer, Car car, Salesman salesman) {
@@ -24,7 +25,7 @@ public class LoanOffer {
 		this.salesman = salesman;
 	}
 
-	private boolean approved;
+	
 
 	public boolean isApproved() {
 		return approved;

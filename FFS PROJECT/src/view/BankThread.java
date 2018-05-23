@@ -7,7 +7,7 @@ import logic.FacadeController;
 
 public class BankThread extends Observable implements Runnable {
 
-	FacadeController controller = new FFSController();
+	private FacadeController controller = new FFSController();
 	private double currentRate;
 	
 	@Override

@@ -14,16 +14,13 @@ public class FFSController implements FacadeController {
 	@Override
 
 	public double getCurrentRate() {
-
 		return Bank.instance().getCurrentRate();
 	}
 
 	@Override
 
 	public void setCreditRating(Customer customer) {
-
 		RKI.instance().setCreditRating(customer);
-
 	}
 
 	@Override
@@ -49,7 +46,7 @@ public class FFSController implements FacadeController {
 
 	@Override
 	public double calculateMonthlyRate(double interestRate) {
-		return calculator.calcMontlyInterestRate(interestRate);
+		return calculator.calcMonthlyInterestRate(interestRate);
 	}
 
 	@Override
@@ -65,14 +62,13 @@ public class FFSController implements FacadeController {
 	}
 
 	public List<LoanOffer> getUnapprovedLoans(){
-		//TODO call method from datalayer
-		return null;
+		return dataController.getAllloanOffersByApproved(false);;
 	}
 
 	@Override
-	public void approveLoan(LoanOffer loan) {
+	public boolean approveLoan(LoanOffer loan) {
 		// TODO call method from datalayer
-		
+		return false;
 	}
 	
 	
