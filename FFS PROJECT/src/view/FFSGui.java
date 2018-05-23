@@ -86,6 +86,13 @@ public class FFSGui extends Application implements Observer{
 		
 	}
 	
+	private void gridPaddingSpacing(GridPane grid, int insets) {
+		grid.setPadding(new Insets(insets,insets,insets,insets));
+		grid.setHgap(insets);
+		grid.setVgap(insets);
+		
+	}
+	
 	private Scene initStartScreen(Stage stage) {
 		
 		VBox box = new VBox();
@@ -344,37 +351,66 @@ public class FFSGui extends Application implements Observer{
 	private Scene initConfirmLoan(Stage stage) {
 		
 		GridPane grid = new GridPane();
-		
-		grid.setPadding(new Insets(10,10,10,10));
-		grid.setHgap(10);
-		grid.setVgap(10);
-		
+		gridPaddingSpacing(grid, 10);
 		Label prompt = new Label("Bekræft oplysninger");
-		Label customerLabel = new Label("Kunde");
-		Label nameLabel = new Label("navn:");
-		Label name = new Label(customer.getName());
-		Label phoneLabel = new Label("tlf");
-		Label phone = new Label("" + customer.getPhone());
-		Label carLabel = new Label("Bil");
-		Label modelLabel = new Label("Model:");
-		Label model = new Label(chosenCar.getModel());
-		Label priceLabel = new Label("Pris:");
-		Label price = new Label("" + chosenCar.getPrice());
-		Label salesmanLabel = new Label("Sælger");
-		Label salesmanNameLabel = new Label("Navn:");
-		Label salesmanName = new Label(salesman.getName());
-		Label details = new Label("Detaljer");
-		Label downpaymentLabel = new Label("Udbetaling:");
-		Label downpayments = new Label("" + loanOffer.getDownPayment() + " kr.");
-		Label noOfPaymentsLabel = new Label("Antal ydelser:");
-		Label noOfPayments = new Label("" + loanOffer.getNumberOfMonths());
-		Label repaymentLabel = new Label("Afdrag:");
-		Label repayment = new Label("" + loanOffer.getRepayments() + " kr.");
-		Label annualCostLabel = new Label("ÅOP:");
-		Label annualCost = new Label("" + loanOffer.getAnnualCost());
-		Button back = new Button("Tilbage");
-		Button confirm = new Button("Bekræft");
+		grid.add(prompt, 0, 0);
 		
+		GridPane customerGrid = new GridPane();
+		customerGrid.add(new Label("Kunde"), 0, 0);
+		customerGrid.add(new Label("navn:"), 0, 1);
+		customerGrid.add(new Label(customer.getName()), 1, 1);
+		customerGrid.add(new Label("tlf"), 0, 2);
+		customerGrid.add(new Label("" + customer.getPhone()), 1, 2);
+		gridPaddingSpacing(customerGrid, 10);
+		grid.add(customerGrid, 0, 1);
+//		customerGrid.setStyle("-fx-background-color: lightgray;");
+//		customerGrid.setGridLinesVisible(true);
+		
+		
+		GridPane carGrid = new GridPane();
+		carGrid.add(new Label("Bil"), 0, 0);
+		carGrid.add(new Label("Model:"), 0, 1);
+		carGrid.add(new Label(chosenCar.getModel()), 1, 1);
+		carGrid.add(new Label("Pris:"), 0, 2);
+		carGrid.add(new Label("" + chosenCar.getPrice()), 1, 2);
+		gridPaddingSpacing(carGrid, 10);
+		grid.add(carGrid, 0, 2);
+		
+		
+		GridPane salesmanGrid = new GridPane();
+		salesmanGrid.add(new Label("Sælger"), 0, 0);
+		salesmanGrid.add( new Label("Navn:"), 0, 1);
+		salesmanGrid.add(new Label(salesman.getName()), 1, 1);
+		gridPaddingSpacing(salesmanGrid, 10);
+		grid.add(salesmanGrid, 0, 3);
+
+		
+		GridPane detailsGrid = new GridPane();		
+		detailsGrid.add(new Label("Detaljer"), 0, 0);
+		detailsGrid.add(new Label("Udbetaling:"), 0, 1);
+		detailsGrid.add(new Label(loanOffer.getDownPayment() + " kr."), 1, 1);
+		detailsGrid.add(new Label("Antal ydelser:"), 0, 2);
+		detailsGrid.add(new Label("" + loanOffer.getNumberOfMonths()), 1, 2);
+		detailsGrid.add(new Label("Afdrag:"), 0, 3);
+		detailsGrid.add(new Label(loanOffer.getRepayments() + " kr."), 1, 3);
+		detailsGrid.add(new Label("ÅOP:"), 0, 4);
+		detailsGrid.add(new Label("" + loanOffer.getAnnualCost()), 1, 4);
+		gridPaddingSpacing(detailsGrid, 10);
+		grid.add(detailsGrid, 0, 4);
+		
+		Button back = new Button("Tilbage");
+		back.setAlignment(Pos.TOP_RIGHT);
+		Button confirm = new Button("Bekræft");
+		confirm.setAlignment(Pos.BASELINE_RIGHT);
+		grid.add(back, 1, 0);
+		grid.add(confirm, 1, 4);
+		
+		back.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				stage.setScene(initCreateLoan(stage));
+			}
+		});
 		
 		confirm.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -398,42 +434,8 @@ public class FFSGui extends Application implements Observer{
 					stage2.setScene(new Scene(grid2));
 					stage2.show();
 				}
-			
-				
-				
 			}
 		});
-		
-		grid.add(prompt, 0, 0, 4, 1);
-		grid.add(customerLabel, 0, 1);
-		grid.add(nameLabel, 0, 2);
-		grid.add(carLabel, 0, 3);
-		grid.add(modelLabel, 0, 4);
-		grid.add(salesmanLabel, 0, 5);
-		grid.add(salesmanNameLabel, 0, 6);
-		grid.add(details, 0, 7);
-		grid.add(downpaymentLabel, 0, 8);
-		grid.add(noOfPaymentsLabel, 0, 9);
-		grid.add(repaymentLabel, 0, 10);
-		grid.add(annualCostLabel, 0, 11);
-		
-		grid.add(name, 1, 2);
-		grid.add(model, 1, 4);
-		grid.add(salesmanName, 1, 6);
-		grid.add(downpayments, 1, 8);
-		grid.add(noOfPayments, 1, 9);
-		grid.add(repayment, 1, 10);
-		grid.add(annualCost, 1, 11);
-		
-		grid.add(phoneLabel, 2, 2);
-		grid.add(priceLabel, 2, 4);
-		
-		grid.add(phone, 3, 2);
-		grid.add(price, 3, 4);
-		
-		grid.add(back, 4, 0);
-		grid.add(confirm, 4, 11);
-		
 		
 		Scene scene = new Scene(grid);
 		return scene ;
