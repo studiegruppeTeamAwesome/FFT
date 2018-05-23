@@ -10,8 +10,9 @@ public interface DataLayer {
 	public Customer getCustomerByPhone(int Tlf);
 	public boolean InsertloanOffers(LoanOffer loanOffers);
 	public Salesman getSalesmanByName(String name);
-	Salesman getSalesmanByBoss(boolean boss);
-	ArrayList<LoanOffer> getAllloanOfferByApproved(boolean approved);
-	Salesman getSalsmanById(int id);
-	Car getCarById(int id);
+	public Salesman getSalesmanByBoss(boolean boss);
+	public ArrayList<LoanOffer> getAllloanOfferByApproved(boolean approved);
+	public Salesman getSalsmanById(int id);
+	public Car getCarById(int id);
+	public boolean updateLoanOfferById(LoanOffer loanOffer);
 }

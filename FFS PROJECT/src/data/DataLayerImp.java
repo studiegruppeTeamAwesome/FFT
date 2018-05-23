@@ -270,6 +270,44 @@ public class DataLayerImp implements DataLayer {
 			return null;
 		}
 	}
+
+	@Override
+	public boolean updateLoanOfferById(LoanOffer loanOffer) {
+		String sql = "UPDATE loanOffers " + "SET annualCost='" +loanOffer.getAnnualCost()  + "', downPayment='"
+				+ loanOffer.getDownPayment() + "', repayments=" + loanOffer.getRepayments() +"', noOfMonths= "+ loanOffer.getNumberOfMonths()
+				+"',customerPhoneWHERE =" + loanOffer.getCostumer().getPhone()+"',CarId="+loanOffer.getCar().getId()+"',SalesmanId="+
+				loanOffer.getSalesman().getId()+"where id ="+loanOffer.getId();
+		return changeOneRowInTable(sql).isSucces();
+	}
+	private SqlResult changeOneRowInTable(String sql) {
+		 
+	    SqlResult result = new SqlResult();
+	    
+	    try {
+	      /*
+	       * execute sql statement
+	       */
+	      System.out.println(sql);
+
+	      Statement statement = connection.createStatement();
+	      
+	      result.setSucces(statement.executeUpdate(sql) == 1);
+	      
+	      /*
+	       * get (possible) auto-generated key
+	       */
+	      ResultSet resultSet =
+	        statement.executeQuery("SELECT SCOPE_IDENTITY()");
+	      
+	      if (resultSet.next())
+	        result.setAutoKey(resultSet.getInt(1));
+	    }
+	    catch (SQLException e) {
+	      result.setSucces(false);
+	    }
+	    
+	    return result;
+	  }
 	
 
 }
