@@ -67,8 +67,8 @@ public class FFSController implements FacadeController {
 
 	@Override
 	public boolean approveLoan(LoanOffer loan) {
-		// TODO call method from datalayer
-		return false;
+		
+		return dataController.updateLoanOfferById(loan);
 	}
 	
 	

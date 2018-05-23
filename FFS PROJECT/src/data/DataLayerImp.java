@@ -174,7 +174,8 @@ public class DataLayerImp implements DataLayer {
 				LoanOffer l = new LoanOffer(resultSet.getInt("id"), resultSet.getDouble("annualCost"),
 						resultSet.getInt("downPayment"), resultSet.getDouble("repayments"),
 						resultSet.getInt("noOfMonths"), getCustomerByPhone(resultSet.getInt("customerPhone")),
-						getCarById(resultSet.getInt("CarId")), getSalsmanById(resultSet.getInt("SalesmanId")));
+						getCarById(resultSet.getInt("CarId")), 
+						getSalsmanById(resultSet.getInt("SalesmanId")));
 				loanOffers.add(l);
 			}
 			return loanOffers;
@@ -191,7 +192,7 @@ public class DataLayerImp implements DataLayer {
 		Salesman s = new Salesman();
 		try {
 			openConnection();
-			String sql = "select * from salesmen where salesmanName = " + id;
+			String sql = "select * from salesmen where id = " + id;
 			System.out.println(sql);
 
 			Statement statement = connection.createStatement();

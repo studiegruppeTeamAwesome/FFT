@@ -15,6 +15,18 @@ public class LoanOffer {
 	
 	public LoanOffer(int id,double annualCost, int downPayment, double repayments, int numberOfMonths,
 			Customer costumer, Car car, Salesman salesman) {
+		
+		this.id = id;
+		this.annualCost = annualCost;
+		this.downPayment = downPayment;
+		this.repayments = repayments;
+		this.numberOfMonths = numberOfMonths;
+		this.costumer = costumer;
+		this.car = car;
+		this.salesman = salesman;
+	}
+	public LoanOffer(double annualCost, int downPayment, double repayments, int numberOfMonths,
+			Customer costumer, Car car, Salesman salesman) {
 
 		this.annualCost = annualCost;
 		this.downPayment = downPayment;

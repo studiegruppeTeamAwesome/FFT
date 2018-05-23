@@ -61,15 +61,15 @@ SalesmanId int not null,
 isApproved bit not null,
 PRIMARY KEY(id));
 insert into loanOffers VALUES(5, 1000000, 50000, 120, 11111111, 1, 1, 0);
-insert into loanOffers VALUES(6, 500000, 70000, 108, 22222222, 1, 3, 0);
-insert into loanOffers VALUES(5.5 , 750000, 80000, 96, 33333333, 2, 1, 0);
-insert into loanOffers VALUES(6, 1200000, 45000, 100, 44444444, 3, 3, 0);
-insert into loanOffers VALUES(4.5, 1700000, 350000, 84, 55555555, 2, 4, 0);
-insert into loanOffers VALUES(6, 500000, 70000, 108, 66666666, 1, 4, 0);
-insert into loanOffers VALUES(3.5, 2500000, 170000, 132, 77777777, 2, 3, 0);
-insert into loanOffers VALUES(9, 500000, 70000, 144, 88888888, 3, 1, 0);
-insert into loanOffers VALUES(7.5, 110000, 80000, 108, 99999999, 3, 3, 0);
-insert into loanOffers VALUES(8, 2000000, 350000, 60, 12345678, 1, 4, 0);
+insert into loanOffers VALUES(6, 500000, 70000, 108, 34565432, 2, 3, 0);
+--insert into loanOffers VALUES(5.5 , 750000, 80000, 96, 33333333, 2, 1, 0);
+--insert into loanOffers VALUES(6, 1200000, 45000, 100, 44444444, 3, 3, 0);
+--insert into loanOffers VALUES(4.5, 1700000, 350000, 84, 55555555, 2, 4, 0);
+--insert into loanOffers VALUES(6, 500000, 70000, 108, 66666666, 1, 4, 0);
+--insert into loanOffers VALUES(3.5, 2500000, 170000, 132, 77777777, 2, 3, 0);
+--insert into loanOffers VALUES(9, 500000, 70000, 144, 88888888, 3, 1, 0);
+--insert into loanOffers VALUES(7.5, 110000, 80000, 108, 99999999, 3, 3, 0);
+--insert into loanOffers VALUES(8, 2000000, 350000, 60, 12345678, 1, 4, 0);
 
 
 select * from loanOffers;
