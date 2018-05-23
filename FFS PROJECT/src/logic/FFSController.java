@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ferrari.finances.dk.rki.Rating;
 
@@ -63,4 +64,16 @@ public class FFSController implements FacadeController {
 		
 	}
 
+	public List<LoanOffer> getUnapprovedLoans(){
+		//TODO call method from datalayer
+		return null;
+	}
+
+	@Override
+	public void approveLoan(LoanOffer loan) {
+		// TODO call method from datalayer
+		
+	}
+	
+	
 }

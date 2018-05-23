@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ferrari.finances.dk.rki.Rating;
 
@@ -24,5 +25,9 @@ public interface FacadeController {
 	public double calculateRepayments(Car car, int downPayment, double monthlyRate, int noOfMonths);
 	
 	public boolean saveLoanOffer(LoanOffer loan);
+	
+	public List<LoanOffer> getUnapprovedLoans();
+	
+	public void approveLoan(LoanOffer loan);
 	
 }
