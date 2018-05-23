@@ -1,6 +1,5 @@
 package view;
 
-
 import logic.PoorCreditRatingException;
 import logic.Car;
 import logic.Customer;
@@ -31,7 +30,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class FFSGui extends Application implements Observer{
+public class FFSGui extends Application implements Observer {
 
 	Customer customer;
 	Car chosenCar;
@@ -42,189 +41,180 @@ public class FFSGui extends Application implements Observer{
 	TextField creditTF;
 	BankThread bankThread = new BankThread();
 	RKIThread rkiThread = new RKIThread();
-	
-	
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		bankThread.addObserver(this);
 		rkiThread.addObserver(this);
 		System.out.println(System.getProperty("user.name"));
 		// TODO forbindelse med db
-//		customer = new Customer();
-//		customer.setAdress("adresse");
-//		customer.setCPR("cpr");
-//		customer.setName("navn");
-//		customer.setPhone(123);
-//		customer.setRating(Rating.D);
-		
-//		chosenCar = new Car();
-//		chosenCar.setModel("model");
-//		chosenCar.setPrice(10);
-		
-//		salesman = new Salesman();
-//		salesman.setName("Claus");
-		
+		// customer = new Customer();
+		// customer.setAdress("adresse");
+		// customer.setCPR("cpr");
+		// customer.setName("navn");
+		// customer.setPhone(123);
+		// customer.setRating(Rating.D);
+
+		// chosenCar = new Car();
+		// chosenCar.setModel("model");
+		// chosenCar.setPrice(10);
+
+		// salesman = new Salesman();
+		// salesman.setName("Claus");
+
 		stage.setScene(initStartScreen(stage));
 		stage.show();
-		
+
 	}
-	
+
 	private void gridPaddingSpacingBackground(GridPane grid, int insets, Stage stage) {
-		grid.setPadding(new Insets(insets,insets,insets,insets));
+		grid.setPadding(new Insets(insets, insets, insets, insets));
 		grid.setHgap(insets);
 		grid.setVgap(insets);
-//		stage.getIcons().add(new Image("resource/ferrari-wallpaper.jpg"));
+		// stage.getIcons().add(new Image("resource/ferrari-wallpaper.jpg"));
 
 		Image img = new Image("resource/ferrari-wallpaper.jpg");
 		BackgroundSize size = new BackgroundSize(1024, 640, true, true, false, true);
-		BackgroundImage backgroundImage = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
-				BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+		BackgroundImage backgroundImage = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
 		Background background = new Background(backgroundImage);
 		grid.setBackground(background);
-		
-		
-		
+
 	}
-	
+
 	private void gridPaddingSpacing(GridPane grid, int insets) {
-		grid.setPadding(new Insets(insets,insets,insets,insets));
+		grid.setPadding(new Insets(insets, insets, insets, insets));
 		grid.setHgap(insets);
 		grid.setVgap(insets);
-		
+
 	}
-	
+
 	private Scene initStartScreen(Stage stage) {
-		
+
 		VBox box = new VBox();
-		box.setPadding(new Insets(10,10,10,10));
+		box.setPadding(new Insets(10, 10, 10, 10));
 		box.setSpacing(10);
-		
+
 		Button newLoan = new Button("Ny låneaftale");
 		Button approveLoan = new Button("Godkend låneaftale");
 		box.getChildren().add(newLoan);
 		box.getChildren().add(approveLoan);
-		
+
 		newLoan.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				stage.setScene(initCustomerScene(stage));
 			}
 		});
-		
+
 		approveLoan.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
+
 				GridPane grid2 = new GridPane();
 				grid2.add(new Label("endnu ikke implementeret"), 0, 0);
 				gridPaddingSpacingBackground(grid2, 10, stage);
-				
+
 				Stage stage2 = new Stage();
 				stage2.setScene(new Scene(grid2));
 				stage2.show();
 			}
 		});
-		
-		Scene scene = new Scene(box); 
-		
+
+		Scene scene = new Scene(box);
+
 		return scene;
 	}
-	
+
 	private Scene initCustomerScene(Stage stage) {
 		GridPane grid = new GridPane();
-		
+
 		// mockup 1
 		GridPane lookUpCustomerGrid = initLookUpCustomer(stage);
-		
+
 		grid.add(lookUpCustomerGrid, 0, 0);
-		
+
 		Button lookUp = new Button("Slå op");
 		TextField phone = new TextField();
 		lookUpCustomerGrid.add(lookUp, 0, 3);
 		lookUpCustomerGrid.add(phone, 0, 2);
-		
-		
+
 		lookUp.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
-				// TODO this is when the customer is supposed to be initialized - 
+
+				// TODO this is when the customer is supposed to be initialized -
 				// delete the tests from start method
-				
+
 				customer = controller.getCustomerByPhone(Integer.parseInt(phone.getText()));
 				System.out.println(customer.getPhone());
 				grid.add(initCustomerInfo(stage), 0, 1);
-				
+
 				stage.sizeToScene();
 			}
 		});
-		
 
 		return new Scene(grid);
-		
+
 	}
-	
+
 	private GridPane initLookUpCustomer(Stage stage) {
-		
+
 		GridPane grid = new GridPane();
 		gridPaddingSpacingBackground(grid, 10, stage);
-		
+
 		Label prompt1 = new Label("Angiv kundeoplysninger");
 		Button back = new Button("Tilbage");
 		Label prompt2 = new Label("Kundens tlf.");
-		
-		
+
 		back.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				stage.setScene(initStartScreen(stage));
 			}
 		});
-		
+
 		grid.add(prompt1, 0, 0);
 		grid.add(back, 1, 0);
 		grid.add(prompt2, 0, 1);
-		
-		return grid ;
+
+		return grid;
 	}
-	
+
 	private GridPane initCustomerInfo(Stage stage) {
-		
+
 		GridPane grid = new GridPane();
-		
-		grid.setPadding(new Insets(10,10,10,10));
+
+		grid.setPadding(new Insets(10, 10, 10, 10));
 		grid.setHgap(10);
 		grid.setVgap(10);
-		
-		
-		Label topLabel = new Label("Kunden eksisterer i databasen" + 
-		"\n" + "Bekræft kundeoplysninger");
+
+		Label topLabel = new Label("Kunden eksisterer i databasen" + "\n" + "Bekræft kundeoplysninger");
 		Label nameLabel = new Label("Navn:");
 		Label addressLabel = new Label("Adresse");
 		Label cprLabel = new Label("cpr:");
-		
+
 		Label name = new Label(customer.getName());
 		Label address = new Label(customer.getAddress());
 		Label cpr = new Label(customer.getCPR());
-		
+
 		Button createLoan = new Button("Opret Loan");
-		
+
 		createLoan.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
-				
+
 				rkiThread.setCustomer(customer);
 				Thread runnableBankThread = new Thread(bankThread);
 				Thread runnableRkiThread = new Thread(rkiThread);
 				runnableBankThread.start();
 				runnableRkiThread.start();
-				
+
 				stage.setScene(initCreateLoan(stage));
 			}
 		});
-		
-		grid.add(topLabel, 0, 0, 2,	1);
+
+		grid.add(topLabel, 0, 0, 2, 1);
 		grid.add(nameLabel, 0, 1);
 		grid.add(addressLabel, 0, 2);
 		grid.add(cprLabel, 0, 3);
@@ -232,36 +222,36 @@ public class FFSGui extends Application implements Observer{
 		grid.add(name, 1, 1);
 		grid.add(address, 1, 2);
 		grid.add(cpr, 1, 3);
-		
+
 		return grid;
 	}
-	
+
 	private Scene initCreateLoan(Stage stage) {
-		
+
 		GridPane grid = new GridPane();
-		grid.setPadding(new Insets(10,10,10,10));
+		grid.setPadding(new Insets(10, 10, 10, 10));
 		grid.setHgap(10);
 		grid.setVgap(10);
-		
+
 		Label prompt = new Label("Opret nyt lånetilbud");
-		
+
 		ComboBox<Car> cars = new ComboBox<Car>();
-		
+
 		Label priceLabel = new Label("Pris:");
 		Label price = new Label();
 		Label downPaymentLabel = new Label("Udbetaling:");
 		TextField downPayment = new TextField();
 		Label noOfMonthsLabel = new Label("Antal måneder:");
 		TextField noOfMonths = new TextField();
-		
+
 		Button calc = new Button("Beregn");
-		
+
 		Button back = new Button("Tilbage");
 		GridPane.setHalignment(back, HPos.RIGHT);
 		Label creditLabel = new Label("Kreditværdighed");
 		creditTF = new TextField();
 		// TODO tråd
-		
+
 		Label rate = new Label("Nuværende rente");
 		rateTF = new TextField();
 		// TODO tråd
@@ -269,64 +259,61 @@ public class FFSGui extends Application implements Observer{
 		// TODO forbindelse til database
 		cars.getItems().addAll(controller.getAllCars());
 		cars.valueProperty().addListener(new ChangeListener<Car>() {
-		@Override
-		public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
-			chosenCar = chosen;
-			price.setText(chosenCar.getPrice() + "");
-		}
+			@Override
+			public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
+				chosenCar = chosen;
+				price.setText(chosenCar.getPrice() + "");
+			}
 		});
-		
+
 		calc.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
+
 				try {
-					double interestRate = controller.calculateInterestRate(customer.getRating(), Double.parseDouble(rateTF.getText()), 
-							Integer.parseInt(downPayment.getText()), Integer.parseInt(noOfMonths.getText()), chosenCar.getPrice());
+					double interestRate = controller.calculateInterestRate(customer.getRating(),
+							Double.parseDouble(rateTF.getText()), Integer.parseInt(downPayment.getText()),
+							Integer.parseInt(noOfMonths.getText()), chosenCar.getPrice());
 					System.out.println(interestRate);
-					
+
 					double monthlyRate = controller.calculateMonthlyRate(interestRate);
-					
-					double repayments = controller.calculateRepayments(chosenCar, Integer.parseInt(downPayment.getText()), monthlyRate, 
+
+					double repayments = controller.calculateRepayments(chosenCar,
+							Integer.parseInt(downPayment.getText()), monthlyRate,
 							Integer.parseInt(noOfMonths.getText()));
-					
+
 					System.out.println(monthlyRate);
-					
-					loanOffer = new LoanOffer(interestRate, Integer.parseInt(downPayment.getText()), repayments, Integer.parseInt(noOfMonths.getText()), 
-							customer, chosenCar, salesman);
-					
-					
-					
-					
+
+					loanOffer = new LoanOffer(interestRate, Integer.parseInt(downPayment.getText()), repayments,
+							Integer.parseInt(noOfMonths.getText()), customer, chosenCar, salesman);
+
 					stage.setScene(initConfirmLoan(stage));
-					
+
 				} catch (PoorCreditRatingException e) {
 					GridPane grid2 = new GridPane();
-					
+
 					// TODO getMessage metoden
 					Label label = new Label(e.getMessage());
 					label.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
 					grid2.add(label, 0, 0);
 					gridPaddingSpacingBackground(grid2, 10, stage);
 					grid2.setAlignment(Pos.CENTER);
-					
+
 					Stage stage2 = new Stage();
 					stage2.setScene(new Scene(grid2, 200, 150));
 					stage2.show();
 				}
-						
-				
+
 			}
 		});
-		
+
 		back.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				stage.setScene(initCustomerScene(stage));
 			}
 		});
-		
-		
+
 		grid.add(prompt, 0, 0, 3, 1);
 		grid.add(cars, 0, 1, 2, 1);
 		grid.add(priceLabel, 0, 2);
@@ -335,26 +322,73 @@ public class FFSGui extends Application implements Observer{
 		grid.add(downPayment, 0, 4, 2, 1);
 		grid.add(noOfMonthsLabel, 0, 5, 2, 1);
 		grid.add(noOfMonths, 0, 6, 2, 1);
-		
+
 		grid.add(calc, 2, 7);
-		
+
 		grid.add(back, 3, 0);
 		grid.add(creditLabel, 3, 3);
 		grid.add(creditTF, 3, 4);
 		grid.add(rate, 3, 5);
 		grid.add(rateTF, 3, 6);
-		
+
 		Scene scene = new Scene(grid);
-		return scene ;
+		return scene;
 	}
-	
+
 	private Scene initConfirmLoan(Stage stage) {
-		
+
 		GridPane grid = new GridPane();
 		gridPaddingSpacing(grid, 10);
 		Label prompt = new Label("Bekræft oplysninger");
 		grid.add(prompt, 0, 0);
-		
+		grid.add(initCustomerDetailsGrid(), 0, 1);
+		grid.add(initCarDetailsGrid(), 0, 2);
+		grid.add(initSalesmanDetailsGrid(), 0, 3);
+		grid.add(initLoanDetailsGrid(), 0, 4);
+
+		Button back = new Button("Tilbage");
+		back.setAlignment(Pos.TOP_RIGHT);
+		Button confirm = new Button("Bekræft");
+		grid.add(back, 1, 0);
+		grid.add(confirm, 1, 5);
+
+		back.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				stage.setScene(initCreateLoan(stage));
+			}
+		});
+
+		confirm.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (controller.saveLoanOffer(loanOffer)) {
+					GridPane grid2 = new GridPane();
+					grid2.add(new Label("lån gemt"), 0, 0);
+					// gridPaddingSpacingBackground(grid2, 10, stage);
+
+					Stage stage2 = new Stage();
+					stage2.setScene(new Scene(grid2));
+					stage.setScene(initStartScreen(stage));
+					stage2.show();
+
+				} else {
+					GridPane grid2 = new GridPane();
+					grid2.add(new Label("lån ikke gemt!"), 0, 0);
+					// gridPaddingSpacingBackground(grid2, 10, stage);
+
+					Stage stage2 = new Stage();
+					stage2.setScene(new Scene(grid2));
+					stage2.show();
+				}
+			}
+		});
+
+		Scene scene = new Scene(grid);
+		return scene;
+	}
+
+	private GridPane initCustomerDetailsGrid() {
 		GridPane customerGrid = new GridPane();
 		customerGrid.add(new Label("Kunde"), 0, 0);
 		customerGrid.add(new Label("navn:"), 0, 1);
@@ -362,11 +396,13 @@ public class FFSGui extends Application implements Observer{
 		customerGrid.add(new Label("tlf"), 0, 2);
 		customerGrid.add(new Label("" + customer.getPhone()), 1, 2);
 		gridPaddingSpacing(customerGrid, 10);
-		grid.add(customerGrid, 0, 1);
-//		customerGrid.setStyle("-fx-background-color: lightgray;");
-//		customerGrid.setGridLinesVisible(true);
-		
-		
+
+		// customerGrid.setStyle("-fx-background-color: lightgray;");
+		// customerGrid.setGridLinesVisible(true);
+		return customerGrid;
+	}
+
+	private GridPane initCarDetailsGrid() {
 		GridPane carGrid = new GridPane();
 		carGrid.add(new Label("Bil"), 0, 0);
 		carGrid.add(new Label("Model:"), 0, 1);
@@ -374,18 +410,22 @@ public class FFSGui extends Application implements Observer{
 		carGrid.add(new Label("Pris:"), 0, 2);
 		carGrid.add(new Label("" + chosenCar.getPrice()), 1, 2);
 		gridPaddingSpacing(carGrid, 10);
-		grid.add(carGrid, 0, 2);
-		
-		
+
+		return carGrid;
+	}
+
+	private GridPane initSalesmanDetailsGrid() {
 		GridPane salesmanGrid = new GridPane();
 		salesmanGrid.add(new Label("Sælger"), 0, 0);
-		salesmanGrid.add( new Label("Navn:"), 0, 1);
+		salesmanGrid.add(new Label("Navn:"), 0, 1);
 		salesmanGrid.add(new Label(salesman.getName()), 1, 1);
 		gridPaddingSpacing(salesmanGrid, 10);
-		grid.add(salesmanGrid, 0, 3);
 
-		
-		GridPane detailsGrid = new GridPane();		
+		return salesmanGrid;
+	}
+
+	private GridPane initLoanDetailsGrid() {
+		GridPane detailsGrid = new GridPane();
 		detailsGrid.add(new Label("Detaljer"), 0, 0);
 		detailsGrid.add(new Label("Udbetaling:"), 0, 1);
 		detailsGrid.add(new Label(loanOffer.getDownPayment() + " kr."), 1, 1);
@@ -396,54 +436,13 @@ public class FFSGui extends Application implements Observer{
 		detailsGrid.add(new Label("ÅOP:"), 0, 4);
 		detailsGrid.add(new Label("" + loanOffer.getAnnualCost()), 1, 4);
 		gridPaddingSpacing(detailsGrid, 10);
-		grid.add(detailsGrid, 0, 4);
-		
-		Button back = new Button("Tilbage");
-		back.setAlignment(Pos.TOP_RIGHT);
-		Button confirm = new Button("Bekræft");
-		confirm.setAlignment(Pos.BASELINE_RIGHT);
-		grid.add(back, 1, 0);
-		grid.add(confirm, 1, 4);
-		
-		back.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				stage.setScene(initCreateLoan(stage));
-			}
-		});
-		
-		confirm.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (controller.saveLoanOffer(loanOffer)) {
-					GridPane grid2 = new GridPane();
-					grid2.add(new Label("lån gemt"), 0, 0);
-					//gridPaddingSpacingBackground(grid2, 10, stage);
-					
-					Stage stage2 = new Stage();
-					stage2.setScene(new Scene(grid2));
-					stage.setScene(initStartScreen(stage));
-					stage2.show();
-					
-				} else {
-					GridPane grid2 = new GridPane();
-					grid2.add(new Label("lån ikke gemt!"), 0, 0);
-					//gridPaddingSpacingBackground(grid2, 10, stage);
-					
-					Stage stage2 = new Stage();
-					stage2.setScene(new Scene(grid2));
-					stage2.show();
-				}
-			}
-		});
-		
-		Scene scene = new Scene(grid);
-		return scene ;
+
+		return detailsGrid;
 	}
-	
+
 	@Override
 	public void update(Observable sub, Object obj) {
-		
+
 		if (sub instanceof BankThread) {
 			double rate = (double) obj;
 			// formaterer renten til 2 decimaler
@@ -451,7 +450,7 @@ public class FFSGui extends Application implements Observer{
 			formatter.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 			rateTF.setText(formatter.format(rate));
 			System.out.println("rateTF set to " + rate);
-			
+
 		} else {
 			creditTF.setText("" + customer.getRating());
 			System.out.println("Rating set to " + customer.getRating());
@@ -463,7 +462,6 @@ public class FFSGui extends Application implements Observer{
 		}
 	}
 
-	
 	public static void main(String[] args) {
 		launch(args);
 	}
