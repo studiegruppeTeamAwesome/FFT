@@ -11,7 +11,7 @@ public interface DataLayer {
 	public boolean InsertloanOffers(LoanOffer loanOffers);
 	public Salesman getSalesmanByName(String name);
 	Salesman getSalesmanByBoss(boolean boss);
-	LoanOffer getloanOfferByApproved(boolean approved);
+	ArrayList<LoanOffer> getAllloanOfferByApproved(boolean approved);
 	Salesman getSalsmanById(int id);
 	Car getCarById(int id);
 }

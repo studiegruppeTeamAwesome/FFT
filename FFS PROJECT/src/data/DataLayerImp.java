@@ -162,28 +162,28 @@ public class DataLayerImp implements DataLayer {
 	}
 
 	@Override
-	public LoanOffer getloanOfferByApproved(boolean approved) {
-
+	public ArrayList<LoanOffer> getAllloanOfferByApproved(boolean approved) {
+		ArrayList<LoanOffer> loanOffers = new ArrayList<LoanOffer>();
 		try {
 			openConnection();
 
 			String sql = "select * from loanOffers where isApproved=" + convertBooleanToByte(approved);
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
-			if (resultSet.next()) {
+		while (resultSet.next()) {
 				LoanOffer l = new LoanOffer(resultSet.getDouble("annualCost"), resultSet.getInt("downPayment"),
 						resultSet.getDouble("repayments"), resultSet.getInt("noOfMonths"),
 						getCustomerByPhone(resultSet.getInt("costumerPhone")), getCarById(resultSet.getInt("CarId")),
 						getSalsmanById(resultSet.getInt("SalesmanId")));
-				return l;
-
-			} else
-				return null;
+				loanOffers.add(l);
+				}
+		return loanOffers;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
+			
 		}
+		return loanOffers;
 	}
 
 	@Override

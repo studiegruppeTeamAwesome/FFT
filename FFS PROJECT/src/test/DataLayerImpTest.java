@@ -63,10 +63,11 @@ public class DataLayerImpTest {
 		assertEquals(salesmanName, sm.getName());
 
 	}
+
 	@Test
-	public void getLoanOfferByApprovedTest() {
+	public void getAllLoanOfferByApprovedTest() {
 		DataLayer data = new DataLayerImp();
-		LoanOffer l=data.getloanOfferByApproved(false);
+		LoanOffer l=data.getAllloanOfferByApproved(false).get(1);
 		String model="Ferrari 6754";
 
 		assertEquals(model, l.getCar().getModel());
