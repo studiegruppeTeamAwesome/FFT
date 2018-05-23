@@ -162,7 +162,7 @@ public class DataLayerImp implements DataLayer {
 	}
 
 	@Override
-	public ArrayList<LoanOffer> getAllloanOfferByApproved(boolean approved) {
+	public ArrayList<LoanOffer> getAllloanOffersByApproved(boolean approved) {
 		ArrayList<LoanOffer> loanOffers = new ArrayList<LoanOffer>();
 		try {
 			openConnection();

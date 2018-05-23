@@ -9,9 +9,13 @@ public class Calculator {
 		return currentRate + intRateFromRating(rating) + intRateFromDP(downPayment, carPrice)
 				+ intRateFromMonths(numberOfMonths);
 	}
-	
-	public double calcMontlyInterestRate(double interestRate) {
-		return ((Math.pow((1.0+(interestRate/100.0)), (1.0/12.0))) - 1)*100.0;
+
+	public double calcMonthlyInterestRate(double interestRate) {
+		return ((Math.pow((1.0 + (interestRate / 100.0)), (1.0 / 12.0))) - 1) * 100.0;
+	}
+
+	public double calcRepayments(int price, double monthlyRate, int noOfMonths) {
+		return (price * (monthlyRate / 100.0)) / (1 - Math.pow(1 + (monthlyRate / 100.0), -1 * noOfMonths));
 	}
 
 	private double intRateFromRating(Rating rating) throws PoorCreditRatingException {
@@ -22,7 +26,7 @@ public class Calculator {
 		if (rating == Rating.C)
 			return 3.0;
 		else
-			throw new PoorCreditRatingException("BAD CREDIT RATING!");
+			throw new PoorCreditRatingException("KREDITVÆRDIGHED FOR LAV!");
 	}
 
 	private double intRateFromDP(int downPayment, int carPrice) {
@@ -38,8 +42,5 @@ public class Calculator {
 		else
 			return 0;
 	}
-	
-	public double calcRepayments(int price, double monthlyRate, int noOfMonths) {
-		return (price*(monthlyRate/100.0))/(1-Math.pow(1+(monthlyRate/100.0), -1*noOfMonths));
-	}
+
 }

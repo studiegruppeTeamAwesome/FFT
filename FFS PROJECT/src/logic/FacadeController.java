@@ -28,6 +28,6 @@ public interface FacadeController {
 	
 	public List<LoanOffer> getUnapprovedLoans();
 	
-	public void approveLoan(LoanOffer loan);
+	public boolean approveLoan(LoanOffer loan);
 	
 }
