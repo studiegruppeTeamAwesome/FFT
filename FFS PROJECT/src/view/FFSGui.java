@@ -10,6 +10,7 @@ import logic.Salesman;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
@@ -82,13 +83,6 @@ public class FFSGui extends Application implements Observer {
 
 	}
 
-	private void gridPaddingSpacing(GridPane grid, int insets) {
-		grid.setPadding(new Insets(insets, insets, insets, insets));
-		grid.setHgap(insets);
-		grid.setVgap(insets);
-
-	}
-
 	private Scene initStartScreen(Stage stage) {
 
 		VBox box = new VBox();
@@ -121,9 +115,7 @@ public class FFSGui extends Application implements Observer {
 			}
 		});
 
-		Scene scene = new Scene(box);
-
-		return scene;
+		return new Scene(box);
 	}
 
 	private Scene initCustomerScene(Stage stage) {
@@ -331,8 +323,7 @@ public class FFSGui extends Application implements Observer {
 		grid.add(rate, 3, 5);
 		grid.add(rateTF, 3, 6);
 
-		Scene scene = new Scene(grid);
-		return scene;
+		return new Scene(grid);
 	}
 
 	private Scene initConfirmLoan(Stage stage) {
@@ -341,10 +332,10 @@ public class FFSGui extends Application implements Observer {
 		gridPaddingSpacing(grid, 10);
 		Label prompt = new Label("Bekræft oplysninger");
 		grid.add(prompt, 0, 0);
-		grid.add(initCustomerDetailsGrid(), 0, 1);
-		grid.add(initCarDetailsGrid(), 0, 2);
-		grid.add(initSalesmanDetailsGrid(), 0, 3);
-		grid.add(initLoanDetailsGrid(), 0, 4);
+		grid.add(initCustomerDetailsGrid(customer), 0, 1);
+		grid.add(initCarDetailsGrid(chosenCar), 0, 2);
+		grid.add(initSalesmanDetailsGrid(salesman), 0, 3);
+		grid.add(initLoanDetailsGrid(loanOffer), 0, 4);
 
 		Button back = new Button("Tilbage");
 		back.setAlignment(Pos.TOP_RIGHT);
@@ -384,11 +375,94 @@ public class FFSGui extends Application implements Observer {
 			}
 		});
 
-		Scene scene = new Scene(grid);
-		return scene;
+		return new Scene(grid);
 	}
 
-	private GridPane initCustomerDetailsGrid() {
+	private Scene initUnapprovedLoansOverview(Stage stage) {
+
+		GridPane grid = new GridPane();
+
+		Label prompt = new Label("Vælg et tilbud");
+		Button back = new Button("Tilbage");
+		grid.add(prompt, 0, 0);
+		grid.add(back, 1, 0);
+
+		GridPane loans = new GridPane();
+		ArrayList<LoanOffer> offers = new ArrayList<LoanOffer>();
+
+		for (LoanOffer lo : offers) {
+
+			HBox details = new HBox();
+			Label modelName = new Label(lo.getCar().getModel());
+			Label price = new Label("" + lo.getCar().getPrice());
+			Button pick = new Button("Se detaljer");
+
+			pick.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					// TODO event on "pick" button
+				}
+			});
+			
+			details.getChildren().add(modelName);
+			details.getChildren().add(price);
+			details.getChildren().add(pick);
+		}
+
+		
+		return new Scene(grid);
+	}
+	
+	private Scene initApproveLoan(Stage stage, LoanOffer chosenLoanOffer) {
+		
+		GridPane grid = new GridPane();
+		gridPaddingSpacing(grid, 10);
+		Label prompt = new Label("Godkend lånetilbud");
+		grid.add(prompt, 0, 0);
+		grid.add(initCustomerDetailsGrid(chosenLoanOffer.getCostumer()), 0, 1);
+		grid.add(initCarDetailsGrid(chosenLoanOffer.getCar()), 0, 2);
+		grid.add(initSalesmanDetailsGrid(chosenLoanOffer.getSalesman()), 0, 3);
+		grid.add(initLoanDetailsGrid(chosenLoanOffer), 0, 4);
+
+		Button back = new Button("Tilbage");
+		back.setAlignment(Pos.TOP_RIGHT);
+		Button approve = new Button("Godkend");
+		grid.add(back, 1, 0);
+		grid.add(approve, 1, 5);
+		
+		back.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				stage.setScene(initUnapprovedLoansOverview(stage));
+			}
+		});
+		
+		approve.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				controller.approveLoan(chosenLoanOffer);
+				
+				//TODO check if the approval went through somehow
+				GridPane grid2 = new GridPane();
+				grid2.add(new Label("lån godkent"), 0, 0);
+				gridPaddingSpacing(grid2, 10);
+
+				Stage stage2 = new Stage();
+				stage2.setScene(new Scene(grid2));
+				stage.setScene(initStartScreen(stage));
+				stage2.show();
+
+				
+				stage.setScene(initUnapprovedLoansOverview(stage));
+			}
+		});
+		
+		
+		
+		return new Scene(grid);
+	}
+	
+	private GridPane initCustomerDetailsGrid(Customer customer) {
 		GridPane customerGrid = new GridPane();
 		customerGrid.add(new Label("Kunde"), 0, 0);
 		customerGrid.add(new Label("navn:"), 0, 1);
@@ -402,19 +476,20 @@ public class FFSGui extends Application implements Observer {
 		return customerGrid;
 	}
 
-	private GridPane initCarDetailsGrid() {
+	private GridPane initCarDetailsGrid(Car car) {
 		GridPane carGrid = new GridPane();
 		carGrid.add(new Label("Bil"), 0, 0);
 		carGrid.add(new Label("Model:"), 0, 1);
-		carGrid.add(new Label(chosenCar.getModel()), 1, 1);
+		carGrid.add(new Label(car.getModel()), 1, 1);
 		carGrid.add(new Label("Pris:"), 0, 2);
-		carGrid.add(new Label("" + chosenCar.getPrice()), 1, 2);
+		carGrid.add(new Label("" + car.getPrice()), 1, 2);
 		gridPaddingSpacing(carGrid, 10);
 
 		return carGrid;
 	}
 
-	private GridPane initSalesmanDetailsGrid() {
+	
+	private GridPane initSalesmanDetailsGrid(Salesman salesman) {
 		GridPane salesmanGrid = new GridPane();
 		salesmanGrid.add(new Label("Sælger"), 0, 0);
 		salesmanGrid.add(new Label("Navn:"), 0, 1);
@@ -424,7 +499,8 @@ public class FFSGui extends Application implements Observer {
 		return salesmanGrid;
 	}
 
-	private GridPane initLoanDetailsGrid() {
+	
+	private GridPane initLoanDetailsGrid(LoanOffer loanOffer) {
 		GridPane detailsGrid = new GridPane();
 		detailsGrid.add(new Label("Detaljer"), 0, 0);
 		detailsGrid.add(new Label("Udbetaling:"), 0, 1);
@@ -438,6 +514,12 @@ public class FFSGui extends Application implements Observer {
 		gridPaddingSpacing(detailsGrid, 10);
 
 		return detailsGrid;
+	}
+
+	private void gridPaddingSpacing(GridPane grid, int insets) {
+		grid.setPadding(new Insets(insets, insets, insets, insets));
+		grid.setHgap(insets);
+		grid.setVgap(insets);
 	}
 
 	@Override
