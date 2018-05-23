@@ -25,4 +25,14 @@ public interface DataLayer {
 
 	Salesman getSalsmanById(int id);
 
+	
+	public Salesman getSalesmanByBoss(boolean boss);
+	
+	public ArrayList<LoanOffer> getAllloanOffersByApproved(boolean approved);
+	
+	public Salesman getSalsmanById(int id);
+	
+	public Car getCarById(int id);
+	
+	public boolean updateLoanOfferById(LoanOffer loanOffer);
 }

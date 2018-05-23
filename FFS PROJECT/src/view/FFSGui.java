@@ -466,10 +466,17 @@ public class FFSGui extends Application implements Observer {
 		GridPane customerGrid = new GridPane();
 		customerGrid.add(new Label("Kunde"), 0, 0);
 		customerGrid.add(new Label("navn:"), 0, 1);
-		customerGrid.add(new Label(customer.getName()), 1, 1);
+		
+		Label customerName = new Label(customer.getName());
+		customerName.setMinSize(200, 30);
+		customerGrid.add(customerName, 1, 1);
+		
 		customerGrid.add(new Label("tlf"), 0, 2);
 		customerGrid.add(new Label("" + customer.getPhone()), 1, 2);
-		gridPaddingSpacing(customerGrid, 10);
+//		gridPaddingSpacing(customerGrid, 10);
+		customerGrid.setGridLinesVisible(true);
+		
+		
 
 		// customerGrid.setStyle("-fx-background-color: lightgray;");
 		// customerGrid.setGridLinesVisible(true);
