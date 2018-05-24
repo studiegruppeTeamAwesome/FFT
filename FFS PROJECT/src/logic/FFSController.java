@@ -61,14 +61,20 @@ public class FFSController implements FacadeController {
 		
 	}
 
-	public List<LoanOffer> getUnapprovedLoans(){
-		return dataController.getAllloanOffersByApproved(false);
+	public List<LoanOffer> getLoansByApproved(boolean approved){
+		return dataController.getAllloanOffersByApproved(approved);
 	}
 
 	@Override
 	public boolean approveLoan(LoanOffer loan) {
 		
 		return dataController.updateLoanOfferById(loan);
+	}
+
+	@Override
+	public void printLoan(LoanOffer chosenLoanOffer) {
+		// TODO call methods from csv parser
+		
 	}
 	
 	

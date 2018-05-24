@@ -26,8 +26,10 @@ public interface FacadeController {
 	
 	public boolean saveLoanOffer(LoanOffer loan);
 	
-	public List<LoanOffer> getUnapprovedLoans();
+	public List<LoanOffer> getLoansByApproved(boolean approved);
 	
 	public boolean approveLoan(LoanOffer loan);
+
+	public void printLoan(LoanOffer chosenLoanOffer);
 	
 }
