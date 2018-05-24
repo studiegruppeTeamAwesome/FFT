@@ -4,35 +4,35 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class CSVWriter {
-	private BufferedWriter writer;
-	private String separator;
+	private String separator = ";";
 
-	public CSVWriter(String fileName, String separator) throws IOException {
-		writer = new BufferedWriter(new FileWriter(fileName + ".csv"));
-		this.separator = separator;
-	}
-
-	public void writeArray(Object[][] rows) throws IOException {
-		for (int i = 0; i < rows.length; i++) {
-			writeLine(rows[i]);
-		}
-	}
-
-	public void writeLine(Object[] line) throws IOException {
-		for (int i = 0; i < line.length; i++) {
-			if (i != 0)
-				writer.write(separator);
-			writer.write(line[i].toString());
-		}
+	public void exportLoan(LoanOffer loanOffer) throws IOException {
+		BufferedWriter writer = new BufferedWriter(new FileWriter("Låne Tilbud " + loanOffer.getId() + ".csv"));
+		writer.write("Kunde");
 		writer.newLine();
-	}
-
-	public void flush() throws IOException {
-		writer.flush();
-	}
-
-	public void close() throws IOException {
+		writer.write("Navn" + separator + loanOffer.getCostumer().getName());
+		writer.newLine();
+		writer.write("Tlf" + separator + loanOffer.getCostumer().getPhone());
+		writer.newLine();
+		writer.write("Bil");
+		writer.newLine();
+		writer.write("Model" + separator + loanOffer.getCar().getModel());
+		writer.newLine();
+		writer.write("Pris" + separator + loanOffer.getCar().getPrice() );
+		writer.newLine();
+		writer.write("Sælger");
+		writer.newLine();
+		writer.write("Navn" + separator + loanOffer.getSalesman().getName());
+		writer.newLine();
+		writer.write("Detaljer");
+		writer.newLine();
+		writer.write("Udbetaling" + separator + loanOffer.getDownPayment());
+		writer.newLine();
+		writer.write("Antal Ydelser" + separator + loanOffer.getNumberOfMonths());
+		writer.newLine();
+		writer.write("Afdrag" + separator + loanOffer.getRepayments());
+		writer.newLine();
+		writer.write("ÅOP" + separator + loanOffer.getAnnualCost());
 		writer.close();
 	}
-
 }
