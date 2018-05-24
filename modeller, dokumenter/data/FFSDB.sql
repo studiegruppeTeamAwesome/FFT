@@ -16,8 +16,8 @@ hasActiveLoan bit,
 PRIMARY KEY(phone)
 );
 
-insert into customers VALUES(54456754,'sara rig','kongevej 22', 7400,'0101992331', 0);
-insert into customers VALUES(34565432,'neda megetrig','gammelvej2',7400,'2003453510', 0);
+insert into customers VALUES(33333333,'sara rig','kongevej 22', 7400,'0101992331', 0);
+insert into customers VALUES(22222222,'neda megetrig','gammelvej2',7400,'0000000002', 0);
 insert into customers VALUES(11111111,'Testy McTesterson','gammelvej3', 7400 ,'0000000004', 0);
 
 CREATE TABLE city(
@@ -60,16 +60,10 @@ CarId int not null,
 SalesmanId int not null,
 isApproved bit not null,
 PRIMARY KEY(id));
-insert into loanOffers VALUES(5, 1000000, 50000, 120, 11111111, 1, 1, 0);
-insert into loanOffers VALUES(6, 500000, 70000, 108, 34565432, 2, 3, 0);
---insert into loanOffers VALUES(5.5 , 750000, 80000, 96, 33333333, 2, 1, 0);
---insert into loanOffers VALUES(6, 1200000, 45000, 100, 44444444, 3, 3, 0);
---insert into loanOffers VALUES(4.5, 1700000, 350000, 84, 55555555, 2, 4, 0);
---insert into loanOffers VALUES(6, 500000, 70000, 108, 66666666, 1, 4, 0);
---insert into loanOffers VALUES(3.5, 2500000, 170000, 132, 77777777, 2, 3, 0);
---insert into loanOffers VALUES(9, 500000, 70000, 144, 88888888, 3, 1, 0);
---insert into loanOffers VALUES(7.5, 110000, 80000, 108, 99999999, 3, 3, 0);
---insert into loanOffers VALUES(8, 2000000, 350000, 60, 12345678, 1, 4, 0);
+insert into loanOffers VALUES(10.31, 70000, 375462.78, 70, 33333333, 1, 1, 0);
+insert into loanOffers VALUES(9.31, 200000, 210399.11, 100, 11111111, 2, 1, 0);
+insert into loanOffers VALUES(11.31 , 2000000, 121503.87, 96, 22222222, 3, 1, 0);
+
 
 
 select * from loanOffers;
