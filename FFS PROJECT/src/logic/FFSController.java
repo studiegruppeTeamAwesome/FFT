@@ -1,5 +1,6 @@
 package logic;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import data.DataLayerImp;
 public class FFSController implements FacadeController {
 	DataLayerImp dataController = new DataLayerImp();
 	Calculator calculator = new Calculator();
+	CSVWriter writer = new CSVWriter();
 
 	@Override
 
@@ -56,19 +58,26 @@ public class FFSController implements FacadeController {
 
 	@Override
 	public boolean saveLoanOffer(LoanOffer loan) {
-		
 		return dataController.InsertloanOffers(loan);
-		
 	}
 
-	public List<LoanOffer> getUnapprovedLoans(){
-		return dataController.getAllloanOffersByApproved(false);
+	public List<LoanOffer> getLoansByApproved(boolean approved){
+		return dataController.getAllloanOffersByApproved(approved);
 	}
 
 	@Override
 	public boolean approveLoan(LoanOffer loan) {
-		
 		return dataController.updateLoanOfferById(loan);
+	}
+
+	@Override
+	public void printLoan(LoanOffer chosenLoanOffer) {
+		try {
+			writer.exportLoan(chosenLoanOffer);
+		} catch (IOException e) {
+			System.out.println("en fejl ved eksport til csv");
+			e.printStackTrace();
+		}
 	}
 	
 	
