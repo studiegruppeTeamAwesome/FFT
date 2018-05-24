@@ -92,8 +92,10 @@ public class FFSGui extends Application implements Observer {
 
 		Button newLoan = new Button("Ny låneaftale");
 		Button approveLoan = new Button("Godkend låneaftale");
+		Button printLoan = new Button("Print låneaftale");
 		box.getChildren().add(newLoan);
 		box.getChildren().add(approveLoan);
+		box.getChildren().add(printLoan);
 
 		newLoan.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -105,16 +107,14 @@ public class FFSGui extends Application implements Observer {
 		approveLoan.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-
-				stage.setScene(initUnapprovedLoansOverview(stage));
-
-				// GridPane grid2 = new GridPane();
-				// grid2.add(new Label("endnu ikke implementeret"), 0, 0);
-				// gridPaddingSpacingBackground(grid2, 10, stage);
-				//
-				// Stage stage2 = new Stage();
-				// stage2.setScene(new Scene(grid2));
-				// stage2.show();
+				stage.setScene(initLoansOverview(stage, false));
+			}
+		});
+		
+		printLoan.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				stage.setScene(initLoansOverview(stage, true));
 			}
 		});
 
@@ -381,7 +381,7 @@ public class FFSGui extends Application implements Observer {
 		return new Scene(grid);
 	}
 
-	private Scene initUnapprovedLoansOverview(Stage stage) {
+	private Scene initLoansOverview(Stage stage, boolean approved) {
 
 		GridPane grid = new GridPane();
 
@@ -398,7 +398,7 @@ public class FFSGui extends Application implements Observer {
 		});
 
 		VBox loans = new VBox();
-		List<LoanOffer> offers = controller.getUnapprovedLoans();
+		List<LoanOffer> offers = controller.getLoansByApproved(approved);
 
 		// System.out.println(controller.getUnapprovedLoans());
 
@@ -411,7 +411,10 @@ public class FFSGui extends Application implements Observer {
 			pick.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					stage.setScene(initApproveLoan(stage, lo));
+					if (approved) 
+						stage.setScene(initPrintLoan(stage, lo));
+					else
+						stage.setScene(initApproveLoan(stage, lo));
 				}
 			});
 
@@ -445,7 +448,7 @@ public class FFSGui extends Application implements Observer {
 		back.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				stage.setScene(initUnapprovedLoansOverview(stage));
+				stage.setScene(initLoansOverview(stage, false));
 			}
 		});
 
@@ -456,32 +459,62 @@ public class FFSGui extends Application implements Observer {
 				chosenLoanOffer.setApproved(true);
 
 				if (controller.approveLoan(chosenLoanOffer)) {
-					GridPane grid2 = new GridPane();
-					grid2.add(new Label("lån godkendt"), 0, 0);
-					gridPaddingSpacing(grid2, 10);
-
-					Stage stage2 = new Stage();
-					stage2.setScene(new Scene(grid2));
-					stage.setScene(initStartScreen(stage));
-					stage2.show();
-					stage.setScene(initUnapprovedLoansOverview(stage));
+					initPopUp("lån godkendt");
+					stage.setScene(initLoansOverview(stage, false));
 				} else {
-					GridPane grid2 = new GridPane();
-					grid2.add(new Label("lån ikke godkendt!"), 0, 0);
-					gridPaddingSpacing(grid2, 10);
-
-					Stage stage2 = new Stage();
-					stage2.setScene(new Scene(grid2));
 					stage.setScene(initStartScreen(stage));
-					stage2.show();
+					initPopUp("lån ikke godkendt!");
 				}
-
 			}
 		});
 
 		return new Scene(grid);
 	}
 
+	private Scene initPrintLoan(Stage stage, LoanOffer chosenLoanOffer) {
+		
+		GridPane grid = new GridPane();
+		gridPaddingSpacing(grid, 10);
+		Label prompt = new Label("Print lånetilbud");
+		grid.add(prompt, 0, 0);
+		grid.add(initCustomerDetailsGrid(chosenLoanOffer.getCostumer()), 0, 1);
+		grid.add(initCarDetailsGrid(chosenLoanOffer.getCar()), 0, 2);
+		grid.add(initSalesmanDetailsGrid(chosenLoanOffer.getSalesman()), 0, 3);
+		grid.add(initLoanDetailsGrid(chosenLoanOffer), 0, 4);
+
+		Button back = new Button("Tilbage");
+		back.setAlignment(Pos.TOP_RIGHT);
+		Button print = new Button("Print CSV-fil");
+		grid.add(back, 1, 0);
+		grid.add(print, 1, 5);
+		
+		back.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				stage.setScene(initLoansOverview(stage, true));
+			}
+		});
+		
+		print.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				controller.printLoan(chosenLoanOffer);
+			}
+		});
+		
+		return new Scene(grid);
+	}
+	
+	private void initPopUp(String popUpMessage) {
+		
+		GridPane grid = new GridPane();
+		grid.add(new Label(popUpMessage), 0, 0);
+		gridPaddingSpacing(grid, 10);
+		Stage popUp = new Stage();
+		popUp.setScene(new Scene(grid));
+		popUp.show();
+	}
+	
 	private GridPane initCustomerDetailsGrid(Customer customer) {
 		GridPane customerGrid = new GridPane();
 		customerGrid.add(new Label("Kunde"), 0, 0);
