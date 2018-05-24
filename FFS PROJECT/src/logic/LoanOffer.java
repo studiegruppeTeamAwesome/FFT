@@ -25,6 +25,7 @@ public class LoanOffer {
 		this.car = car;
 		this.salesman = salesman;
 	}
+	
 	public LoanOffer(double annualCost, int downPayment, double repayments, int numberOfMonths,
 			Customer costumer, Car car, Salesman salesman) {
 
@@ -36,8 +37,6 @@ public class LoanOffer {
 		this.car = car;
 		this.salesman = salesman;
 	}
-
-	
 
 	public boolean isApproved() {
 		return approved;

@@ -411,9 +411,10 @@ public class FFSGui extends Application implements Observer {
 			pick.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					if (approved) 
+					if (approved) {
 						stage.setScene(initPrintLoan(stage, lo));
-					else
+					System.out.println(lo.getCostumer());
+					}else
 						stage.setScene(initApproveLoan(stage, lo));
 				}
 			});
@@ -499,6 +500,7 @@ public class FFSGui extends Application implements Observer {
 			@Override
 			public void handle(ActionEvent event) {
 				controller.printLoan(chosenLoanOffer);
+				initPopUp("lånetilbud eksporteret til csv");
 			}
 		});
 		
