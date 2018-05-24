@@ -589,11 +589,9 @@ public class FFSGui extends Application implements Observer {
 			DecimalFormat formatter = new DecimalFormat("##.##");
 			formatter.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 			rateTF.setText(formatter.format(rate));
-			System.out.println("rateTF set to " + rate);
 
 		} else {
 			creditTF.setText("" + customer.getRating());
-			System.out.println("Rating set to " + customer.getRating());
 			// hvis kreditvurderingen er for lav, giv en advarsel til bruger
 			if (customer.getRating() == Rating.D) {
 				creditTF.setText(customer.getRating() + " - for lav!");
