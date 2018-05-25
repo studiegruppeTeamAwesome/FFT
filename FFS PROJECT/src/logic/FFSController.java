@@ -79,6 +79,11 @@ public class FFSController implements FacadeController {
 			e.printStackTrace();
 		}
 	}
+	@Override
+	public boolean updateCustomerHasOffer(boolean hasOffer) {
+		//TODO
+		return false;
+	}
 	
 	
 }

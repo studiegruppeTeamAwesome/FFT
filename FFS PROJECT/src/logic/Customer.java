@@ -12,7 +12,7 @@ public class Customer {
 	private Rating rating;
 	private boolean hasActiveOffer;
 
-	public boolean isHasActiveOffer() {
+	public boolean hasActiveOffer() {
 		return hasActiveOffer;
 	}
 

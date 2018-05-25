@@ -32,4 +32,6 @@ public interface FacadeController {
 
 	public void printLoan(LoanOffer chosenLoanOffer);
 	
+	public boolean updateCustomerHasOffer(boolean hasOffer);
+	
 }

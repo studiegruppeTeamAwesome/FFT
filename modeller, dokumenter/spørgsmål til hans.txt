@@ -1,3 +1,12 @@
 Hvad skal være på CSV filen helt præcist.
+
+
 Hvad betyder tilbagebetalingsplan, hvad skal der være på den.
-Giver CSV klassens placering god mening
+
+
+Giver CSV klassens placering god mening.
+
+
+csv-fil indeholder KUN tilbagebetalingsplan
+tilbagebetalingsplan indeholder rente pr termin, restgæld, osv.
+hans anbefaler at placere CSV parser i view?

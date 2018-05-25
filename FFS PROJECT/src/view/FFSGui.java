@@ -28,6 +28,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -75,12 +76,12 @@ public class FFSGui extends Application implements Observer {
 		grid.setVgap(insets);
 		// stage.getIcons().add(new Image("resource/ferrari-wallpaper.jpg"));
 
-		Image img = new Image("resource/ferrari-wallpaper.jpg");
-		BackgroundSize size = new BackgroundSize(1024, 640, true, true, false, true);
-		BackgroundImage backgroundImage = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT,
-				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		grid.setBackground(background);
+//		Image img = new Image("resource/ferrari-wallpaper.jpg");
+//		BackgroundSize size = new BackgroundSize(1024, 640, true, true, false, true);
+//		BackgroundImage backgroundImage = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT,
+//				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+//		Background background = new Background(backgroundImage);
+//		grid.setBackground(background);
 
 	}
 
@@ -130,17 +131,29 @@ public class FFSGui extends Application implements Observer {
 		grid.add(lookUpCustomerGrid, 0, 0);
 
 		Button lookUp = new Button("Slå op");
-		TextField phone = new TextField();
+		
+		// textfield hvor bruger kan indtaste kundes tlf. nr. - gives en 
+		// prompt for at hjælpe bruger til det rigtige format
+		TextField phone = new TextField("format: 12345678");
+		phone.setStyle("-fx-text-inner-color: gray;"); 
+		phone.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent e) {
+				phone.clear();
+				phone.setStyle("-fx-text-inner-color: black;");
+			}
+		});
+		
 		lookUpCustomerGrid.add(lookUp, 0, 3);
 		lookUpCustomerGrid.add(phone, 0, 2);
 
 		lookUp.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-
-				// TODO this is when the customer is supposed to be initialized -
-				// delete the tests from start method
-
+				
+				checkNumberField(phone, "tlf. nr.");
+				
 				customer = controller.getCustomerByPhone(Integer.parseInt(phone.getText()));
 				System.out.println(customer.getPhone());
 				grid.add(initCustomerInfo(stage), 0, 1);
@@ -166,6 +179,7 @@ public class FFSGui extends Application implements Observer {
 			@Override
 			public void handle(ActionEvent event) {
 				stage.setScene(initStartScreen(stage));
+				
 			}
 		});
 
@@ -199,6 +213,11 @@ public class FFSGui extends Application implements Observer {
 			@Override
 			public void handle(ActionEvent event) {
 
+				if (customer.hasActiveOffer()) {
+					initPopUp("kunden har allerede et aktivt lånetilbud");
+					return;
+				}
+				
 				rkiThread.setCustomer(customer);
 				Thread runnableBankThread = new Thread(bankThread);
 				Thread runnableRkiThread = new Thread(rkiThread);
@@ -245,14 +264,15 @@ public class FFSGui extends Application implements Observer {
 		GridPane.setHalignment(back, HPos.RIGHT);
 		Label creditLabel = new Label("Kreditværdighed");
 		creditTF = new TextField();
-		// TODO tråd
-
+		creditTF.setEditable(false);
+		
 		Label rate = new Label("Nuværende rente");
 		rateTF = new TextField();
-		// TODO tråd
+		rateTF.setEditable(false);
 
-		// TODO forbindelse til database
+		
 		cars.getItems().addAll(controller.getAllCars());
+		cars.setPromptText("Vælg bil");
 		cars.valueProperty().addListener(new ChangeListener<Car>() {
 			@Override
 			public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
@@ -264,7 +284,15 @@ public class FFSGui extends Application implements Observer {
 		calc.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-
+				
+				checkNumberField(downPayment, "Udbetaling");
+				checkNumberField(noOfMonths, "Antal måneder");
+				
+				if (cars.getValue() == null) {
+					initPopUp("vælg venligst en bil");
+					return;
+				}
+				
 				try {
 					double interestRate = controller.calculateInterestRate(customer.getRating(),
 							Double.parseDouble(rateTF.getText()), Integer.parseInt(downPayment.getText()),
@@ -357,24 +385,11 @@ public class FFSGui extends Application implements Observer {
 			@Override
 			public void handle(ActionEvent event) {
 				if (controller.saveLoanOffer(loanOffer)) {
-					GridPane grid2 = new GridPane();
-					grid2.add(new Label("lån gemt"), 0, 0);
-					// gridPaddingSpacingBackground(grid2, 10, stage);
-
-					Stage stage2 = new Stage();
-					stage2.setScene(new Scene(grid2));
-					stage.setScene(initStartScreen(stage));
-					stage2.show();
-
-				} else {
-					GridPane grid2 = new GridPane();
-					grid2.add(new Label("lån ikke gemt!"), 0, 0);
-					// gridPaddingSpacingBackground(grid2, 10, stage);
-
-					Stage stage2 = new Stage();
-					stage2.setScene(new Scene(grid2));
-					stage2.show();
-				}
+					customer.setHasActiveOffer(true);
+					controller.updateCustomerHasOffer(true);
+					initPopUp("Lån gemt");
+				} else 
+					initPopUp("Lån ikke gemt!");
 			}
 		});
 
@@ -580,6 +595,17 @@ public class FFSGui extends Application implements Observer {
 		grid.setVgap(insets);
 	}
 
+	private void checkNumberField(TextField tf, String tfName) {
+		
+		char[] array = tf.getText().toCharArray();
+		for (char ch: array) {
+			if (!(ch >= '0' && ch <= '9' )) {
+				tf.clear();
+				initPopUp("indtast kun tal i tekstfeltet " + tfName);
+			}
+		}
+	}
+	
 	@Override
 	public void update(Observable sub, Object obj) {
 
