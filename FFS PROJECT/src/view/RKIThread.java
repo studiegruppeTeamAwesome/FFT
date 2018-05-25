@@ -11,7 +11,7 @@ import logic.FacadeController;
 public class RKIThread extends Observable implements Runnable {
 
 	private FacadeController controller = new FFSController();
-	private Customer customer; // TODO eliminate association
+	private Customer customer;
 	
 	public void setCustomer(Customer customer) {
 		this.customer = customer;

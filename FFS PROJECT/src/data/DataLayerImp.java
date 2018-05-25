@@ -290,6 +290,22 @@ public class DataLayerImp implements DataLayer {
 		}
 	}
 
-	
+	@Override
+	public boolean updateCustomerByHasOffer(Customer customer) {
+		openConnection();
+		
+		try {
+		Statement statement = connection.createStatement();
+		String sql = "UPDATE customers SET hasActiveLoan = " + convertBooleanToByte(customer.hasActiveOffer()) 
+		+ "WHERE phone = " + customer.getPhone();
+		System.out.println(sql);
+		return statement.executeUpdate(sql) == 1;
+		
+	} catch(SQLException e) {
+		e.printStackTrace();
+		return false;
+	}
 
+	
+	}
 }

@@ -50,38 +50,9 @@ public class FFSGui extends Application implements Observer {
 		bankThread.addObserver(this);
 		rkiThread.addObserver(this);
 		System.out.println(System.getProperty("user.name"));
-		// TODO forbindelse med db
-		// customer = new Customer();
-		// customer.setAdress("adresse");
-		// customer.setCPR("cpr");
-		// customer.setName("navn");
-		// customer.setPhone(123);
-		// customer.setRating(Rating.D);
-
-		// chosenCar = new Car();
-		// chosenCar.setModel("model");
-		// chosenCar.setPrice(10);
-
-		// salesman = new Salesman();
-		// salesman.setName("Claus");
 
 		stage.setScene(initStartScreen(stage));
 		stage.show();
-
-	}
-
-	private void gridPaddingSpacingBackground(GridPane grid, int insets, Stage stage) {
-		grid.setPadding(new Insets(insets, insets, insets, insets));
-		grid.setHgap(insets);
-		grid.setVgap(insets);
-		// stage.getIcons().add(new Image("resource/ferrari-wallpaper.jpg"));
-
-//		Image img = new Image("resource/ferrari-wallpaper.jpg");
-//		BackgroundSize size = new BackgroundSize(1024, 640, true, true, false, true);
-//		BackgroundImage backgroundImage = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT,
-//				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
-//		Background background = new Background(backgroundImage);
-//		grid.setBackground(background);
 
 	}
 
@@ -93,6 +64,8 @@ public class FFSGui extends Application implements Observer {
 
 		Button newLoan = new Button("Ny låneaftale");
 		Button approveLoan = new Button("Godkend låneaftale");
+		if (!salesman.isBoss())
+			approveLoan.setDisable(true);
 		Button printLoan = new Button("Print låneaftale");
 		box.getChildren().add(newLoan);
 		box.getChildren().add(approveLoan);
@@ -169,7 +142,7 @@ public class FFSGui extends Application implements Observer {
 	private GridPane initLookUpCustomer(Stage stage) {
 
 		GridPane grid = new GridPane();
-		gridPaddingSpacingBackground(grid, 10, stage);
+		gridPaddingSpacing(grid, 10, "");
 
 		Label prompt1 = new Label("Angiv kundeoplysninger");
 		Button back = new Button("Tilbage");
@@ -214,7 +187,7 @@ public class FFSGui extends Application implements Observer {
 			public void handle(ActionEvent event) {
 
 				if (customer.hasActiveOffer()) {
-					initPopUp("kunden har allerede et aktivt lånetilbud");
+					initPopUp("kunden har allerede et aktivt lånetilbud", "-fx-text-fill: red; -fx-font-weight: bold");
 					return;
 				}
 				
@@ -289,7 +262,7 @@ public class FFSGui extends Application implements Observer {
 				checkNumberField(noOfMonths, "Antal måneder");
 				
 				if (cars.getValue() == null) {
-					initPopUp("vælg venligst en bil");
+					initPopUp("vælg venligst en bil", null);
 					return;
 				}
 				
@@ -313,18 +286,7 @@ public class FFSGui extends Application implements Observer {
 					stage.setScene(initConfirmLoan(stage));
 
 				} catch (PoorCreditRatingException e) {
-					GridPane grid2 = new GridPane();
-
-					// TODO getMessage metoden
-					Label label = new Label(e.getMessage());
-					label.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
-					grid2.add(label, 0, 0);
-					gridPaddingSpacingBackground(grid2, 10, stage);
-					grid2.setAlignment(Pos.CENTER);
-
-					Stage stage2 = new Stage();
-					stage2.setScene(new Scene(grid2, 200, 150));
-					stage2.show();
+					initPopUp(e.getMessage(), "-fx-text-fill: red; -fx-font-weight: bold");
 				}
 
 			}
@@ -360,7 +322,7 @@ public class FFSGui extends Application implements Observer {
 	private Scene initConfirmLoan(Stage stage) {
 
 		GridPane grid = new GridPane();
-		gridPaddingSpacing(grid, 10);
+		gridPaddingSpacing(grid, 10, "");
 		Label prompt = new Label("Bekræft oplysninger");
 		grid.add(prompt, 0, 0);
 		grid.add(initCustomerDetailsGrid(customer), 0, 1);
@@ -384,12 +346,15 @@ public class FFSGui extends Application implements Observer {
 		confirm.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				if (chosenCar.getPrice()<salesman.getLoanLimit()) 
+					loanOffer.setApproved(true);
+				
 				if (controller.saveLoanOffer(loanOffer)) {
 					customer.setHasActiveOffer(true);
-					controller.updateCustomerHasOffer(true);
-					initPopUp("Lån gemt");
+					controller.updateCustomerHasOffer(customer);
+					initPopUp("Lån gemt", null);
 				} else 
-					initPopUp("Lån ikke gemt!");
+					initPopUp("Lån ikke gemt!", "-fx-text-fill: red; -fx-font-weight: bold");
 			}
 		});
 
@@ -399,7 +364,8 @@ public class FFSGui extends Application implements Observer {
 	private Scene initLoansOverview(Stage stage, boolean approved) {
 
 		GridPane grid = new GridPane();
-
+		gridPaddingSpacing(grid, 10, "");
+		
 		Label prompt = new Label("Vælg et tilbud");
 		Button back = new Button("Tilbage");
 		grid.add(prompt, 0, 0);
@@ -413,14 +379,16 @@ public class FFSGui extends Application implements Observer {
 		});
 
 		VBox loans = new VBox();
+		
 		List<LoanOffer> offers = controller.getLoansByApproved(approved);
 
 		// System.out.println(controller.getUnapprovedLoans());
 
 		for (LoanOffer lo : offers) {
 			HBox details = new HBox();
-			Label modelName = new Label(lo.getCar().getModel());
-			Label price = new Label("" + lo.getCar().getPrice());
+			details.setSpacing(20);
+			Label modelName = new Label("Model: " + lo.getCar().getModel());
+			Label price = new Label("Pris: " + lo.getCar().getPrice());
 			Button pick = new Button("Se detaljer");
 
 			pick.setOnAction(new EventHandler<ActionEvent>() {
@@ -447,7 +415,7 @@ public class FFSGui extends Application implements Observer {
 	private Scene initApproveLoan(Stage stage, LoanOffer chosenLoanOffer) {
 
 		GridPane grid = new GridPane();
-		gridPaddingSpacing(grid, 10);
+		gridPaddingSpacing(grid, 10, "");
 		Label prompt = new Label("Godkend lånetilbud");
 		grid.add(prompt, 0, 0);
 		grid.add(initCustomerDetailsGrid(chosenLoanOffer.getCostumer()), 0, 1);
@@ -475,11 +443,11 @@ public class FFSGui extends Application implements Observer {
 				chosenLoanOffer.setApproved(true);
 
 				if (controller.approveLoan(chosenLoanOffer)) {
-					initPopUp("lån godkendt");
+					initPopUp("lån godkendt", null);
 					stage.setScene(initLoansOverview(stage, false));
 				} else {
 					stage.setScene(initStartScreen(stage));
-					initPopUp("lån ikke godkendt!");
+					initPopUp("lån ikke godkendt!", "-fx-text-fill: red; -fx-font-weight: bold");
 				}
 			}
 		});
@@ -490,7 +458,7 @@ public class FFSGui extends Application implements Observer {
 	private Scene initPrintLoan(Stage stage, LoanOffer chosenLoanOffer) {
 		
 		GridPane grid = new GridPane();
-		gridPaddingSpacing(grid, 10);
+		gridPaddingSpacing(grid, 10, "");
 		Label prompt = new Label("Print lånetilbud");
 		grid.add(prompt, 0, 0);
 		grid.add(initCustomerDetailsGrid(chosenLoanOffer.getCostumer()), 0, 1);
@@ -515,20 +483,27 @@ public class FFSGui extends Application implements Observer {
 			@Override
 			public void handle(ActionEvent event) {
 				controller.printLoan(chosenLoanOffer);
-				initPopUp("lånetilbud eksporteret til csv");
+				initPopUp("lånetilbud eksporteret til csv", null);
 			}
 		});
 		
 		return new Scene(grid);
 	}
 	
-	private void initPopUp(String popUpMessage) {
+	private void initPopUp(String popUpMessage, String css) {
 		
 		GridPane grid = new GridPane();
-		grid.add(new Label(popUpMessage), 0, 0);
-		gridPaddingSpacing(grid, 10);
+		Label lb = new Label(popUpMessage);
+		
+		if (!css.equals(null))
+			lb.setStyle(css);
+		
+		grid.add(lb, 0, 0);
+		gridPaddingSpacing(grid, 10, "");
 		Stage popUp = new Stage();
 		popUp.setScene(new Scene(grid));
+		
+		
 		popUp.show();
 	}
 	
@@ -543,22 +518,20 @@ public class FFSGui extends Application implements Observer {
 
 		customerGrid.add(new Label("tlf"), 0, 2);
 		customerGrid.add(new Label("" + customer.getPhone()), 1, 2);
-		// gridPaddingSpacing(customerGrid, 10);
-		customerGrid.setGridLinesVisible(true);
+		 gridPaddingSpacing(customerGrid, 10, "-fx-background-color: #c4c4c4;");
 
-		// customerGrid.setStyle("-fx-background-color: lightgray;");
-		// customerGrid.setGridLinesVisible(true);
 		return customerGrid;
 	}
 
 	private GridPane initCarDetailsGrid(Car car) {
 		GridPane carGrid = new GridPane();
+		
 		carGrid.add(new Label("Bil"), 0, 0);
 		carGrid.add(new Label("Model:"), 0, 1);
 		carGrid.add(new Label(car.getModel()), 1, 1);
 		carGrid.add(new Label("Pris:"), 0, 2);
 		carGrid.add(new Label("" + car.getPrice()), 1, 2);
-		gridPaddingSpacing(carGrid, 10);
+		gridPaddingSpacing(carGrid, 10, " -fx-background-color: #c4c4c4;");
 
 		return carGrid;
 	}
@@ -568,31 +541,41 @@ public class FFSGui extends Application implements Observer {
 		salesmanGrid.add(new Label("Sælger"), 0, 0);
 		salesmanGrid.add(new Label("Navn:"), 0, 1);
 		salesmanGrid.add(new Label(salesman.getName()), 1, 1);
-		gridPaddingSpacing(salesmanGrid, 10);
+		gridPaddingSpacing(salesmanGrid, 10, " -fx-background-color: #c4c4c4;");
 
 		return salesmanGrid;
 	}
 
 	private GridPane initLoanDetailsGrid(LoanOffer loanOffer) {
 		GridPane detailsGrid = new GridPane();
+		gridPaddingSpacing(detailsGrid, 10, " -fx-background-color: #c4c4c4;");
 		detailsGrid.add(new Label("Detaljer"), 0, 0);
 		detailsGrid.add(new Label("Udbetaling:"), 0, 1);
 		detailsGrid.add(new Label(loanOffer.getDownPayment() + " kr."), 1, 1);
 		detailsGrid.add(new Label("Antal ydelser:"), 0, 2);
 		detailsGrid.add(new Label("" + loanOffer.getNumberOfMonths()), 1, 2);
 		detailsGrid.add(new Label("Afdrag:"), 0, 3);
-		detailsGrid.add(new Label(loanOffer.getRepayments() + " kr."), 1, 3);
+		
+		// formatér feltet med afdrag så det kun viser 2 decimaler
+		DecimalFormat formatter = new DecimalFormat("##.##");
+		formatter.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+		
+		detailsGrid.add(new Label(formatter.format(loanOffer.getRepayments()) + " kr."), 1, 3);
 		detailsGrid.add(new Label("ÅOP:"), 0, 4);
 		detailsGrid.add(new Label("" + loanOffer.getAnnualCost()), 1, 4);
-		gridPaddingSpacing(detailsGrid, 10);
+		
 
 		return detailsGrid;
 	}
 
-	private void gridPaddingSpacing(GridPane grid, int insets) {
+	private void gridPaddingSpacing(GridPane grid, int insets, String css) {
 		grid.setPadding(new Insets(insets, insets, insets, insets));
 		grid.setHgap(insets);
 		grid.setVgap(insets);
+		
+		if (!css.isEmpty())
+			grid.setStyle(css);
+		
 	}
 
 	private void checkNumberField(TextField tf, String tfName) {
@@ -601,7 +584,7 @@ public class FFSGui extends Application implements Observer {
 		for (char ch: array) {
 			if (!(ch >= '0' && ch <= '9' )) {
 				tf.clear();
-				initPopUp("indtast kun tal i tekstfeltet " + tfName);
+				initPopUp("Indtast kun tal i tekstfeltet " + tfName, null);
 			}
 		}
 	}

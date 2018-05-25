@@ -80,9 +80,8 @@ public class FFSController implements FacadeController {
 		}
 	}
 	@Override
-	public boolean updateCustomerHasOffer(boolean hasOffer) {
-		//TODO
-		return false;
+	public boolean updateCustomerHasOffer(Customer customer) {
+		return dataController.updateCustomerByHasOffer(customer);
 	}
 	
 	

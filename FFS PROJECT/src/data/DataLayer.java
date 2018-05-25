@@ -21,7 +21,10 @@ public interface DataLayer {
 
 	public List<LoanOffer> getAllloanOffersByApproved(boolean approved);
 
-	Car getCarById(int id);
+	public Car getCarById(int id);
 
-	Salesman getSalsmanById(int id);
+	public Salesman getSalsmanById(int id);
+	
+	public boolean updateCustomerByHasOffer(Customer customer);
+	
 }
