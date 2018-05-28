@@ -68,17 +68,19 @@ public class Calculator {
 		
 		for (int i = 0; i<loanOffer.getNumberOfMonths(); i++) {
 			
-			// tilføj den nuværende ultimo restgæld til array
-			outDebt.add(outsDebt);
-			
 			// udregn renten pr termin i kr. (rente * primo restgæld)
 			rate.add((rateMonth/100)*outsDebt);
 			
 			// udregn afdrag pr termin uden rente (ydelse - rente pr. termin i kr.)
 			install.add(loanOffer.getRepayments()-rate.get(i));
 			
+			// tilføj den nuværende ultimo restgæld til array
+			outDebt.add(outsDebt);
+						
 			// træk afdrag fra primo restgæld og sæt det til at være ultimo restgæld
 			outsDebt = outsDebt - install.get(i);
+			
+			
 			
 		}
 		
