@@ -12,7 +12,7 @@ public class CSVWriter {
 	public void exportLoan(LoanOffer loanOffer) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter("Låne Tilbud " + loanOffer.getId() + ".csv"));
 		
-		HashMap<LoanPlanComponent, ArrayList<Double>> comps = calculator.loanPlanCalculation(loanOffer);
+		HashMap<LoanPlanComponent, ArrayList<String>> comps = calculator.loanPlanCalculation(loanOffer);
 		writer.write("Termin" + separator + "Fast Ydelse" + separator + "Rente pr. termin" + separator + "Afdrag" + separator + "Ultimo restgæld");
 		writer.newLine();
 		

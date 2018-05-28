@@ -1,5 +1,6 @@
 package logic;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,10 +47,12 @@ public class Calculator {
 			return 0;
 	}
 	
-	public HashMap<LoanPlanComponent, ArrayList<Double>> loanPlanCalculation(LoanOffer loanOffer){
+	public HashMap<LoanPlanComponent, ArrayList<String>> loanPlanCalculation(LoanOffer loanOffer){
+		
+		DecimalFormat formatter = new DecimalFormat("##.##");
 		
 		// et map over alle komponenter i tilbagebetalingsplanen
-		HashMap<LoanPlanComponent, ArrayList<Double>> comps = new HashMap<LoanPlanComponent, ArrayList<Double>>();
+		HashMap<LoanPlanComponent, ArrayList<String>> comps = new HashMap<LoanPlanComponent, ArrayList<String>>();
 		
 		// primo restgæld, startende med hovedstol
 		double outsDebt = loanOffer.getCar().getPrice() - loanOffer.getDownPayment();
@@ -57,27 +60,27 @@ public class Calculator {
 		double rateMonth = calcMonthlyInterestRate(loanOffer.getAnnualCost());
 		
 		// indeholder rente pr. termin i kr.
-		ArrayList<Double> rate = new ArrayList<Double>();
+		ArrayList<String> rate = new ArrayList<String>();
 		
 		// indeholder afdrag pr termin minus rente
-		ArrayList<Double> install = new ArrayList<Double>();
+		ArrayList<String> install = new ArrayList<String>();
 		
 		// indeholder ultimo restgæld
-		ArrayList<Double> outDebt = new ArrayList<Double>();
+		ArrayList<String> outDebt = new ArrayList<String>();
 		
 		for (int i = 0; i<loanOffer.getNumberOfMonths(); i++) {
 			
 			// tilføj den nuværende ultimo restgæld til array
-			outDebt.add(outsDebt);
+			outDebt.add(formatter.format(outsDebt));
 			
 			// udregn renten pr termin i kr. (rente * primo restgæld)
-			rate.add((rateMonth/100)*outsDebt);
+			rate.add(formatter.format((rateMonth/100)*outsDebt));
 			
 			// udregn afdrag pr termin uden rente (ydelse - rente pr. termin i kr.)
-			install.add(loanOffer.getRepayments()-rate.get(i));
+			install.add(formatter.format(loanOffer.getRepayments() - Double.parseDouble(rate.get(i))));
 			
 			// træk afdrag fra primo restgæld og sæt det til at være ultimo restgæld
-			outsDebt = outsDebt - install.get(i);
+			outsDebt = outsDebt - Double.parseDouble(install.get(i));
 			
 		}
 		
