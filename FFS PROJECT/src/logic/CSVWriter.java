@@ -2,37 +2,24 @@ package logic;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CSVWriter {
-	private String separator = ";";
+	private String sep = ";";
 
 	public void exportLoan(LoanOffer loanOffer) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter("Låne Tilbud " + loanOffer.getId() + ".csv"));
-		writer.write("Kunde");
+		
+		HashMap<LoanPlanComponent, ArrayList<Double>> comps = Calculator.loanPlanCalculation(loanOffer);
+		writer.write("Termin" + sep + "Fast Ydelse" + sep + "Rente pr. termin" + sep + "Afdrag" + sep + "Ultimo restgæld");
 		writer.newLine();
-		writer.write("Navn" + separator + loanOffer.getCostumer().getName());
-		writer.newLine();
-		writer.write("Tlf" + separator + loanOffer.getCostumer().getPhone());
-		writer.newLine();
-		writer.write("Bil");
-		writer.newLine();
-		writer.write("Model" + separator + loanOffer.getCar().getModel());
-		writer.newLine();
-		writer.write("Pris" + separator + loanOffer.getCar().getPrice() );
-		writer.newLine();
-		writer.write("Sælger");
-		writer.newLine();
-		writer.write("Navn" + separator + loanOffer.getSalesman().getName());
-		writer.newLine();
-		writer.write("Detaljer");
-		writer.newLine();
-		writer.write("Udbetaling" + separator + loanOffer.getDownPayment());
-		writer.newLine();
-		writer.write("Antal Ydelser" + separator + loanOffer.getNumberOfMonths());
-		writer.newLine();
-		writer.write("Afdrag" + separator + loanOffer.getRepayments());
-		writer.newLine();
-		writer.write("ÅOP" + separator + loanOffer.getAnnualCost());
-		writer.close();
+		
+		for (int i = 0; i < loanOffer.getNumberOfMonths(); i++) {
+			writer.write(i + sep + loanOffer.getRepayments() + sep + comps.get(LoanPlanComponent.RATE).get(i) + sep + 
+					comps.get(LoanPlanComponent.INSTALL).get(i) + sep + comps.get(LoanPlanComponent.OUT_DEBT).get(i));
+			writer.newLine();
+		}
+		
 	}
 }
