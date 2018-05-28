@@ -74,11 +74,12 @@ public class Calculator {
 			// udregn afdrag pr termin uden rente (ydelse - rente pr. termin i kr.)
 			install.add(loanOffer.getRepayments()-rate.get(i));
 			
+			// træk afdrag fra primo restgæld og sæt det til at være ultimo restgæld
+			outsDebt = outsDebt - install.get(i);
+			
 			// tilføj den nuværende ultimo restgæld til array
 			outDebt.add(outsDebt);
 						
-			// træk afdrag fra primo restgæld og sæt det til at være ultimo restgæld
-			outsDebt = outsDebt - install.get(i);
 			
 			
 			
