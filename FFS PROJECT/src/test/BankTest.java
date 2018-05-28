@@ -11,8 +11,8 @@ public class BankTest {
 	@Test
 	public void testGetCurrentRate() {
 		double fixedRate = 5.0;
-		assertEquals(5.0, InterestRateTestTool.newInterestRateMock(fixedRate).todaysRate(),0);
-		
+		assertEquals(5.0, InterestRateTestTool.newInterestRateMock(fixedRate).todaysRate(), 0);
+
 	}
 
 }

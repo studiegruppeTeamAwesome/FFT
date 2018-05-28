@@ -1,12 +1,11 @@
 package logic;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.ferrari.finances.dk.rki.Rating;
 
-public class Calculator {
+public class Calculator { // ansvar:Martin, Sofie, review:Shahnaz
 
 	public double calcInterestRate(Rating rating, double currentRate, int downPayment, int numberOfMonths, int carPrice)
 			throws PoorCreditRatingException {
@@ -46,48 +45,44 @@ public class Calculator {
 		else
 			return 0;
 	}
-	
-	public HashMap<LoanPlanComponent, ArrayList<Double>> loanPlanCalculation(LoanOffer loanOffer){
-		
+
+	public HashMap<LoanPlanComponent, ArrayList<Double>> loanPlanCalculation(LoanOffer loanOffer) {
+
 		// et map over alle komponenter i tilbagebetalingsplanen
 		HashMap<LoanPlanComponent, ArrayList<Double>> comps = new HashMap<LoanPlanComponent, ArrayList<Double>>();
-		
+
 		// primo restgæld, startende med hovedstol
 		double outsDebt = loanOffer.getCar().getPrice() - loanOffer.getDownPayment();
 		// renten pr måned regnet ud fra ÅOP
 		double rateMonth = calcMonthlyInterestRate(loanOffer.getAnnualCost());
-		
+
 		// indeholder rente pr. termin i kr.
 		ArrayList<Double> rate = new ArrayList<Double>();
-		
+
 		// indeholder afdrag pr termin minus rente
 		ArrayList<Double> install = new ArrayList<Double>();
-		
+
 		// indeholder ultimo restgæld
 		ArrayList<Double> outDebt = new ArrayList<Double>();
-		
-		for (int i = 0; i<loanOffer.getNumberOfMonths(); i++) {
-			
+
+		for (int i = 0; i < loanOffer.getNumberOfMonths(); i++) {
+
 			// udregn renten pr termin i kr. (rente * primo restgæld)
-			rate.add((rateMonth/100)*outsDebt);
-			
+			rate.add((rateMonth / 100) * outsDebt);
+
 			// udregn afdrag pr termin uden rente (ydelse - rente pr. termin i kr.)
-			install.add(loanOffer.getRepayments()-rate.get(i));
-			
+			install.add(loanOffer.getRepayments() - rate.get(i));
+
 			// træk afdrag fra primo restgæld og sæt det til at være ultimo restgæld
 			outsDebt = outsDebt - install.get(i);
-			
+
 			// tilføj den nuværende ultimo restgæld til array
 			outDebt.add(outsDebt);
-						
-			
-			
-			
 		}
-		
+
 		comps.put(LoanPlanComponent.RATE, rate);
 		comps.put(LoanPlanComponent.INSTALL, install);
-		comps.put(LoanPlanComponent.OUT_DEBT, outDebt);		
+		comps.put(LoanPlanComponent.OUT_DEBT, outDebt);
 
 		return comps;
 	}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import logic.*;
 
-public interface DataLayer {
+public interface DataLayer { // ansvar:Shahnaz review:Martin
 	public void openConnection();
 
 	public ArrayList<Car> getAllCars();
@@ -24,7 +24,7 @@ public interface DataLayer {
 	public Car getCarById(int id);
 
 	public Salesman getSalsmanById(int id);
-	
+
 	public boolean updateCustomerByHasOffer(Customer customer);
-	
+
 }

@@ -1,7 +1,5 @@
 package logic;
 
-import java.time.LocalDateTime;
-
 public class LoanOffer {
 	private int id;
 	private double annualCost;
@@ -12,10 +10,10 @@ public class LoanOffer {
 	private Car car;
 	private Salesman salesman;
 	private boolean approved;
-	
-	public LoanOffer(int id,double annualCost, int downPayment, double repayments, int numberOfMonths,
+
+	public LoanOffer(int id, double annualCost, int downPayment, double repayments, int numberOfMonths,
 			Customer costumer, Car car, Salesman salesman) {
-		
+
 		this.id = id;
 		this.annualCost = annualCost;
 		this.downPayment = downPayment;
@@ -25,9 +23,9 @@ public class LoanOffer {
 		this.car = car;
 		this.salesman = salesman;
 	}
-	
-	public LoanOffer(double annualCost, int downPayment, double repayments, int numberOfMonths,
-			Customer costumer, Car car, Salesman salesman) {
+
+	public LoanOffer(double annualCost, int downPayment, double repayments, int numberOfMonths, Customer costumer,
+			Car car, Salesman salesman) {
 
 		this.annualCost = annualCost;
 		this.downPayment = downPayment;
@@ -45,7 +43,6 @@ public class LoanOffer {
 	public void setApproved(boolean approved) {
 		this.approved = approved;
 	}
-
 
 	public int getId() {
 		return id;

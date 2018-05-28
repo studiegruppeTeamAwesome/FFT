@@ -1,6 +1,7 @@
 package logic;
 
 import com.ferrari.finances.dk.rki.CreditRator;
+
 public class RKI {
 
 	private static RKI inst = null;

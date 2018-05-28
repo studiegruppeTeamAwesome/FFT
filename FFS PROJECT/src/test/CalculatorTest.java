@@ -92,7 +92,8 @@ public class CalculatorTest {
 		assertEquals(8.0, intcalc.calcInterestRate(rate, currentRate, downPayment, numberOfMonts, carPrice), 0);
 	}
 
-	// this is to test if the downpayment is under 50% of the carprice, this one should add 1 percent to the total as it is under 50% 
+	// this is to test if the downpayment is under 50% of the carprice, this one
+	// should add 1 percent to the total as it is under 50%
 	@Test
 	public void calcInterestDownPaymentTest() throws PoorCreditRatingException {
 		Calculator intcalc = new Calculator();
@@ -104,8 +105,9 @@ public class CalculatorTest {
 
 		assertEquals(8.0, intcalc.calcInterestRate(rate, currentRate, downPayment, numberOfMonts, carPrice), 0);
 	}
-	
-	// this is to test if the downpayment is under 50% of the carprice, this one should not add to the total as it is 50% 
+
+	// this is to test if the downpayment is under 50% of the carprice, this one
+	// should not add to the total as it is 50%
 	@Test
 	public void calcInterestDownPayment2Test() throws PoorCreditRatingException {
 		Calculator intcalc = new Calculator();
@@ -117,7 +119,5 @@ public class CalculatorTest {
 
 		assertEquals(7.0, intcalc.calcInterestRate(rate, currentRate, downPayment, numberOfMonts, carPrice), 0);
 	}
-	
-	
-	
+
 }

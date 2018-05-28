@@ -7,7 +7,7 @@ public class Customer {
 	private String name;
 	private String address;
 	private int postalCode;
-	private String city;	
+	private String city;
 	private String cpr;
 	private Rating rating;
 	private boolean hasActiveOffer;

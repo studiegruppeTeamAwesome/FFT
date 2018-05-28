@@ -6,10 +6,11 @@ import logic.FFSController;
 import logic.FacadeController;
 
 public class BankThread extends Observable implements Runnable {
-
+// ansvar: alle
+	
 	private FacadeController controller = new FFSController();
 	private double currentRate;
-	
+
 	@Override
 	public void run() {
 		currentRate = controller.getCurrentRate();

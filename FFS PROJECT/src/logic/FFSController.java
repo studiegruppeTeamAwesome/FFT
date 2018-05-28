@@ -8,7 +8,7 @@ import com.ferrari.finances.dk.rki.Rating;
 
 import data.DataLayerImp;
 
-public class FFSController implements FacadeController {
+public class FFSController implements FacadeController { // ansvar:Sofie, Shahnaz review:Martin
 	DataLayerImp dataController = new DataLayerImp();
 	Calculator calculator = new Calculator();
 	CSVWriter writer = new CSVWriter();
@@ -61,7 +61,7 @@ public class FFSController implements FacadeController {
 		return dataController.InsertloanOffers(loan);
 	}
 
-	public List<LoanOffer> getLoansByApproved(boolean approved){
+	public List<LoanOffer> getLoansByApproved(boolean approved) {
 		return dataController.getAllloanOffersByApproved(approved);
 	}
 
@@ -79,10 +79,10 @@ public class FFSController implements FacadeController {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public boolean updateCustomerHasOffer(Customer customer) {
 		return dataController.updateCustomerByHasOffer(customer);
 	}
-	
-	
+
 }
