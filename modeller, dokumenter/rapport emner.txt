@@ -1,0 +1,7 @@
+Indledning
+javaFX/GUI:
+udviklings miljø:
+iterations indledning/konklussion: Sofie
+UP: Martin
+algoritme:
+Konklusion:
