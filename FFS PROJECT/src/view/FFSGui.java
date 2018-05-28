@@ -34,7 +34,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class FFSGui extends Application implements Observer {
-
+// ansvar:Sofie review:Martin, Shahnaz
+	
 	Customer customer;
 	Car chosenCar;
 	FacadeController controller = new FFSController();
@@ -189,9 +190,20 @@ public class FFSGui extends Application implements Observer {
 		Label addressLabel = new Label("Adresse");
 		Label cprLabel = new Label("cpr:");
 
-		Label name = new Label(customer.getName());
-		Label address = new Label(customer.getAddress());
-		Label cpr = new Label(customer.getCPR());
+		Label name = new Label();
+		Label address = new Label();
+		Label cpr = new Label();
+		
+		// if the entered phone number does not represent a costumer in the database, the get
+		// methods will return an exception, and the user will be alerted with a pop up message
+		try {
+		name.setText(customer.getName());
+		address.setText(customer.getAddress());
+		cpr.setText(customer.getCPR());
+		} catch(NullPointerException e) {
+			initPopUp("Kunden eksisterer ikke i databasen", "-fx-text-fill: red; -fx-font-weight: bold");
+			return null;
+		}
 
 		Button createLoan = new Button("Opret Loan");
 
@@ -199,11 +211,13 @@ public class FFSGui extends Application implements Observer {
 			@Override
 			public void handle(ActionEvent event) {
 
+				// if the customer already has a loan offer, the user shouldn't be able to create a new one
 				if (customer.hasActiveOffer()) {
 					initPopUp("kunden har allerede et aktivt lånetilbud", "-fx-text-fill: red; -fx-font-weight: bold");
 					return;
 				}
 				
+				// start the threads that gather the RKI-rating of the customer and the bank rate
 				rkiThread.setCustomer(customer);
 				Thread runnableBankThread = new Thread(bankThread);
 				Thread runnableRkiThread = new Thread(rkiThread);
@@ -226,6 +240,12 @@ public class FFSGui extends Application implements Observer {
 		return grid;
 	}
 
+	
+	
+	/**
+	 * @param stage The stage to pass when initiating a different scene
+	 * @return The scene representing mock-up 3 (UC1-3)
+	 */
 	private Scene initCreateLoan(Stage stage) {
 
 		GridPane grid = new GridPane();
@@ -236,29 +256,34 @@ public class FFSGui extends Application implements Observer {
 		Label prompt = new Label("Opret nyt lånetilbud");
 
 		ComboBox<Car> cars = new ComboBox<Car>();
-
+		cars.setPromptText("Vælg bilmodel");
+		
 		Label priceLabel = new Label("Pris:");
 		Label price = new Label();
 		Label downPaymentLabel = new Label("Udbetaling:");
 		TextField downPayment = new TextField();
 		Label noOfMonthsLabel = new Label("Antal måneder:");
 		TextField noOfMonths = new TextField();
-
-		Button calc = new Button("Beregn");
-
+		Button calculateOffer = new Button("Beregn");
 		Button back = new Button("Tilbage");
+		
 		GridPane.setHalignment(back, HPos.RIGHT);
+		
 		Label creditLabel = new Label("Kreditværdighed");
 		creditTF = new TextField();
+		creditTF.setPromptText("Indlæser...");
 		creditTF.setEditable(false);
 		
 		Label rate = new Label("Nuværende rente");
 		rateTF = new TextField();
+		rateTF.setPromptText("Indlæser...");
 		rateTF.setEditable(false);
 
-		
+		// Add the cars from the database to the drop down menu (ComboBox)
 		cars.getItems().addAll(controller.getAllCars());
 		cars.setPromptText("Vælg bil");
+		
+		// present the price of the chosen car from the drop down to the user
 		cars.valueProperty().addListener(new ChangeListener<Car>() {
 			@Override
 			public void changed(ObservableValue<? extends Car> arg0, Car previous, Car chosen) {
@@ -267,38 +292,54 @@ public class FFSGui extends Application implements Observer {
 			}
 		});
 
-		calc.setOnAction(new EventHandler<ActionEvent>() {
+		calculateOffer.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				
+				// see method for description
 				checkNumberField(downPayment, "Udbetaling");
 				checkNumberField(noOfMonths, "Antal måneder");
 				
+				// only continue if the user has chosen a car
 				if (cars.getValue() == null) {
 					initPopUp("vælg venligst en bil", "");
 					return;
 				}
 				
 				try {
-					double interestRate = controller.calculateInterestRate(customer.getRating(),
-							Double.parseDouble(rateTF.getText()), Integer.parseInt(downPayment.getText()),
-							Integer.parseInt(noOfMonths.getText()), chosenCar.getPrice());
-					System.out.println(interestRate);
+					
+					// calculate the interest rate
+					double interestRate = controller.calculateInterestRate(
+							customer.getRating(),
+							Double.parseDouble(rateTF.getText()), 
+							Integer.parseInt(downPayment.getText()),
+							Integer.parseInt(noOfMonths.getText()), 
+							chosenCar.getPrice());
 
+					// calculate the monthly rate
 					double monthlyRate = controller.calculateMonthlyRate(interestRate);
 
-					double repayments = controller.calculateRepayments(chosenCar,
-							Integer.parseInt(downPayment.getText()), monthlyRate,
+					// calculate the size of the repayments (same amount every term)
+					double repayments = controller.calculateRepayments(
+							chosenCar,
+							Integer.parseInt(downPayment.getText()), 
+							monthlyRate,
 							Integer.parseInt(noOfMonths.getText()));
-
-					System.out.println(monthlyRate);
-
-					loanOffer = new LoanOffer(interestRate, Integer.parseInt(downPayment.getText()), repayments,
-							Integer.parseInt(noOfMonths.getText()), customer, chosenCar, salesman);
+					
+					// initiate a loan offer based on the previous calculations
+					loanOffer = new LoanOffer(
+							interestRate, 
+							Integer.parseInt(downPayment.getText()), 
+							repayments,
+							Integer.parseInt(noOfMonths.getText()), 
+							customer, 
+							chosenCar, 
+							salesman);
 
 					stage.setScene(initConfirmLoan(stage));
 
 				} catch (PoorCreditRatingException e) {
+					// in case of a rating of D, present pop up message to user
 					initPopUp(e.getMessage(), "-fx-text-fill: red; -fx-font-weight: bold");
 				}
 
@@ -321,7 +362,7 @@ public class FFSGui extends Application implements Observer {
 		grid.add(noOfMonthsLabel, 0, 5, 2, 1);
 		grid.add(noOfMonths, 0, 6, 2, 1);
 
-		grid.add(calc, 2, 7);
+		grid.add(calculateOffer, 2, 7);
 
 		grid.add(back, 3, 0);
 		grid.add(creditLabel, 3, 3);
@@ -332,12 +373,18 @@ public class FFSGui extends Application implements Observer {
 		return new Scene(grid);
 	}
 
+	/**
+	 * @param stage The stage to pass when initiating a different scene
+	 * @return The scene representing mock-up 4 (UC1-3)
+	 */
 	private Scene initConfirmLoan(Stage stage) {
 
 		GridPane grid = new GridPane();
 		gridPaddingSpacing(grid, 10, "");
+		
 		Label prompt = new Label("Bekræft oplysninger");
 		grid.add(prompt, 0, 0);
+		
 		grid.add(initCustomerDetailsGrid(customer), 0, 1);
 		grid.add(initCarDetailsGrid(chosenCar), 0, 2);
 		grid.add(initSalesmanDetailsGrid(salesman), 0, 3);
@@ -359,9 +406,13 @@ public class FFSGui extends Application implements Observer {
 		confirm.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				
+				// if the price of the chosen car does not exceed the loan limit of the current user
+				// the offer should be instantly approved
 				if (chosenCar.getPrice()<salesman.getLoanLimit()) 
 					loanOffer.setApproved(true);
 				
+				// save the loan offer init pop up message based on whether the loan offer was saved successfully
 				if (controller.saveLoanOffer(loanOffer)) {
 					customer.setHasActiveOffer(true);
 					controller.updateCustomerHasOffer(customer);
@@ -374,6 +425,13 @@ public class FFSGui extends Application implements Observer {
 		return new Scene(grid);
 	}
 
+	/**
+	 * @param stage The stage to pass when initiating a different scene
+	 * @param approved true or false based on whether an overview of approved
+	 * or unapproved loans is desired
+	 * @return A scene presenting an overview of loan offers either approved
+	 * or unapproved
+	 */
 	private Scene initLoansOverview(Stage stage, boolean approved) {
 
 		GridPane grid = new GridPane();
@@ -395,8 +453,8 @@ public class FFSGui extends Application implements Observer {
 		
 		List<LoanOffer> offers = controller.getLoansByApproved(approved);
 
-		// System.out.println(controller.getUnapprovedLoans());
-
+		// for every loan offer from database add them to a HBox to allow the user to get a
+		// quick overview of the offer
 		for (LoanOffer lo : offers) {
 			HBox details = new HBox();
 			details.setSpacing(20);
@@ -407,11 +465,11 @@ public class FFSGui extends Application implements Observer {
 			pick.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					if (approved) {
+					if (approved) 
 						stage.setScene(initPrintLoan(stage, lo));
-					System.out.println(lo.getCostumer());
-					}else
+					else
 						stage.setScene(initApproveLoan(stage, lo));
+				
 				}
 			});
 
@@ -425,6 +483,13 @@ public class FFSGui extends Application implements Observer {
 		return new Scene(grid);
 	}
 
+	
+	/**
+	 * @param stage The stage to pass when initiating a different scene
+	 * @param chosenLoanOffer The stage to pass when initiating a different scene
+	 * @return A scene representing the details of the chosen loan and the ability
+	 * to approve it if desired
+	 */
 	private Scene initApproveLoan(Stage stage, LoanOffer chosenLoanOffer) {
 
 		GridPane grid = new GridPane();
@@ -455,6 +520,7 @@ public class FFSGui extends Application implements Observer {
 
 				chosenLoanOffer.setApproved(true);
 
+				// inform user if the approval went successfully through a pop up message
 				if (controller.approveLoan(chosenLoanOffer)) {
 					initPopUp("lån godkendt", "");
 					stage.setScene(initLoansOverview(stage, false));
@@ -468,6 +534,12 @@ public class FFSGui extends Application implements Observer {
 		return new Scene(grid);
 	}
 
+	/**
+	 * @param stage The stage to pass when initiating a different scene
+	 * @param chosenLoanOffer The stage to pass when initiating a different scene
+	 * @return A scene representing the details of the chosen loan and the ability
+	 * to print it to a CSV-file if desired
+	 */
 	private Scene initPrintLoan(Stage stage, LoanOffer chosenLoanOffer) {
 		
 		GridPane grid = new GridPane();
@@ -503,21 +575,20 @@ public class FFSGui extends Application implements Observer {
 		return new Scene(grid);
 	}
 	
-/**
-	 * @Param popUpMessage:
-	 * 			Message to display in the pop up window
-	 * @Param css:
-	 * 			String to set styling on the window - if no styling needed, pass empty String
+	/**
+	 * @param popUpMessage A message to presen to the user through the pop up
+	 * @param css A String to style the scene with. If no styling is needed, pass an empty String
 	 */
 	private void initPopUp(String popUpMessage, String css) {
 		
 		GridPane grid = new GridPane();
-		Label lb = new Label(popUpMessage);
+		Label message = new Label(popUpMessage);
 		
+		// only style the scene if the css parameter is not an empty String
 		if (!css.equals(""))
-			lb.setStyle(css);
+			message.setStyle(css);
 		
-		grid.add(lb, 0, 0);
+		grid.add(message, 0, 0);
 		gridPaddingSpacing(grid, 10, "");
 		Stage popUp = new Stage();
 		popUp.setScene(new Scene(grid));
@@ -526,6 +597,11 @@ public class FFSGui extends Application implements Observer {
 		popUp.show();
 	}
 	
+	
+	/**
+	 * @param customer The customer to represent the details for 
+	 * @return a GridPane presenting the customer's details to the user
+	 */
 	private GridPane initCustomerDetailsGrid(Customer customer) {
 		GridPane customerGrid = new GridPane();
 		customerGrid.add(new Label("Kunde"), 0, 0);
@@ -542,6 +618,11 @@ public class FFSGui extends Application implements Observer {
 		return customerGrid;
 	}
 
+	
+	/**
+	 * @param car The car to represent the details for 
+	 * @return a GridPane presenting the car's details to the user
+	 */
 	private GridPane initCarDetailsGrid(Car car) {
 		GridPane carGrid = new GridPane();
 		
@@ -555,6 +636,11 @@ public class FFSGui extends Application implements Observer {
 		return carGrid;
 	}
 
+	
+	/**
+	 * @param salesman The salesman to represent the details for 
+	 * @return a GridPane presenting the salesman's details to the user
+	 */
 	private GridPane initSalesmanDetailsGrid(Salesman salesman) {
 		GridPane salesmanGrid = new GridPane();
 		salesmanGrid.add(new Label("Sælger"), 0, 0);
@@ -565,6 +651,11 @@ public class FFSGui extends Application implements Observer {
 		return salesmanGrid;
 	}
 
+	
+	/**
+	 * @param loanOffer The loan offer to represent the details for 
+	 * @return a GridPane presenting the loan offer's details to the user
+	 */
 	private GridPane initLoanDetailsGrid(LoanOffer loanOffer) {
 		GridPane detailsGrid = new GridPane();
 		gridPaddingSpacing(detailsGrid, 10, " -fx-background-color: #c4c4c4;");
@@ -575,7 +666,6 @@ public class FFSGui extends Application implements Observer {
 		detailsGrid.add(new Label("" + loanOffer.getNumberOfMonths()), 1, 2);
 		detailsGrid.add(new Label("Afdrag:"), 0, 3);
 		
-		// formatér feltet med afdrag så det kun viser 2 decimaler
 		DecimalFormat formatter = new DecimalFormat("##.##");
 		formatter.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 		
@@ -615,19 +705,20 @@ public class FFSGui extends Application implements Observer {
 		}
 	}
 	
+
 	@Override
 	public void update(Observable sub, Object obj) {
 
 		if (sub instanceof BankThread) {
 			double rate = (double) obj;
-			// formaterer renten til 2 decimaler
+			// format the rate to only have two decimals
 			DecimalFormat formatter = new DecimalFormat("##.##");
 			formatter.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 			rateTF.setText(formatter.format(rate));
 
 		} else {
 			creditTF.setText("" + customer.getRating());
-			// hvis kreditvurderingen er for lav, giv en advarsel til bruger
+			// warn the user in case the credit rating is too low
 			if (customer.getRating() == Rating.D) {
 				creditTF.setText(customer.getRating() + " - for lav!");
 				creditTF.setStyle("-fx-text-fill: red;");
@@ -635,6 +726,7 @@ public class FFSGui extends Application implements Observer {
 		}
 	}
 
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
