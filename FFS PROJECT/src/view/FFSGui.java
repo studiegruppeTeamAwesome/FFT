@@ -10,6 +10,7 @@ import logic.Salesman;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
@@ -26,12 +27,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class FFSGui extends Application implements Observer {
-	// ansvar:Sofie review:Martin,Shahnaz
 
 	Customer customer;
 	Car chosenCar;
@@ -54,6 +56,11 @@ public class FFSGui extends Application implements Observer {
 
 	}
 
+	/**
+	 * @param stage The stage to pass when initiating a different scene
+	 * upon an Action (mouse click on a button)
+	 * @return The scene representing the start screen
+	 */
 	private Scene initStartScreen(Stage stage) {
 
 		VBox box = new VBox();
@@ -69,6 +76,7 @@ public class FFSGui extends Application implements Observer {
 		box.getChildren().add(approveLoan);
 		box.getChildren().add(printLoan);
 
+		// inner EventHandler class to handle mouse clicks on navigational buttons
 		newLoan.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -82,7 +90,7 @@ public class FFSGui extends Application implements Observer {
 				stage.setScene(initLoansOverview(stage, false));
 			}
 		});
-
+		
 		printLoan.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -93,6 +101,11 @@ public class FFSGui extends Application implements Observer {
 		return new Scene(box);
 	}
 
+	
+	/**
+	 * @param stage The stage to pass when initiating a different scene
+	 * @return The scene containing GridPanes representing mock-ups 1 and 2 (UC1-3)
+	 */
 	private Scene initCustomerScene(Stage stage) {
 		GridPane grid = new GridPane();
 
@@ -102,32 +115,30 @@ public class FFSGui extends Application implements Observer {
 		grid.add(lookUpCustomerGrid, 0, 0);
 
 		Button lookUp = new Button("Slå op");
-
-		// textfield hvor bruger kan indtaste kundes tlf. nr. - gives en
-		// prompt for at hjælpe bruger til det rigtige format
-		TextField phone = new TextField("format: 12345678");
-		phone.setStyle("-fx-text-inner-color: gray;");
-		phone.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent e) {
-				phone.clear();
-				phone.setStyle("-fx-text-inner-color: black;");
-			}
-		});
-
+		
+		TextField phone = new TextField();
+		phone.setPromptText("format: 12345678");
+		
 		lookUpCustomerGrid.add(lookUp, 0, 3);
 		lookUpCustomerGrid.add(phone, 0, 2);
 
+		
+		// upon click on look up button: 
 		lookUp.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-
+				
+				// see method for description
 				checkNumberField(phone, "tlf. nr.");
-
+				
+				// get the customer represented by the entered phone number from the database 
+				// (through facade controller) and assign to the instance variable customer
 				customer = controller.getCustomerByPhone(Integer.parseInt(phone.getText()));
-				grid.add(initCustomerInfo(stage), 0, 1);
+				
 
+				// add the grid presenting customer details to user and expand the stage to 
+				// accomodate the new grid
+				grid.add(initCustomerInfo(stage), 0, 1);
 				stage.sizeToScene();
 			}
 		});
@@ -136,6 +147,10 @@ public class FFSGui extends Application implements Observer {
 
 	}
 
+	/**
+	 * @param stage The stage to pass when initiating a different scene
+	 * @return The GridPane representing mock-up 1 (UC1-3)
+	 */
 	private GridPane initLookUpCustomer(Stage stage) {
 
 		GridPane grid = new GridPane();
@@ -149,7 +164,7 @@ public class FFSGui extends Application implements Observer {
 			@Override
 			public void handle(ActionEvent event) {
 				stage.setScene(initStartScreen(stage));
-
+				
 			}
 		});
 
@@ -160,13 +175,14 @@ public class FFSGui extends Application implements Observer {
 		return grid;
 	}
 
+	/**
+	 * @param stage The stage to pass when initiating a different scene
+	 * @return the GridPane representing mock-up 2 (UC1-3)
+	 */
 	private GridPane initCustomerInfo(Stage stage) {
 
 		GridPane grid = new GridPane();
-
-		grid.setPadding(new Insets(10, 10, 10, 10));
-		grid.setHgap(10);
-		grid.setVgap(10);
+		gridPaddingSpacing(grid, 10, "");
 
 		Label topLabel = new Label("Kunden eksisterer i databasen" + "\n" + "Bekræft kundeoplysninger");
 		Label nameLabel = new Label("Navn:");
@@ -187,7 +203,7 @@ public class FFSGui extends Application implements Observer {
 					initPopUp("kunden har allerede et aktivt lånetilbud", "-fx-text-fill: red; -fx-font-weight: bold");
 					return;
 				}
-
+				
 				rkiThread.setCustomer(customer);
 				Thread runnableBankThread = new Thread(bankThread);
 				Thread runnableRkiThread = new Thread(rkiThread);
@@ -235,11 +251,12 @@ public class FFSGui extends Application implements Observer {
 		Label creditLabel = new Label("Kreditværdighed");
 		creditTF = new TextField();
 		creditTF.setEditable(false);
-
+		
 		Label rate = new Label("Nuværende rente");
 		rateTF = new TextField();
 		rateTF.setEditable(false);
 
+		
 		cars.getItems().addAll(controller.getAllCars());
 		cars.setPromptText("Vælg bil");
 		cars.valueProperty().addListener(new ChangeListener<Car>() {
@@ -253,25 +270,28 @@ public class FFSGui extends Application implements Observer {
 		calc.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-
+				
 				checkNumberField(downPayment, "Udbetaling");
 				checkNumberField(noOfMonths, "Antal måneder");
-
+				
 				if (cars.getValue() == null) {
 					initPopUp("vælg venligst en bil", "");
 					return;
 				}
-
+				
 				try {
 					double interestRate = controller.calculateInterestRate(customer.getRating(),
 							Double.parseDouble(rateTF.getText()), Integer.parseInt(downPayment.getText()),
 							Integer.parseInt(noOfMonths.getText()), chosenCar.getPrice());
+					System.out.println(interestRate);
 
 					double monthlyRate = controller.calculateMonthlyRate(interestRate);
 
 					double repayments = controller.calculateRepayments(chosenCar,
 							Integer.parseInt(downPayment.getText()), monthlyRate,
 							Integer.parseInt(noOfMonths.getText()));
+
+					System.out.println(monthlyRate);
 
 					loanOffer = new LoanOffer(interestRate, Integer.parseInt(downPayment.getText()), repayments,
 							Integer.parseInt(noOfMonths.getText()), customer, chosenCar, salesman);
@@ -339,14 +359,14 @@ public class FFSGui extends Application implements Observer {
 		confirm.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				if (chosenCar.getPrice() < salesman.getLoanLimit())
+				if (chosenCar.getPrice()<salesman.getLoanLimit()) 
 					loanOffer.setApproved(true);
-
+				
 				if (controller.saveLoanOffer(loanOffer)) {
 					customer.setHasActiveOffer(true);
 					controller.updateCustomerHasOffer(customer);
 					initPopUp("Lån gemt", "");
-				} else
+				} else 
 					initPopUp("Lån ikke gemt!", "-fx-text-fill: red; -fx-font-weight: bold");
 			}
 		});
@@ -358,7 +378,7 @@ public class FFSGui extends Application implements Observer {
 
 		GridPane grid = new GridPane();
 		gridPaddingSpacing(grid, 10, "");
-
+		
 		Label prompt = new Label("Vælg et tilbud");
 		Button back = new Button("Tilbage");
 		grid.add(prompt, 0, 0);
@@ -372,7 +392,7 @@ public class FFSGui extends Application implements Observer {
 		});
 
 		VBox loans = new VBox();
-
+		
 		List<LoanOffer> offers = controller.getLoansByApproved(approved);
 
 		// System.out.println(controller.getUnapprovedLoans());
@@ -389,7 +409,8 @@ public class FFSGui extends Application implements Observer {
 				public void handle(ActionEvent event) {
 					if (approved) {
 						stage.setScene(initPrintLoan(stage, lo));
-					} else
+					System.out.println(lo.getCostumer());
+					}else
 						stage.setScene(initApproveLoan(stage, lo));
 				}
 			});
@@ -448,7 +469,7 @@ public class FFSGui extends Application implements Observer {
 	}
 
 	private Scene initPrintLoan(Stage stage, LoanOffer chosenLoanOffer) {
-
+		
 		GridPane grid = new GridPane();
 		gridPaddingSpacing(grid, 10, "");
 		Label prompt = new Label("Print lånetilbud");
@@ -463,14 +484,14 @@ public class FFSGui extends Application implements Observer {
 		Button print = new Button("Print CSV-fil");
 		grid.add(back, 1, 0);
 		grid.add(print, 1, 5);
-
+		
 		back.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				stage.setScene(initLoansOverview(stage, true));
 			}
 		});
-
+		
 		print.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -478,33 +499,33 @@ public class FFSGui extends Application implements Observer {
 				initPopUp("lånetilbud eksporteret til csv", "");
 			}
 		});
-
+		
 		return new Scene(grid);
 	}
-
 	
-	/**
+/**
 	 * @Param popUpMessage:
 	 * 			Message to display in the pop up window
 	 * @Param css:
 	 * 			String to set styling on the window - if no styling needed, pass empty String
 	 */
 	private void initPopUp(String popUpMessage, String css) {
-
+		
 		GridPane grid = new GridPane();
 		Label lb = new Label(popUpMessage);
-
+		
 		if (!css.equals(""))
 			lb.setStyle(css);
-
+		
 		grid.add(lb, 0, 0);
 		gridPaddingSpacing(grid, 10, "");
 		Stage popUp = new Stage();
 		popUp.setScene(new Scene(grid));
-
+		
+		
 		popUp.show();
 	}
-
+	
 	private GridPane initCustomerDetailsGrid(Customer customer) {
 		GridPane customerGrid = new GridPane();
 		customerGrid.add(new Label("Kunde"), 0, 0);
@@ -516,14 +537,14 @@ public class FFSGui extends Application implements Observer {
 
 		customerGrid.add(new Label("tlf"), 0, 2);
 		customerGrid.add(new Label("" + customer.getPhone()), 1, 2);
-		gridPaddingSpacing(customerGrid, 10, "-fx-background-color: #c4c4c4;");
+		 gridPaddingSpacing(customerGrid, 10, "-fx-background-color: #c4c4c4;");
 
 		return customerGrid;
 	}
 
 	private GridPane initCarDetailsGrid(Car car) {
 		GridPane carGrid = new GridPane();
-
+		
 		carGrid.add(new Label("Bil"), 0, 0);
 		carGrid.add(new Label("Model:"), 0, 1);
 		carGrid.add(new Label(car.getModel()), 1, 1);
@@ -553,14 +574,15 @@ public class FFSGui extends Application implements Observer {
 		detailsGrid.add(new Label("Antal ydelser:"), 0, 2);
 		detailsGrid.add(new Label("" + loanOffer.getNumberOfMonths()), 1, 2);
 		detailsGrid.add(new Label("Afdrag:"), 0, 3);
-
+		
 		// formatér feltet med afdrag så det kun viser 2 decimaler
 		DecimalFormat formatter = new DecimalFormat("##.##");
 		formatter.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
-
+		
 		detailsGrid.add(new Label(formatter.format(loanOffer.getRepayments()) + " kr."), 1, 3);
 		detailsGrid.add(new Label("ÅOP:"), 0, 4);
 		detailsGrid.add(new Label("" + loanOffer.getAnnualCost()), 1, 4);
+		
 
 		return detailsGrid;
 	}
@@ -569,30 +591,30 @@ public class FFSGui extends Application implements Observer {
 		grid.setPadding(new Insets(insets, insets, insets, insets));
 		grid.setHgap(insets);
 		grid.setVgap(insets);
-
+		
 		if (!css.isEmpty())
 			grid.setStyle(css);
-
+		
 	}
 
 	private void checkNumberField(TextField tf, String tfName) {
-
+		
 		char[] array = tf.getText().toCharArray();
-
-		if (array.length == 0) {
+		
+		if (array.length==0) {
 			initPopUp("Indtast venligst et telefonnummer", "");
 			return;
 		}
-
-		for (char ch : array) {
-			if (!(ch >= '0' && ch <= '9')) {
+		
+		for (char ch: array) {
+			if (!(ch >= '0' && ch <= '9' )) {
 				tf.clear();
 				initPopUp("Indtast kun tal i tekstfeltet " + tfName, "");
 				break;
 			}
 		}
 	}
-
+	
 	@Override
 	public void update(Observable sub, Object obj) {
 
