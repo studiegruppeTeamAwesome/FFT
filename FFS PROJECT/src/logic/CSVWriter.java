@@ -21,7 +21,7 @@ public class CSVWriter {
 		writer.newLine();
 		
 		for (int i = 0; i < loanOffer.getNumberOfMonths(); i++) {
-			writer.write(i + separator + 
+			writer.write((i+1) + separator + 
 					formatter.format(loanOffer.getRepayments()) + separator + 
 					formatter.format(comps.get(LoanPlanComponent.RATE).get(i)) + separator + 
 					formatter.format(comps.get(LoanPlanComponent.INSTALL).get(i)) + separator + 
