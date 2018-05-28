@@ -47,12 +47,10 @@ public class Calculator {
 			return 0;
 	}
 	
-	public HashMap<LoanPlanComponent, ArrayList<String>> loanPlanCalculation(LoanOffer loanOffer){
-		
-		DecimalFormat formatter = new DecimalFormat("##.##");
+	public HashMap<LoanPlanComponent, ArrayList<Double>> loanPlanCalculation(LoanOffer loanOffer){
 		
 		// et map over alle komponenter i tilbagebetalingsplanen
-		HashMap<LoanPlanComponent, ArrayList<String>> comps = new HashMap<LoanPlanComponent, ArrayList<String>>();
+		HashMap<LoanPlanComponent, ArrayList<Double>> comps = new HashMap<LoanPlanComponent, ArrayList<Double>>();
 		
 		// primo restgæld, startende med hovedstol
 		double outsDebt = loanOffer.getCar().getPrice() - loanOffer.getDownPayment();
@@ -60,27 +58,27 @@ public class Calculator {
 		double rateMonth = calcMonthlyInterestRate(loanOffer.getAnnualCost());
 		
 		// indeholder rente pr. termin i kr.
-		ArrayList<String> rate = new ArrayList<String>();
+		ArrayList<Double> rate = new ArrayList<Double>();
 		
 		// indeholder afdrag pr termin minus rente
-		ArrayList<String> install = new ArrayList<String>();
+		ArrayList<Double> install = new ArrayList<Double>();
 		
 		// indeholder ultimo restgæld
-		ArrayList<String> outDebt = new ArrayList<String>();
+		ArrayList<Double> outDebt = new ArrayList<Double>();
 		
 		for (int i = 0; i<loanOffer.getNumberOfMonths(); i++) {
 			
 			// tilføj den nuværende ultimo restgæld til array
-			outDebt.add(formatter.format(outsDebt));
+			outDebt.add(outsDebt);
 			
 			// udregn renten pr termin i kr. (rente * primo restgæld)
-			rate.add(formatter.format((rateMonth/100)*outsDebt));
+			rate.add((rateMonth/100)*outsDebt);
 			
 			// udregn afdrag pr termin uden rente (ydelse - rente pr. termin i kr.)
-			install.add(formatter.format(loanOffer.getRepayments() - Double.parseDouble(rate.get(i))));
+			install.add(loanOffer.getRepayments()-rate.get(i));
 			
 			// træk afdrag fra primo restgæld og sæt det til at være ultimo restgæld
-			outsDebt = outsDebt - Double.parseDouble(install.get(i));
+			outsDebt = outsDebt - install.get(i);
 			
 		}
 		
