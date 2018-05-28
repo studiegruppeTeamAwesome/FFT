@@ -262,7 +262,7 @@ public class FFSGui extends Application implements Observer {
 				checkNumberField(noOfMonths, "Antal måneder");
 				
 				if (cars.getValue() == null) {
-					initPopUp("vælg venligst en bil", null);
+					initPopUp("vælg venligst en bil", "");
 					return;
 				}
 				
@@ -352,7 +352,7 @@ public class FFSGui extends Application implements Observer {
 				if (controller.saveLoanOffer(loanOffer)) {
 					customer.setHasActiveOffer(true);
 					controller.updateCustomerHasOffer(customer);
-					initPopUp("Lån gemt", null);
+					initPopUp("Lån gemt", "");
 				} else 
 					initPopUp("Lån ikke gemt!", "-fx-text-fill: red; -fx-font-weight: bold");
 			}
@@ -443,7 +443,7 @@ public class FFSGui extends Application implements Observer {
 				chosenLoanOffer.setApproved(true);
 
 				if (controller.approveLoan(chosenLoanOffer)) {
-					initPopUp("lån godkendt", null);
+					initPopUp("lån godkendt", "");
 					stage.setScene(initLoansOverview(stage, false));
 				} else {
 					stage.setScene(initStartScreen(stage));
@@ -483,7 +483,7 @@ public class FFSGui extends Application implements Observer {
 			@Override
 			public void handle(ActionEvent event) {
 				controller.printLoan(chosenLoanOffer);
-				initPopUp("lånetilbud eksporteret til csv", null);
+				initPopUp("lånetilbud eksporteret til csv", "");
 			}
 		});
 		
@@ -495,7 +495,7 @@ public class FFSGui extends Application implements Observer {
 		GridPane grid = new GridPane();
 		Label lb = new Label(popUpMessage);
 		
-		if (!css.equals(null))
+		if (!css.equals(""))
 			lb.setStyle(css);
 		
 		grid.add(lb, 0, 0);
@@ -581,10 +581,17 @@ public class FFSGui extends Application implements Observer {
 	private void checkNumberField(TextField tf, String tfName) {
 		
 		char[] array = tf.getText().toCharArray();
+		
+		if (array.length==0) {
+			initPopUp("Indtast venligst et telefonnummer", "");
+			return;
+		}
+		
 		for (char ch: array) {
 			if (!(ch >= '0' && ch <= '9' )) {
 				tf.clear();
-				initPopUp("Indtast kun tal i tekstfeltet " + tfName, null);
+				initPopUp("Indtast kun tal i tekstfeltet " + tfName, "");
+				break;
 			}
 		}
 	}
