@@ -605,13 +605,13 @@ public class FFSGui extends Application implements Observer {
 	private GridPane initCustomerDetailsGrid(Customer customer) {
 		GridPane customerGrid = new GridPane();
 		customerGrid.add(new Label("Kunde"), 0, 0);
-		customerGrid.add(new Label("navn:"), 0, 1);
+		customerGrid.add(new Label("Navn:"), 0, 1);
 
 		Label customerName = new Label(customer.getName());
 		customerName.setMinSize(200, 30);
 		customerGrid.add(customerName, 1, 1);
 
-		customerGrid.add(new Label("tlf"), 0, 2);
+		customerGrid.add(new Label("Tlf:"), 0, 2);
 		customerGrid.add(new Label("" + customer.getPhone()), 1, 2);
 		 gridPaddingSpacing(customerGrid, 10, "-fx-background-color: #c4c4c4;");
 
@@ -677,22 +677,38 @@ public class FFSGui extends Application implements Observer {
 		return detailsGrid;
 	}
 
+	
+	/**
+	 * 
+	 * @param grid The grid that needs styling
+	 * @param insets The insets value desired for padding the grid
+	 * @param css The String used to style the grid. If no styling is needed, pass an empty String
+	 */
 	private void gridPaddingSpacing(GridPane grid, int insets, String css) {
 		grid.setPadding(new Insets(insets, insets, insets, insets));
 		grid.setHgap(insets);
 		grid.setVgap(insets);
 		
+		// only style if the css String isn't empty
 		if (!css.isEmpty())
 			grid.setStyle(css);
 		
 	}
 
+	/**
+	 * The method is used to make sure a TextField only allows numbers, and informs the user in case 
+	 * an illegal String has been entered.
+	 * 
+	 * @param tf A TextField that the user should only be able to write numbers in
+	 * @param tfName A String representing the TextField, used to inform the user which TextField
+	 * rises issues
+	 */
 	private void checkNumberField(TextField tf, String tfName) {
 		
 		char[] array = tf.getText().toCharArray();
 		
 		if (array.length==0) {
-			initPopUp("Indtast venligst et telefonnummer", "");
+			initPopUp("Udfyld venligst tekstfeltet " + tfName + " først", "");
 			return;
 		}
 		
