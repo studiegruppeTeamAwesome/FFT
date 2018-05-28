@@ -45,7 +45,7 @@ PRIMARY KEY(id));
 
 insert into Salesmen VALUES ('sara',0, 12000000);
 insert into Salesmen VALUES ('martin',1, 1000000000);
-insert into Salesmen VALUES ('bloms',0, 18000000 );
+insert into Salesmen VALUES ('bloms',1, 18000000 );
 insert into Salesmen VALUES ('Shahnaz Yahyavi',0, 18000000 );
 
 
