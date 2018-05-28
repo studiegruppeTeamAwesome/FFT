@@ -1,6 +1,4 @@
-/com/
-/data/
-/logic/
-/resource/
-/test/
 /view/
+/logic/
+/test/
+/data/

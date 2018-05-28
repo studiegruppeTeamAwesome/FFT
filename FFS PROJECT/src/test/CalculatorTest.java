@@ -11,6 +11,8 @@ import logic.Calculator;
 
 public class CalculatorTest {
 
+	
+	
 	// first of 4 test to test if calculations are correct based on rating.
 	@Test
 	public void calcInterestRatingATest() throws PoorCreditRatingException {
@@ -117,6 +119,25 @@ public class CalculatorTest {
 
 		assertEquals(7.0, intcalc.calcInterestRate(rate, currentRate, downPayment, numberOfMonts, carPrice), 0);
 	}
+	// testing the method to convert a yearly rate to a monthly rate
+	@Test
+	public void calcMonthlyInterestRateTest() {
+		Calculator intcalc = new Calculator();
+		double currentRate = 5.0;
+		
+		assertEquals(0.407, intcalc.calcMonthlyInterestRate(currentRate), 0.01);
+	}
+	//testing the monthly repayments
+	@Test
+	public void calcRepaymentsTest() {
+		Calculator intcalc = new Calculator();
+		int amount = 8000000;
+		int noOfMonths = 120;
+		double monthlyRate = 0.407;
+		
+		assertEquals(84399.54, intcalc.calcRepayments(amount, monthlyRate, noOfMonths), 0.1);
+	}
+	
 	
 	
 	
