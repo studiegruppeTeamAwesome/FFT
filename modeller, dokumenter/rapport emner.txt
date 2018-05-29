@@ -1,7 +1,7 @@
 Indledning
 javaFX/GUI:
-udviklings miljø:
+udviklings miljø:Martin
 iterations indledning/konklussion: Sofie
-UP: Martin
+
 algoritme:
 Konklusion:
