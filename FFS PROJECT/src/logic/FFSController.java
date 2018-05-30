@@ -6,23 +6,25 @@ import java.util.List;
 
 import com.ferrari.finances.dk.rki.Rating;
 
-import data.DataLayerImp;
+import data.DataLayer;
 
 public class FFSController implements FacadeController { // ansvar:Sofie, Shahnaz review:Martin
-	DataLayerImp dataController = new DataLayerImp();
+	DataLayer dataController = new DataLayer();
 	Calculator calculator = new Calculator();
 	CSVWriter writer = new CSVWriter();
 
 	@Override
 
 	public double getCurrentRate() {
-		return Bank.instance().getCurrentRate();
+		Bank bank = new Bank();
+		return bank.getCurrentRate();
 	}
 
 	@Override
 
 	public void setCreditRating(Customer customer) {
-		RKI.instance().setCreditRating(customer);
+		RKI rki = new RKI();
+		rki.setCreditRating(customer);
 	}
 
 	@Override

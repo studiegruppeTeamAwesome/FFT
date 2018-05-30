@@ -9,7 +9,7 @@ import com.ferrari.finances.dk.rki.Rating;
 import logic.PoorCreditRatingException;
 import logic.Calculator;
 
-public class CalculatorTest {
+public class CalculatorTest {//ansvar:Martin review Shahnaz
 
 	// first of 4 test to test if calculations are correct based on rating.
 	@Test

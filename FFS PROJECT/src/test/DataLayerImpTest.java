@@ -7,17 +7,17 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import data.DataLayer;
-import data.DataLayerImp;
+import data.DataLayer;
 import logic.Car;
 import logic.Customer;
 import logic.LoanOffer;
 import logic.Salesman;
 
-public class DataLayerImpTest {
+public class DataLayerImpTest {//ansvar:Shahnaz review Martin
 
 	@Test
 	public void getCustomerByPhoneTest() {
-		DataLayer data = new DataLayerImp();
+		DataLayer data = new DataLayer();
 		Customer customer;
 		int phoneNumber = 11111111;
 		customer = data.getCustomerByPhone(phoneNumber);
@@ -27,7 +27,7 @@ public class DataLayerImpTest {
 
 	@Test
 	public void getSalesmanByNameTest() {
-		DataLayer data = new DataLayerImp();
+		DataLayer data = new DataLayer();
 		Salesman sm;
 		String salesmanName = "martin";
 		sm = data.getSalesmanByName(salesmanName);
@@ -38,7 +38,7 @@ public class DataLayerImpTest {
 
 	@Test
 	public void getAllCarsTest() {
-		DataLayer data = new DataLayerImp();
+		DataLayer data = new DataLayer();
 		ArrayList<Car> cars = data.getAllCars();
 		Car car = new Car();
 		car.setModel("Ferrari 6754");
@@ -47,7 +47,7 @@ public class DataLayerImpTest {
 
 	@Test
 	public void getCarByIDTest() {
-		DataLayer data = new DataLayerImp();
+		DataLayer data = new DataLayer();
 		Car car;
 		car = data.getCarById(1);
 		assertEquals(1, car.getId());
@@ -56,7 +56,7 @@ public class DataLayerImpTest {
 
 	@Test
 	public void getSalsmanByIDTest() {
-		DataLayer data = new DataLayerImp();
+		DataLayer data = new DataLayer();
 		Salesman sm;
 		String salesmanName = "martin";
 		sm = data.getSalesmanByName(salesmanName);
@@ -67,7 +67,7 @@ public class DataLayerImpTest {
 
 	@Test
 	public void getAllLoanOfferByApprovedTest() {
-		DataLayer data = new DataLayerImp();
+		DataLayer data = new DataLayer();
 		LoanOffer l = data.getAllloanOffersByApproved(false).get(1);
 		String model = "Ferrari 6754";
 		System.out.println(l.getId());
@@ -78,7 +78,7 @@ public class DataLayerImpTest {
 
 	@Test
 	public void getSalsmanByBossTest() {
-		DataLayer data = new DataLayerImp();
+		DataLayer data = new DataLayer();
 		Salesman sm;
 		sm = data.getSalesmanByBoss(true);
 		assertEquals(true, sm.isBoss());
@@ -87,7 +87,7 @@ public class DataLayerImpTest {
 
 	@Test
 	public void InsertloanOffersTest() {
-		DataLayer data = new DataLayerImp();
+		DataLayer data = new DataLayer();
 		Customer c = data.getCustomerByPhone(11111111);
 		Salesman s = data.getSalesmanByName("bloms");
 		LoanOffer l = new LoanOffer(1, 1000.0, 10000, 2000, 10, c, data.getCarById(1), s);
@@ -98,7 +98,7 @@ public class DataLayerImpTest {
 
 	@Test
 	public void updateLoanOfferByIdTest() {
-		DataLayer data = new DataLayerImp();
+		DataLayer data = new DataLayer();
 
 		LoanOffer l = data.getAllloanOffersByApproved(false).get(0);
 		l.setApproved(true);

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.ferrari.finances.dk.bank.developertools.InterestRateTestTool;
 
-public class BankTest {
+public class BankTest { //ansvar:Martin review Shahnaz
 
 	@Test
 	public void testGetCurrentRate() {

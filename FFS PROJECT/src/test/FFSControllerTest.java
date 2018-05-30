@@ -10,7 +10,7 @@ import logic.FFSController;
 import logic.FacadeController;
 import logic.PoorCreditRatingException;
 
-public class FFSControllerTest {
+public class FFSControllerTest { //ansvar:Martin review Shahnaz
 
 	@Test
 	public void calcInterestRatingATest() throws PoorCreditRatingException {
