@@ -249,9 +249,7 @@ public class FFSGui extends Application implements Observer {
 	private Scene initCreateLoan(Stage stage) {
 
 		GridPane grid = new GridPane();
-		grid.setPadding(new Insets(10, 10, 10, 10));
-		grid.setHgap(10);
-		grid.setVgap(10);
+		gridPaddingSpacing(grid, 10, "");
 
 		Label prompt = new Label("Opret nyt lånetilbud");
 
