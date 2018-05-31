@@ -14,9 +14,7 @@ import logic.*;
 public class DataLayer { // ansvar:Shahnaz review:Martin
 	private static DataLayer inst = null;
 	private Connection connection;
-	private DataLayer() {
-		openConnection();
-	}
+	
 	
 	public static DataLayer instance() {
 		if (inst == null)
@@ -25,7 +23,9 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 		return inst;
 	}
 
-	
+	private DataLayer() {
+		openConnection();
+	}
 
 	private void openConnection() {
 		try {
