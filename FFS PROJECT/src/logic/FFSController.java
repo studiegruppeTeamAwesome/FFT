@@ -9,7 +9,7 @@ import com.ferrari.finances.dk.rki.Rating;
 import data.DataLayer;
 
 public class FFSController implements FacadeController { // ansvar:Sofie, Shahnaz review:Martin
-	DataLayer dataController = new DataLayer();
+	DataLayer dataController = DataLayer.instance();
 	Calculator calculator = new Calculator();
 	CSVWriter writer = new CSVWriter();
 

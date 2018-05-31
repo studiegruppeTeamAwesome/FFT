@@ -12,10 +12,22 @@ import java.util.List;
 import logic.*;
 
 public class DataLayer { // ansvar:Shahnaz review:Martin
-
+	private static DataLayer inst = null;
 	private Connection connection;
+	private DataLayer() {
+		openConnection();
+	}
+	
+	public static DataLayer instance() {
+		if (inst == null)
+			inst = new DataLayer();
+		
+		return inst;
+	}
 
-	public void openConnection() {
+	
+
+	private void openConnection() {
 		try {
 			System.out.println("Loading JDBC Driver...");
 
@@ -49,13 +61,26 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 		}
 	}
 
+	private void closeStatement(Statement statement) {
+		try {
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private byte convertBooleanToByte(boolean b) {
+		if (b)
+			return 1;
+		else
+			return 0;
+	}
 	
 	public ArrayList<Car> getAllCars() {
-
+		Statement statement = null;
 		ArrayList<Car> cars = new ArrayList<Car>();
 		try {
-			openConnection();
-			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
 
 			String sql = "SELECT * FROM cars ";
 
@@ -75,6 +100,8 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			closeStatement(statement);
 		}
 
 		return cars;
@@ -83,11 +110,11 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 	
 	public Customer getCustomerByPhone(int phone) {
 		Customer c = new Customer();
+		Statement statement = null;
 		try {
-			openConnection();
 			String sql = "select * from customers where phone = " + phone;
 
-			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
@@ -103,16 +130,18 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 				return null;
 		} catch (SQLException e) {
 			return null;
+		}finally {
+			closeStatement(statement);
 		}
 	}
 
 	
 	public boolean InsertloanOffers(LoanOffer loanOffers) {
+		PreparedStatement statement = null;
 		try {
-			openConnection();
 			String sql = "INSERT INTO loanOffers VALUES (?,?,?,?,?,?,?,?)";
 
-			PreparedStatement statement = connection.prepareStatement(sql);
+			statement = connection.prepareStatement(sql);
 
 			statement.setDouble(1, loanOffers.getAnnualCost());
 			statement.setInt(2, loanOffers.getDownPayment());
@@ -126,6 +155,8 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 
 		} catch (SQLException e) {
 			return false;
+		}finally {
+			closeStatement(statement);
 		}
 
 	}
@@ -133,11 +164,11 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 	
 	public Salesman getSalesmanByName(String name) {
 		Salesman s = new Salesman();
+		Statement statement = null;
 		try {
-			openConnection();
 			String sql = "select * from salesmen where salesmanName = '" + name + "'" + "" + "";
 
-			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
@@ -152,17 +183,19 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		}finally {
+			closeStatement(statement);
 		}
 	}
 
 	
 	public List<LoanOffer> getAllloanOffersByApproved(boolean approved) {
 		ArrayList<LoanOffer> loanOffers = new ArrayList<LoanOffer>();
+		Statement statement = null;
 		try {
-			openConnection();
 
 			String sql = "select * from loanOffers where isApproved=" + convertBooleanToByte(approved);
-			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
 				LoanOffer l = new LoanOffer(resultSet.getInt("id"), resultSet.getDouble("annualCost"),
@@ -176,6 +209,8 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 		} catch (SQLException e) {
 			e.printStackTrace();
 
+		}finally {
+			closeStatement(statement);
 		}
 		return loanOffers;
 	}
@@ -183,11 +218,11 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 	
 	public Salesman getSalsmanById(int id) {
 		Salesman s = new Salesman();
+		Statement statement = null;
 		try {
-			openConnection();
 			String sql = "select * from salesmen where id = " + id;
 
-			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
@@ -202,17 +237,19 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		}finally {
+			closeStatement(statement);
 		}
 	}
 
 	
 	public Car getCarById(int id) {
 		Car car = new Car();
+		Statement statement = null;
 		try {
-			openConnection();
 			String sql = "select * from cars where id = " + id;
 
-			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
@@ -226,24 +263,21 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		}finally {
+			closeStatement(statement);
 		}
 	}
 
-	private byte convertBooleanToByte(boolean b) {
-		if (b)
-			return 1;
-		else
-			return 0;
-	}
+
 
 	
 	public Salesman getSalesmanByBoss(boolean boss) {
 		Salesman s = new Salesman();
+		Statement statement = null;
 		try {
-			openConnection();
 			String sql = "select * from salesmen where boss = " + convertBooleanToByte(boss);
 
-			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
@@ -257,15 +291,16 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		}finally {
+			closeStatement(statement);
 		}
 	}
 
 	
 	public boolean updateLoanOfferById(LoanOffer loanOffer) {
-		openConnection();
-
+		Statement statement = null;
 		try {
-			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
 			String sql = "UPDATE loanOffers SET isApproved =" + convertBooleanToByte(loanOffer.isApproved())
 					+ " where id=" + loanOffer.getId();
 
@@ -274,22 +309,25 @@ public class DataLayer { // ansvar:Shahnaz review:Martin
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		} finally {
+			closeStatement(statement);
 		}
 	}
 
 	
 	public boolean updateCustomerByHasOffer(Customer customer) {
-		openConnection();
-
+		Statement statement = null;
 		try {
-			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
 			String sql = "UPDATE customers SET hasActiveLoan = " + convertBooleanToByte(customer.hasActiveOffer())
 					+ "WHERE phone = " + customer.getPhone();
 			return statement.executeUpdate(sql) == 1;
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}finally {
+			closeStatement(statement);
 		}
 
 	}

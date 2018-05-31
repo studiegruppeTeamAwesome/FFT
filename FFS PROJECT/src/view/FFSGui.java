@@ -50,8 +50,7 @@ public class FFSGui extends Application implements Observer {
 	public void start(Stage stage) throws Exception {
 		bankThread.addObserver(this);
 		rkiThread.addObserver(this);
-		System.out.println(System.getProperty("user.name"));
-
+		
 		stage.setScene(initStartScreen(stage));
 		stage.show();
 
