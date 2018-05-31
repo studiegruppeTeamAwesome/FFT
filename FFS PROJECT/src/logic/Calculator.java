@@ -21,6 +21,7 @@ public class Calculator { // ansvar:Martin, Sofie, review:Shahnaz
 		return currentRate + intRateFromRating(rating) + intRateFromDP(downPayment, carPrice)
 				+ intRateFromMonths(numberOfMonths);
 	}
+	
 	/**
 	 * Calculates monthly rate based on a yearly interest rate
 	 * @param interestRate The yearly interest rate we want to turn into a monthly interest rate
@@ -29,6 +30,7 @@ public class Calculator { // ansvar:Martin, Sofie, review:Shahnaz
 	public double calcMonthlyInterestRate(double interestRate) {
 		return ((Math.pow((1.0 + (interestRate / 100.0)), (1.0 / 12.0))) - 1) * 100.0;
 	}
+	
 	/**
 	 * Calculates the monthly repayments
 	 * @param price	The amount of the loan
@@ -39,6 +41,7 @@ public class Calculator { // ansvar:Martin, Sofie, review:Shahnaz
 	public double calcRepayments(int price, double monthlyRate, int noOfMonths) {
 		return (price * (monthlyRate / 100.0)) / (1 - Math.pow(1 + (monthlyRate / 100.0), -1 * noOfMonths));
 	}
+	
 	/**
 	 * 
 	 * @param rating A rating from RKI
@@ -55,6 +58,7 @@ public class Calculator { // ansvar:Martin, Sofie, review:Shahnaz
 		else
 			throw new PoorCreditRatingException("KREDITVÆRDIGHED FOR LAV!");
 	}
+	
 	/**
 	 * 
 	 * @param downPayment Indicates how much the customer has put as downpayment for the loan
@@ -67,6 +71,7 @@ public class Calculator { // ansvar:Martin, Sofie, review:Shahnaz
 		else
 			return 0;
 	}
+	
 	/**
 	 * 
 	 * @param numberOfMonths Indicates how many months until the loan as been payed off
@@ -78,41 +83,48 @@ public class Calculator { // ansvar:Martin, Sofie, review:Shahnaz
 		else
 			return 0;
 	}
-
+	
+	/**
+	 * 
+	 * @param loanOffer the loanOffer object for which a repayment plan is desired
+	 * @return a hasmap of the components of the repayment plan, using the enum-class LoanPlanComponent as keys
+	 */
 	public HashMap<LoanPlanComponent, ArrayList<Double>> loanPlanCalculation(LoanOffer loanOffer) {
 
-		// et map over alle komponenter i tilbagebetalingsplanen
+		// a hashmap of all components in the repayment plan
 		HashMap<LoanPlanComponent, ArrayList<Double>> comps = new HashMap<LoanPlanComponent, ArrayList<Double>>();
 
-		// primo restgæld, startende med hovedstol
+		// outstanding debt, starting from the principal amount
 		double outsDebt = loanOffer.getCar().getPrice() - loanOffer.getDownPayment();
-		// renten pr måned regnet ud fra ÅOP
+		
+		// rate pr month based on the annual rate
 		double rateMonth = calcMonthlyInterestRate(loanOffer.getAnnualCost());
 
-		// indeholder rente pr. termin i kr.
+		// an ArrayList containing the rate in kr. per repayment
 		ArrayList<Double> rate = new ArrayList<Double>();
 
-		// indeholder afdrag pr termin minus rente
+		// an ArrayList containing the installment per repayment minus the rate
 		ArrayList<Double> install = new ArrayList<Double>();
 
-		// indeholder ultimo restgæld
+		// an ArrayList containing the outstanding debt at the end of each term
 		ArrayList<Double> outDebt = new ArrayList<Double>();
 
 		for (int i = 0; i < loanOffer.getNumberOfMonths(); i++) {
 
-			// udregn renten pr termin i kr. (rente * primo restgæld)
+			// calculate the rate per repayment in kr. (rate * outstanding debt)
 			rate.add((rateMonth / 100) * outsDebt);
 
-			// udregn afdrag pr termin uden rente (ydelse - rente pr. termin i kr.)
+			// calculate installment per repayment minus the rate (repayment - rate pr term in kr.)
 			install.add(loanOffer.getRepayments() - rate.get(i));
 
-			// træk afdrag fra primo restgæld og sæt det til at være ultimo restgæld
+			// subtract the repayment from the outstanding debt and assign that as outstanding debt at the end of the term.
 			outsDebt = outsDebt - install.get(i);
 
-			// tilføj den nuværende ultimo restgæld til array
+			// add the outstandign debt the the ArrayList
 			outDebt.add(outsDebt);
 		}
 
+		// put the ArrayLists into the HashMap
 		comps.put(LoanPlanComponent.RATE, rate);
 		comps.put(LoanPlanComponent.INSTALL, install);
 		comps.put(LoanPlanComponent.OUT_DEBT, outDebt);

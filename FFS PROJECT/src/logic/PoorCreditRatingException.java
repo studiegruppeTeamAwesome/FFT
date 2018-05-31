@@ -5,5 +5,4 @@ public class PoorCreditRatingException extends Exception { // ansvar:Martin revi
 	public PoorCreditRatingException(String message) {
 		super(message);
 	}
-
 }
