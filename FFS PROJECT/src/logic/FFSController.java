@@ -33,7 +33,7 @@ public class FFSController implements FacadeController { // ansvar:Sofie, Shahna
 	}
 
 	@Override
-	public Salesman getSalesmenByName(String name) {
+	public Salesman getSalesmanByName(String name) {
 		return dataController.getSalesmanByName(name);
 	}
 

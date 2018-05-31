@@ -8,7 +8,7 @@ import com.ferrari.finances.dk.rki.Rating;
 public class Calculator { // ansvar:Martin, Sofie, review:Shahnaz
 
 	/**
-	 * 
+	 * calculates the personal rate for a custommer based on the parameters
 	 * @param rating A rating from RKI
 	 * @param currentRate The current rate, used as a base number to calculate the personal rate
 	 * @param downPayment Indicates how much the customer has put as downpayment for the loan
@@ -22,7 +22,7 @@ public class Calculator { // ansvar:Martin, Sofie, review:Shahnaz
 				+ intRateFromMonths(numberOfMonths);
 	}
 	/**
-	 * 
+	 * Calculates monthly rate based on a yearly interest rate
 	 * @param interestRate The yearly interest rate we want to turn into a monthly interest rate
 	 * @return The monthly interest rate
 	 */
@@ -30,7 +30,7 @@ public class Calculator { // ansvar:Martin, Sofie, review:Shahnaz
 		return ((Math.pow((1.0 + (interestRate / 100.0)), (1.0 / 12.0))) - 1) * 100.0;
 	}
 	/**
-	 * 
+	 * Calculates the monthly repayments
 	 * @param price	The amount of the loan
 	 * @param monthlyRate The monthly rate of the loan
 	 * @param noOfMonths The number of months before the loan as been payed off

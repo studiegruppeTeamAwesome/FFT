@@ -40,7 +40,7 @@ public class FFSGui extends Application implements Observer {
 	Car chosenCar;
 	FacadeController controller = new FFSController();
 	LoanOffer loanOffer;
-	Salesman salesman = controller.getSalesmenByName(System.getProperty("user.name"));
+	Salesman salesman = controller.getSalesmanByName(System.getProperty("user.name"));
 	TextField rateTF;
 	TextField creditTF;
 	BankThread bankThread = new BankThread();
