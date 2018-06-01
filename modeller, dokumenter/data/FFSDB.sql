@@ -50,7 +50,7 @@ PRIMARY KEY(id));
 
 insert into Salesmen VALUES ('sara',0, 12000000);
 insert into Salesmen VALUES ('martin',1, 1000000000);
-insert into Salesmen VALUES ('bloms',0, 18000000 );
+insert into Salesmen VALUES ('bloms',1, 18000000 );
 insert into Salesmen VALUES ('Shahnaz Yahyavi',0, 18000000 );
 
 
@@ -65,7 +65,7 @@ CarId int not null,
 SalesmanId int not null,
 isApproved bit not null,
 PRIMARY KEY(id));
+
 insert into loanOffers VALUES(10.31, 70000, 375462.78, 70, 33333333, 1, 1, 0);
-insert into loanOffers VALUES(9.31, 200000, 210399.11, 100, 11111111, 2, 1, 0);
 insert into loanOffers VALUES(11.31 , 2000000, 121503.87, 96, 22222222, 3, 1, 0);
 
