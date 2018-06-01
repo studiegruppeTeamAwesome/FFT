@@ -36,6 +36,8 @@ public class FFSGui extends Application implements Observer {
 	Car chosenCar;
 	FacadeController controller = new FFSController();
 	LoanOffer loanOffer;
+	// assigns the salesman based on the username of the user of the current 
+	// windows computer (if the name is to be found in the database)
 	Salesman salesman = controller.getSalesmanByName(System.getProperty("user.name"));
 	TextField rateTF;
 	TextField creditTF;
@@ -62,12 +64,18 @@ public class FFSGui extends Application implements Observer {
 		VBox box = new VBox();
 		box.setPadding(new Insets(10, 10, 10, 10));
 		box.setSpacing(10);
-
+		box.setMinWidth(250);
+		box.setAlignment(Pos.CENTER);
+		
 		Button newLoan = new Button("Ny låneaftale");
 		Button approveLoan = new Button("Godkend låneaftale");
 		if (!salesman.isBoss())
 			approveLoan.setDisable(true);
 		Button printLoan = new Button("Print låneaftale");
+		newLoan.setMinWidth(200);
+		approveLoan.setMinWidth(200);
+		printLoan.setMinWidth(200);
+		
 		box.getChildren().add(newLoan);
 		box.getChildren().add(approveLoan);
 		box.getChildren().add(printLoan);
@@ -94,7 +102,10 @@ public class FFSGui extends Application implements Observer {
 			}
 		});
 
-		return new Scene(box);
+		
+		Scene scene = new Scene(box);
+		
+		return scene;
 	}
 
 	
@@ -182,7 +193,7 @@ public class FFSGui extends Application implements Observer {
 
 		Label topLabel = new Label("Kunden eksisterer i databasen" + "\n" + "Bekræft kundeoplysninger");
 		Label nameLabel = new Label("Navn:");
-		Label addressLabel = new Label("Adresse");
+		Label addressLabel = new Label("Adresse:");
 		Label cprLabel = new Label("cpr:");
 
 		Label name = new Label();
@@ -208,7 +219,7 @@ public class FFSGui extends Application implements Observer {
 
 				// if the customer already has a loan offer, the user shouldn't be able to create a new one
 				if (customer.hasActiveOffer()) {
-					initPopUp("kunden har allerede et aktivt lånetilbud", "-fx-text-fill: red; -fx-font-weight: bold");
+					initPopUp("Kunden har allerede \n et aktivt lånetilbud", "-fx-text-fill: red; -fx-font-weight: bold;");
 					return;
 				}
 				
@@ -234,8 +245,6 @@ public class FFSGui extends Application implements Observer {
 
 		return grid;
 	}
-
-	
 	
 	/**
 	 * @param stage The stage to pass when initiating a different scene
@@ -462,20 +471,19 @@ public class FFSGui extends Application implements Observer {
 						stage.setScene(initPrintLoan(stage, lo));
 					else
 						stage.setScene(initApproveLoan(stage, lo));
-				
 				}
 			});
 
 			details.getChildren().add(modelName);
 			details.getChildren().add(price);
 			details.getChildren().add(pick);
+			details.setPadding(new Insets(10));
 			loans.getChildren().add(details);
 		}
 
 		grid.add(loans, 0, 1);
 		return new Scene(grid);
 	}
-
 	
 	/**
 	 * @param stage The stage to pass when initiating a different scene
@@ -575,14 +583,19 @@ public class FFSGui extends Application implements Observer {
 	private void initPopUp(String popUpMessage, String css) {
 		
 		GridPane grid = new GridPane();
+		
+		grid.setAlignment(Pos.CENTER);
 		Label message = new Label(popUpMessage);
+		message.setStyle("-fx-font: 24 arial;");
 		
 		// only style the scene if the css parameter is not an empty String
 		if (!css.equals(""))
-			message.setStyle(css);
+			message.setStyle(css + "-fx-font: 24 arial;");
 		
 		grid.add(message, 0, 0);
 		gridPaddingSpacing(grid, 10, "");
+		grid.setMinWidth(400);
+		grid.setMinHeight(200);
 		Stage popUp = new Stage();
 		popUp.setScene(new Scene(grid));
 		
@@ -713,7 +726,6 @@ public class FFSGui extends Application implements Observer {
 			}
 		}
 	}
-	
 
 	@Override
 	public void update(Observable sub, Object obj) {

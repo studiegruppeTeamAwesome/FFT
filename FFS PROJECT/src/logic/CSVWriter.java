@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CSVWriter { // ansvar:Sofie, Martin review:Shahnaz
-	// using ";" as separator because the "," doesent seem to work correctly
+	// using ";" as separator because the "," doesn't seem to work correctly
 	private String separator = ";";
 	Calculator calculator = new Calculator();
 
@@ -32,7 +32,7 @@ public class CSVWriter { // ansvar:Sofie, Martin review:Shahnaz
 		DecimalFormat formatter = new DecimalFormat("##.##");
 
 		/*
-		 * using the HashMap and its enums along the the ArrayList of doubles to
+		 * using the HashMap and it's enums along the the ArrayList of doubles to
 		 * generate a correctly formated file
 		 */
 		HashMap<LoanPlanComponent, ArrayList<Double>> comps = calculator.loanPlanCalculation(loanOffer);
